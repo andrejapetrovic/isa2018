@@ -1,7 +1,6 @@
 package isa.project.user;
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -9,14 +8,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
-
-import isa.project.verification.VerificationToken;
 
 @Entity
 public class User implements Serializable {
@@ -50,9 +45,6 @@ public class User implements Serializable {
 	
 	private boolean activated = false;
 	
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonIgnore
-	private VerificationToken verificationToken;
 	
 	@Enumerated(EnumType.STRING)
 	private Role role;
@@ -121,13 +113,4 @@ public class User implements Serializable {
 		this.id = id;
 	}
 
-	public VerificationToken getVerificationToken() {
-		return verificationToken;
-	}
-
-	public void setVerificationToken(VerificationToken verificationToken) {
-		this.verificationToken = verificationToken;
-	}
-
-	
 }
