@@ -4,12 +4,8 @@ import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,8 +16,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import isa.project.cabin.Cabin;
+import isa.project.airplane.Airplane;
 import isa.project.destination.Destination;
+import isa.project.segment.Segment;
 
 @Entity
 public class Flight {
@@ -44,30 +41,21 @@ public class Flight {
 	private java.util.Date departDate;
 	 
 	@Basic
-	@Temporal(TemporalType.TIME)
-	private java.util.Date departTime;
-	
-	@Basic
 	@Temporal(TemporalType.DATE)
 	private java.util.Date returnDate;
 	 
-	@Basic
-	@Temporal(TemporalType.TIME)
-	private java.util.Date returnTime;
-	
 	private int stopCount;
 	
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "flight_stops", joinColumns = @JoinColumn(name = "flight_id"), inverseJoinColumns = @JoinColumn(name = "dest_id"))
 	private List<Destination> stops;
-
-	@ElementCollection(targetClass = TravelClass.class)
-    @Enumerated(EnumType.STRING) 
-    @CollectionTable(name="flight_classes",  joinColumns = @JoinColumn(name = "flight_id"))
-    @Column(name="classes")
-	private List<TravelClass> travelClasses;
 	
-	private String ticketPrice;
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinTable(name = "flight_segments", joinColumns = @JoinColumn(name = "flight_id"), inverseJoinColumns = @JoinColumn(name = "segment_id"))
+	private List<Segment> segments; 
+	
+	@OneToOne(cascade=CascadeType.ALL)
+	private Airplane airplane;
 	
 	public Long getId() {
 		return id;
@@ -101,13 +89,6 @@ public class Flight {
 		this.departDate = departDate;
 	}
 
-	public java.util.Date getDepartTime() {
-		return departTime;
-	}
-
-	public void setDepartTime(java.util.Date departTime) {
-		this.departTime = departTime;
-	}
 
 	public java.util.Date getReturnDate() {
 		return returnDate;
@@ -115,14 +96,6 @@ public class Flight {
 
 	public void setReturnDate(java.util.Date returnDate) {
 		this.returnDate = returnDate;
-	}
-
-	public java.util.Date getReturnTime() {
-		return returnTime;
-	}
-
-	public void setReturnTime(java.util.Date returnTime) {
-		this.returnTime = returnTime;
 	}
 
 	public int getStopCount() {
@@ -141,20 +114,20 @@ public class Flight {
 		this.stops = stops;
 	}
 
-	public List<TravelClass> getTravelClasses() {
-		return travelClasses;
+	public List<Segment> getSegments() {
+		return segments;
 	}
 
-	public void setTravelClasses(List<TravelClass> travelClasses) {
-		this.travelClasses = travelClasses;
+	public void setSegments(List<Segment> segments) {
+		this.segments = segments;
 	}
 
-	public String getTicketPrice() {
-		return ticketPrice;
+	public Airplane getAirplane() {
+		return airplane;
 	}
 
-	public void setTicketPrice(String ticketPrice) {
-		this.ticketPrice = ticketPrice;
+	public void setAirplane(Airplane airplane) {
+		this.airplane = airplane;
 	}
 	
 	

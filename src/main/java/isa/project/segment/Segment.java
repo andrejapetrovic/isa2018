@@ -10,10 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import isa.project.cabin.Cabin;
+import isa.project.flight.Cabin;
 import isa.project.seat.Seat;
 
 @Entity
@@ -28,8 +27,10 @@ public class Segment {
 	@JoinTable(name = "segment_seats", joinColumns = @JoinColumn(name = "segment_id"), inverseJoinColumns = @JoinColumn(name = "seat_id"))
 	private List<Seat> seats;
 	
-	int rowCount, colCount;
-
+	private int rowCount, colCount;
+	
+	private Cabin travelClass;
+	
 	public Long getId() {
 		return id;
 	}
@@ -60,6 +61,14 @@ public class Segment {
 
 	public void setColCount(int colCount) {
 		this.colCount = colCount;
+	}
+
+	public Cabin getTravelClass() {
+		return travelClass;
+	}
+
+	public void setTravelClass(Cabin travelClass) {
+		this.travelClass = travelClass;
 	}
 	
 	

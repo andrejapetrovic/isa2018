@@ -5,10 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-import isa.project.segment.Segment;
 
 @Entity
 public class Seat {
@@ -18,10 +14,10 @@ public class Seat {
 	@Column(name = "seat_id")
 	private Long id;
 
-	private int row, col;
+	private int row, col; // u segmentu
 	
 	private boolean reserved;
-
+	
 	public Long getId() {
 		return id;
 	}

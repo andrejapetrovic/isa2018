@@ -1,4 +1,4 @@
-package isa.project.aircompany;
+package isa.project.airline;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,11 +13,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 
+import isa.project.airplane.Airplane;
 import isa.project.destination.Destination;
 import isa.project.flight.Flight;
 import isa.project.flight.pricelist.PriceList;
 @Entity
-public class AirCompany implements Serializable {
+public class Airline implements Serializable {
 
 	/**
 	 * 
@@ -26,7 +27,7 @@ public class AirCompany implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "airCom_id")
+	@Column(name = "airline_id")
 	private Long id;
 	
 	private String name;
@@ -36,17 +37,21 @@ public class AirCompany implements Serializable {
 	private String description;
 	
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinTable(name = "airCom_destinations", joinColumns = @JoinColumn(name = "airCom_id"), inverseJoinColumns = @JoinColumn(name = "dest_id"))
+	@JoinTable(name = "airline_destinations", joinColumns = @JoinColumn(name = "airline_id"), inverseJoinColumns = @JoinColumn(name = "dest_id"))
 	private List<Destination> destinations;
 	
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinTable(name = "airCom_flights", joinColumns = @JoinColumn(name = "airCom_id"), inverseJoinColumns = @JoinColumn(name = "flight_id"))
+	@JoinTable(name = "airline_flights", joinColumns = @JoinColumn(name = "airline_id"), inverseJoinColumns = @JoinColumn(name = "flight_id"))
 	private List<Flight> flights; 
+	
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinTable(name = "airline_planes", joinColumns = @JoinColumn(name = "airline_id"), inverseJoinColumns = @JoinColumn(name = "airplane_id"))
+	private List<Airplane> planes; 
 	
 	@OneToMany(mappedBy="flight")
 	private List<PriceList> pricelist;
 	
-	public AirCompany() {
+	public Airline() {
 	}
 
 	public Long getId() {
@@ -95,6 +100,22 @@ public class AirCompany implements Serializable {
 
 	public void setFlights(List<Flight> flights) {
 		this.flights = flights;
+	}
+
+	public List<Airplane> getPlanes() {
+		return planes;
+	}
+
+	public void setPlanes(List<Airplane> planes) {
+		this.planes = planes;
+	}
+
+	public List<PriceList> getPricelist() {
+		return pricelist;
+	}
+
+	public void setPricelist(List<PriceList> pricelist) {
+		this.pricelist = pricelist;
 	}
 
 

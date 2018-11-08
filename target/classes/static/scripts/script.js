@@ -7,6 +7,9 @@ app.config(function($routeProvider) {
 	}).when('/update-user/:id', {
 		templateUrl : 'update-form.html',
 		controller : 'uCtrl'
+	}).when('/seat-config', {
+		templateUrl : 'seat-config.html',
+		controller : 'seatConfigCtrl'
 	})
 });
 

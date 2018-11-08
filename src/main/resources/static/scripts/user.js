@@ -13,7 +13,7 @@ app.controller('uCtrl', function($scope, $http, $window, $routeParams, friendSer
           var user = JSON.parse(JSON.stringify($scope.user));
           userService.updateUser(user).then(function(data) {
               $scope.user = data;
-              $window.location.href = '#!/user';
+              $window.location.href = '#!/user/' + user.id;
            });
       }
       
