@@ -1,6 +1,7 @@
 package isa.project.user;
 
 import java.util.Collection;
+import java.util.List;
 
 
 public interface UserService {
@@ -15,6 +16,10 @@ public interface UserService {
 	
 	User updateUser(Long id, User updating);
 
-	Collection<User> findAll();	
+	Collection<User> findAll();
+
+	List<User> findFriends(Long id);	
+	
+	void addFriend(User user1, User user2);
 	
 }

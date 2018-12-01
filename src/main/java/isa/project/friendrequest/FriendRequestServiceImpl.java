@@ -1,9 +1,10 @@
 package isa.project.friendrequest;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import isa.project.friendrelation.FriendRelationService;
 import isa.project.user.UserService;
 
 @Service
@@ -14,9 +15,6 @@ public class FriendRequestServiceImpl implements FriendRequestService{
 	
 	@Autowired
 	UserService userService;
-	
-	@Autowired
-	FriendRelationService friendRelSerivce;
 	
 	@Override
 	public void sendRequest(Long senderId, Long reciverId) {
@@ -31,7 +29,7 @@ public class FriendRequestServiceImpl implements FriendRequestService{
 	public FriendRequest acceptRequest(Long reqId) {
 		FriendRequest request = frRepo.getOne(reqId);
 		request.setReqStatus(FriendRequestStatus.ACCEPTED);
-		friendRelSerivce.addFriend(request.getSender(), request.getReciver());
+		userService.addFriend(request.getSender(), request.getReciver());
 		return request;
 	}
 
@@ -40,6 +38,11 @@ public class FriendRequestServiceImpl implements FriendRequestService{
 		FriendRequest request = frRepo.getOne(reqId);
 		request.setReqStatus(FriendRequestStatus.DENIED);
 		return request;
+	}
+
+	@Override
+	public List<FriendRequest> findByReqStatusAndReciverId(FriendRequestStatus reqStatus, Long reciverId) {
+		return frRepo.findByReqStatusAndReciverId(reqStatus, reciverId);
 	}
 
 }

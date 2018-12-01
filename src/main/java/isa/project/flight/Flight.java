@@ -18,6 +18,7 @@ import javax.persistence.TemporalType;
 
 import isa.project.airplane.Airplane;
 import isa.project.destination.Destination;
+import isa.project.seat.Seat;
 import isa.project.segment.Segment;
 
 @Entity
@@ -53,6 +54,10 @@ public class Flight {
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "flight_segments", joinColumns = @JoinColumn(name = "flight_id"), inverseJoinColumns = @JoinColumn(name = "segment_id"))
 	private List<Segment> segments; 
+	
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinTable(name = "flight_seats", joinColumns = @JoinColumn(name = "flight_id"), inverseJoinColumns = @JoinColumn(name = "seat_id"))
+	private List<Seat> seats;
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	private Airplane airplane;
@@ -129,7 +134,5 @@ public class Flight {
 	public void setAirplane(Airplane airplane) {
 		this.airplane = airplane;
 	}
-	
-	
 	
 }

@@ -10,8 +10,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import isa.project.airline.Airline;
+import isa.project.seat.Seat;
 import isa.project.segment.Segment;
 
 @Entity
@@ -26,7 +31,16 @@ public class Airplane {
 
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "airplane_segments", joinColumns = @JoinColumn(name = "airplane_id"), inverseJoinColumns = @JoinColumn(name = "segment_id"))
+	@JsonIgnore
 	private List<Segment> segments; 
+	
+	@ManyToOne
+	@JoinColumn(name = "owner_airline_id")
+	private Airline owner;
+	
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinTable(name = "airplane_seats", joinColumns = @JoinColumn(name = "airplane_id"), inverseJoinColumns = @JoinColumn(name = "seat_id"))
+	private List<Seat> seats;
 	
 	public Long getId() {
 		return id;

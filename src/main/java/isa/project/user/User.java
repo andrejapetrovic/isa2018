@@ -1,6 +1,9 @@
 package isa.project.user;
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -8,8 +11,12 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -45,6 +52,10 @@ public class User implements Serializable {
 	
 	private boolean activated = false;
 	
+	@ManyToMany(cascade=CascadeType.ALL)
+	@JoinTable(name = "friend_relation", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "friend_id"))
+	@JsonIgnore
+	private Set<User> friends;
 	
 	@Enumerated(EnumType.STRING)
 	private Role role;
@@ -112,5 +123,14 @@ public class User implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+	public Set<User> getFriends() {
+		return friends;
+	}
+
+	public void setFriends(Set<User> friends) {
+		this.friends = friends;
+	}
+
 
 }

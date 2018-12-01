@@ -2,16 +2,6 @@ package isa.project.airline;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
-
-import isa.project.airplane.Airplane;
-import isa.project.destination.Destination;
-import isa.project.flight.Flight;
-import isa.project.flight.pricelist.PriceList;
-
 public class AirlineDto {
 
 private String name;

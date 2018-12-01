@@ -1,9 +1,12 @@
 package isa.project.user;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import jersey.repackaged.com.google.common.collect.Sets;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -51,6 +54,18 @@ public class UserServiceImpl implements UserService {
 		user.setPhone(updated.getPhone());
 		userRepository.save(user);
 		return user;
+	}
+
+	@Override
+	public List<User> findFriends(Long id) {
+		return userRepository.findFriends(id);
+	}
+
+	@Override
+	public void addFriend(User user1, User user2) {
+		user1.getFriends().add(user2);
+		user2.getFriends().add(user1);
+		userRepository.save(user1);
 	}
 
 }

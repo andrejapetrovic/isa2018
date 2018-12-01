@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import isa.project.flight.Cabin;
+
 @Entity
 public class Seat {
 
@@ -14,9 +16,11 @@ public class Seat {
 	@Column(name = "seat_id")
 	private Long id;
 
-	private int row, col; // u segmentu
+	private String code;
 	
 	private boolean reserved;
+	
+	private Cabin cabin;
 	
 	public Long getId() {
 		return id;
@@ -26,20 +30,12 @@ public class Seat {
 		this.id = id;
 	}
 
-	public int getRow() {
-		return row;
+	public String getCode() {
+		return code;
 	}
 
-	public void setRow(int row) {
-		this.row = row;
-	}
-
-	public int getCol() {
-		return col;
-	}
-
-	public void setCol(int col) {
-		this.col = col;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public boolean isReserved() {
@@ -48,6 +44,14 @@ public class Seat {
 
 	public void setReserved(boolean reserved) {
 		this.reserved = reserved;
+	}
+
+	public Cabin getCabin() {
+		return cabin;
+	}
+
+	public void setCabin(Cabin cabin) {
+		this.cabin = cabin;
 	}
 	
 	

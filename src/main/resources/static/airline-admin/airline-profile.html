@@ -1,0 +1,71 @@
+<div class="col-sm-6">
+   <div class="row">
+      <div class="col-sm-12">
+         <div class="panel panel-default text-left">
+            <div class="panel-body">
+               Name: <input type="text" class="form-control" ng-model="airline.name"><br>
+               Address: <input type="text" class="form-control" ng-model="airline.address"><br>
+               Description: <textarea class="form-control" rows="4" ng-model="airline.desc"></textarea>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<div class="col-sm-6 well" style="background-color:white; height: 300px;">
+   Airline Destinations <br> Search <input ng-model="searchText"></label>
+   <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#destModal"> <span
+      class="glyphicon glyphicon-plus"></span> Add Destination
+   </button> 
+   <div class="col-sm-12" style="height: 200px; overflow-y: scroll;">
+      <table class="table table-striped">
+         <thead>
+            <tr>
+               <th></th>
+               <th></th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr  ng-repeat="dest in dests | filter:searchText">
+               <td>({{dest.airportCode}}) {{dest.city}}, {{dest.country}}, {{dest.airport}} </td>
+               <td> <button class="btn btn-sm btn-danger" ng-click="removeDest(dest)">x</button></td>
+            </tr>
+         </tbody>
+      </table>
+   </div>
+</div>
+
+
+
+<div id="destModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Select destinations to add</h4>
+      </div>
+      <div class="modal-body">
+      Search <input ng-model="searchText2"></label>
+      <table class="table table-striped">
+         <thead>
+            <tr>
+               <th></th>
+               <th></th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr  ng-repeat="dest in otherDests | filter:searchText2">
+               <td>({{dest.airportCode}}) {{dest.city}}, {{dest.country}}, {{dest.airport}} </td>
+               <td> <button class="btn btn-sm btn-primary" ng-click="addDest(dest)">+</button></td>
+            </tr>
+         </tbody>
+      </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>

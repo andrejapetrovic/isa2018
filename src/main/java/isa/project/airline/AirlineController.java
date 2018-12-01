@@ -1,5 +1,7 @@
 package isa.project.airline;
 
+import java.util.HashSet;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import isa.project.destination.Destination;
 import isa.project.destination.DestinationRepository;
 import isa.project.flight.FlightRepository;
 import isa.project.flight.pricelist.PriceListRepository;
@@ -31,11 +34,11 @@ public class AirlineController {
 	PriceListRepository pricelistRepo;
 	
 	@RequestMapping(
-			value = "{id}",
+			value = "{name}",
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Airline> getairline(@PathVariable("id") Long id) {
-		Airline airline = airlineRepo.findOne(id);
+	public ResponseEntity<Airline> getairline(@PathVariable("name") String name) {
+		Airline airline = airlineRepo.findByNameContainingIgnoreCase(name);
 		if(airline != null)
 			return new ResponseEntity<Airline>(airline, HttpStatus.OK);
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -52,7 +55,7 @@ public class AirlineController {
 		airline.setName(airlineDto.getName());
 		airline.setDescription(airlineDto.getDescription());
 		airline.setAddress(airlineDto.getAddress());
-		airline.setDestinations(destRepo.findAll(airlineDto.getDestinationIds()));
+		airline.setDestinations(new HashSet<Destination>(destRepo.findAll(airlineDto.getDestinationIds())));
 		airline.setFlights(flightRepo.findAll(airlineDto.getFlightIds()));
 		airline.setPricelist(pricelistRepo.findAll(airlineDto.getPricelistIds()));
 		airlineRepo.save(airline);

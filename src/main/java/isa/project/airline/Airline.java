@@ -2,6 +2,7 @@ package isa.project.airline;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import isa.project.airplane.Airplane;
@@ -30,15 +32,17 @@ public class Airline implements Serializable {
 	@Column(name = "airline_id")
 	private Long id;
 	
+	@Column(unique = true)
 	private String name;
 	
+	@Column(unique = true)
 	private String address;
 	
 	private String description;
 	
-	@OneToMany(cascade=CascadeType.ALL)
+	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "airline_destinations", joinColumns = @JoinColumn(name = "airline_id"), inverseJoinColumns = @JoinColumn(name = "dest_id"))
-	private List<Destination> destinations;
+	private Set<Destination> destinations;
 	
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "airline_flights", joinColumns = @JoinColumn(name = "airline_id"), inverseJoinColumns = @JoinColumn(name = "flight_id"))
@@ -52,14 +56,6 @@ public class Airline implements Serializable {
 	private List<PriceList> pricelist;
 	
 	public Airline() {
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getName() {
@@ -86,11 +82,11 @@ public class Airline implements Serializable {
 		this.description = description;
 	}
 
-	public List<Destination> getDestinations() {
+	public Set<Destination> getDestinations() {
 		return destinations;
 	}
 
-	public void setDestinations(List<Destination> destinations) {
+	public void setDestinations(Set<Destination> destinations) {
 		this.destinations = destinations;
 	}
 
@@ -118,8 +114,13 @@ public class Airline implements Serializable {
 		this.pricelist = pricelist;
 	}
 
+	public Long getId() {
+		return id;
+	}
 
-	
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 }
 

@@ -17,8 +17,9 @@ public interface UserRepository  extends JpaRepository<User, Long> {
 	
 	User findById(Long id);
 	
-	@Query(value = "SELECT * FROM rezervacija.user "
-			+ "INNER JOIN rezervacija.friend_relation ON user_id != :id and (user1_user_id = user_id or user2_user_id = user_id) and (user1_user_id = :id or user2_user_id = :id)"
-			,nativeQuery = true)
+
+	@Query(value = "SELECT * FROM rezervacija.USER WHERE user_id IN" 
+	+ "(SELECT friend_id FROM rezervacija.FRIEND_RELATION WHERE user_id = :id)"
+	,nativeQuery = true)
 	List<User> findFriends(@Param("id") Long id);
 }

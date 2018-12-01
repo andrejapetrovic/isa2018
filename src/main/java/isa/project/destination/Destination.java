@@ -8,40 +8,51 @@ import javax.persistence.Id;
 
 @Entity
 public class Destination {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "dest_id")
 	private Long id;
 	
-	private String Country;
+	private String airportCode;
 	
-	private String City;
+	private String country;
+	
+	private String city;
 
-	public Long getId() {
-		return id;
+	private String airport;
+	
+	public String getAirportCode() {
+		return airportCode;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setAirportCode(String airportCode) {
+		this.airportCode = airportCode;
 	}
 
 	public String getCountry() {
-		return Country;
+		return country;
 	}
 
 	public void setCountry(String country) {
-		Country = country;
+		this.country = country;
 	}
 
 	public String getCity() {
-		return City;
+		return city;
 	}
 
 	public void setCity(String city) {
-		City = city;
+		this.city = city;
 	}
-	
-	
+
+	public String getAirport() {
+		return airport;
+	}
+
+	public void setAirport(String airport) {
+		this.airport = airport;
+	}
+
 	
 }
