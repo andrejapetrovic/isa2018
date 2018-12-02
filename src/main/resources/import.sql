@@ -13,10 +13,10 @@ insert into airline(airline_id, name, address) values ('2', 'Aegan Airlines', 'Ğ
 insert into airplane(airplane_id, model_name, owner_airline_id) values('1', 'Boeing 747', '1');
 insert into airline_planes(airline_id, airplane_id) values('1', '1');
 
-insert into segment(segment_id, col_count, row_count, travel_class) values ('1', 5, 30, 'Economy');
-insert into segment(segment_id, col_count, row_count, travel_class) values ('2', 5, 30, 'Economy');
-insert into segment(segment_id, col_count, row_count, travel_class) values ('3', 2, 25, 'Business');
-insert into segment(segment_id, col_count, row_count, travel_class) values ('4', 2, 25, 'Business');
+insert into segment(segment_id, cols, rows, travel_class) values ('1', 5, 30, 'Economy');
+insert into segment(segment_id, cols, rows, travel_class) values ('2', 5, 30, 'Economy');
+insert into segment(segment_id, cols, rows, travel_class) values ('3', 2, 25, 'Business');
+insert into segment(segment_id, cols, rows, travel_class) values ('4', 2, 25, 'Business');
 insert into airplane_segments(airplane_id, segment_id) values ('1', '1');
 insert into airplane_segments(airplane_id, segment_id) values ('1', '2');
 insert into airplane_segments(airplane_id, segment_id) values ('1', '3');

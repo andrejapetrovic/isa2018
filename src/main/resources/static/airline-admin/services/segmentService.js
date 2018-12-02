@@ -7,9 +7,16 @@ app.factory('segmentService', function($http) {
              return response.data;
          });
      }
+    
+    var save = function(airplaneId, data) {
+     	return $http.post('/segment/save/' + airplaneId, data).then(function(response) {
+            return response.data;
+        });
+    }
 
      return {
-    	 getSegments: getSegments
+    	 getSegments: getSegments,
+    	 save: save
        };
 	
 });
