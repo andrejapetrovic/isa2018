@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,6 +30,8 @@ public class Airplane {
 	
 	private String modelName;
 
+	private int modelNumber;
+	
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "airplane_segments", joinColumns = @JoinColumn(name = "airplane_id"), inverseJoinColumns = @JoinColumn(name = "segment_id"))
 	@JsonIgnore
@@ -65,7 +68,30 @@ public class Airplane {
 	public void setSegments(List<Segment> segments) {
 		this.segments = segments;
 	}
-	
+
+	public Airline getOwner() {
+		return owner;
+	}
+
+	public void setOwner(Airline owner) {
+		this.owner = owner;
+	}
+
+	public List<Seat> getSeats() {
+		return seats;
+	}
+
+	public void setSeats(List<Seat> seats) {
+		this.seats = seats;
+	}
+
+	public int getModelNumber() {
+		return modelNumber;
+	}
+
+	public void setModelNumber(int modelNumber) {
+		this.modelNumber = modelNumber;
+	}
 	
 	
 }

@@ -8,8 +8,8 @@ app.factory('airlineService', function($http) {
          });
      }
     
-    var updateAirline = function(updateData, id) {
-      	return $http.post('/airline/update/' + id, updateData).then(function(response) {
+    var updateAirline = function(updateData) {
+      	return $http.post('/airline/update/' , updateData).then(function(response) {
             return response.data;
         });
      }

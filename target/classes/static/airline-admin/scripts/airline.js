@@ -1,12 +1,14 @@
 var app = angular.module('app');
 
-app.controller('airlineCtrl', function($scope, $http, $window, $routeParams, airlineService, destService) {
-  
+app.controller('airlineCtrl', function($scope, $http, $window, $routeParams, airlineService, destService, airplaneService) {
+	
 	var name = $routeParams.name;
-	console.log(name);
+	var id;
+
 	airlineService.getAirline(name).then(function(airline) {
 		console.log(airline);
 		$scope.airline = airline;
+		id = airline.id;
 		
 		destService.getDestByAirlineId(airline.id).then(function(dests) {
 			console.log(dests);
@@ -17,62 +19,60 @@ app.controller('airlineCtrl', function($scope, $http, $window, $routeParams, air
 			console.log(dests);
 			$scope.otherDests = dests;
 		});
+		
+		airplaneService.getAirplaneByOwner(airline.id).then(function(planes) {
+			console.log(planes);
+			$scope.planes = planes;
+		});
+			
 	});
 
 	$scope.addDest = function(destToAdd) {
-		$scope.dests.push(destToAdd);
-		$scope.otherDests = $scope.otherDests.filter(dest => dest != destToAdd);
+		var data = _.merge(destToAdd, {airlineId:id});
+		destService.addDestToAirline(data).then(function(dest) {
+			$scope.dests.push(dest);
+			$scope.otherDests = $scope.otherDests.filter(d => d != destToAdd);
+		});
+	}
+	
+	$scope.addNewDest = function() {
+		$scope.newDest.airlineId = id;
+		var dest = angular.toJson($scope.newDest);
+		console.log(dest);
+		destService.addDestToAirline(dest).then(function(dest) {
+			$scope.dests.push(dest);
+		});
 	}
 	
 	$scope.removeDest = function(destToRemove) {
-		$scope.otherDests.push(destToRemove);
-		$scope.dests = $scope.dests.filter(dest => dest != destToRemove);
-	}
-	
-    /*  $scope.updFunc = function () {
-          var user = JSON.parse(JSON.stringify($scope.user));
-          userService.updateUser(user).then(function(data) {
-              $scope.user = data;
-              $window.location.href = '#!/user/' + user.id;
-           });
-      }
-      
-	friendService.getNonFriends(id).then(function(data) { 
+		var data = _.merge(destToRemove, {airlineId:id});
 		console.log(data);
-		$scope.nonFriends = data;
-	  });
-	
-	friendService.getFriends(id).then(function(data) { 
-		console.log('friends');
-		console.log(data);
-		$scope.friends = data;
-	  });
-	
-	friendService.getPendingRequests(id).then(function(data) { 
-		console.log(data);
-		$scope.pending = data;
-	  });
-	
-	$scope.sendReq = function(friendId) {
-		friendService.sendRequest(id, friendId).then(function(data) { 
-			console.log(data);
-		  });
-	}
-	
-	$scope.acceptFriendReq = function(reqId) {
-		friendService.acceptReq(reqId).then(function(data) { 
-			console.log(data);
-			$scope.friends.push(data);
-			$scope.pending = $scope.pending.filter( req => req.sender.id !== reqId );
-		  });
+		destService.removeDest(data).then(function(dest) {
+			$scope.otherDests.push(dest);
+			$scope.dests = $scope.dests.filter(d => d != destToRemove);
+		});
 	}
 
-	$scope.declineFriendReq = function(reqId) {
-		friendService.declineReq(reqId).then(function(data) { 
+	$scope.addPlane = function() {
+		var plane = {modelName:$scope.plane.modelName, modelNumber:$scope.plane.modelNumber, ownerId:id};
+		airplaneService.addAirplane(plane).then(function(data){
+			$scope.planes.push(plane);
+		});
+	}
+		
+	$scope.removePlane = function(planeToRemove) {
+		var plane = {modelName: planeToRemove.modelName, modelNumber:planeToRemove.modelNumber, ownerId:id};
+		airplaneService.deleteAirplane(plane).then(function(data){
+			$scope.planes = $scope.planes.filter(plane => plane != planeToRemove);
+		});
+	}
+	
+	$scope.saveChanges = function() {
+		$scope.airline.id = id
+		var airline = angular.toJson($scope.airline);
+		console.log(airline);
+		airlineService.updateAirline(airline).then(function(data){
 			console.log(data);
-			//$scope.nonFriends.push(data.sender);
-			$scope.pending = $scope.pending.filter( req => req.sender.id === reqId );
-		  });
-	}*/
-      
+		});
+	}
   });

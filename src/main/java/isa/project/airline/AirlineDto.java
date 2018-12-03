@@ -1,23 +1,15 @@
 package isa.project.airline;
 
-import java.util.List;
-
 public class AirlineDto {
 
-private String name;
+	private String name;
 	
+	private Long id;
+
 	private String address;
 	
 	private String description;
 	
-	private List<Long> destinationIds;
-	
-	private List<Long> flightIds; 
-	
-	private List<Long> planeIds; 
-	
-	private List<Long> pricelistIds;
-
 	public String getName() {
 		return name;
 	}
@@ -42,38 +34,13 @@ private String name;
 		this.description = description;
 	}
 
-	public List<Long> getDestinationIds() {
-		return destinationIds;
+	public Long getId() {
+		return id;
 	}
 
-	public void setDestinationIds(List<Long> destinationIds) {
-		this.destinationIds = destinationIds;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public List<Long> getFlightIds() {
-		return flightIds;
-	}
-
-	public void setFlightIds(List<Long> flightIds) {
-		this.flightIds = flightIds;
-	}
-
-	public List<Long> getPlaneIds() {
-		return planeIds;
-	}
-
-	public void setPlaneIds(List<Long> planeIds) {
-		this.planeIds = planeIds;
-	}
-
-	public List<Long> getPricelistIds() {
-		return pricelistIds;
-	}
-
-	public void setPricelistIds(List<Long> pricelistIds) {
-		this.pricelistIds = pricelistIds;
-	}
-	
-	
 	
 }

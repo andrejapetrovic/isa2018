@@ -37,7 +37,7 @@ public class AirlineController {
 			value = "{name}",
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Airline> getairline(@PathVariable("name") String name) {
+	public ResponseEntity<Airline> get(@PathVariable("name") String name) {
 		Airline airline = airlineRepo.findByNameContainingIgnoreCase(name);
 		if(airline != null)
 			return new ResponseEntity<Airline>(airline, HttpStatus.OK);
@@ -46,20 +46,17 @@ public class AirlineController {
 	
 	
 	@RequestMapping(
-			value = "update/{id}",
+			value = "update/",
 			method = RequestMethod.POST,
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Airline> add(@RequestBody AirlineDto airlineDto, @PathVariable("id") Long id) throws Exception {
-		Airline airline = airlineRepo.getOne(id);
+	public ResponseEntity<?> update(@RequestBody AirlineDto airlineDto) throws Exception {
+		Airline airline = airlineRepo.getOne(airlineDto.getId());
 		airline.setName(airlineDto.getName());
 		airline.setDescription(airlineDto.getDescription());
 		airline.setAddress(airlineDto.getAddress());
-		airline.setDestinations(new HashSet<Destination>(destRepo.findAll(airlineDto.getDestinationIds())));
-		airline.setFlights(flightRepo.findAll(airlineDto.getFlightIds()));
-		airline.setPricelist(pricelistRepo.findAll(airlineDto.getPricelistIds()));
 		airlineRepo.save(airline);
-		return new ResponseEntity<Airline>(airline, HttpStatus.OK);
+		return new ResponseEntity(HttpStatus.OK);
 	}
 	
 }

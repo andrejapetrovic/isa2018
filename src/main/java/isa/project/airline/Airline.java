@@ -15,6 +15,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import isa.project.airplane.Airplane;
 import isa.project.destination.Destination;
 import isa.project.flight.Flight;
@@ -42,17 +44,20 @@ public class Airline implements Serializable {
 	
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "airline_destinations", joinColumns = @JoinColumn(name = "airline_id"), inverseJoinColumns = @JoinColumn(name = "dest_id"))
+	@JsonIgnore
 	private Set<Destination> destinations;
 	
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "airline_flights", joinColumns = @JoinColumn(name = "airline_id"), inverseJoinColumns = @JoinColumn(name = "flight_id"))
+	@JsonIgnore
 	private List<Flight> flights; 
 	
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinTable(name = "airline_planes", joinColumns = @JoinColumn(name = "airline_id"), inverseJoinColumns = @JoinColumn(name = "airplane_id"))
+	@OneToMany(mappedBy="owner", cascade=CascadeType.ALL)
+	@JsonIgnore
 	private List<Airplane> planes; 
 	
 	@OneToMany(mappedBy="flight")
+	@JsonIgnore
 	private List<PriceList> pricelist;
 	
 	public Airline() {

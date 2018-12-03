@@ -1,20 +1,7 @@
 package isa.project.destination;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+public class DestinationDto {
 
-@Entity
-public class Destination {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "dest_id")
-	private Long id;
-	
-	@Column(unique = true)
 	private String airportCode;
 	
 	private String country;
@@ -23,6 +10,8 @@ public class Destination {
 
 	private String airport;
 	
+	private Long airlineId;
+
 	public String getAirportCode() {
 		return airportCode;
 	}
@@ -55,5 +44,14 @@ public class Destination {
 		this.airport = airport;
 	}
 
+	public Long getAirlineId() {
+		return airlineId;
+	}
+
+	public void setAirlineId(Long airlineId) {
+		this.airlineId = airlineId;
+	}
+	
+	
 	
 }

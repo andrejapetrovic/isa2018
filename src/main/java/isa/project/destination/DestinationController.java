@@ -26,34 +26,37 @@ public class DestinationController {
 	AirlineRepository airlineRepo;
 	
 	@RequestMapping(
-			value = "add",
+			value = "add-to-airline/",
 			method = RequestMethod.POST,
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Destination> add(@RequestBody Destination dest) throws Exception {
-		destRepo.save(dest);
-		return new ResponseEntity<Destination>(dest, HttpStatus.CREATED);
-	}
-	
-	@RequestMapping(
-			value = "add-to-airline/{airlineId}/{destCode}",
-			method = RequestMethod.POST,
-			consumes = MediaType.APPLICATION_JSON_VALUE,
-			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Destination> addToAirline(@PathVariable("airlineId") Long id, @PathVariable String destCode) throws Exception {
-		Airline a = airlineRepo.getOne(id);
-		Destination dest  = destRepo.findByAirportCode(destCode);
+	public ResponseEntity<Destination> addToAirline(@RequestBody DestinationDto destDto) throws Exception {
+		Airline a = airlineRepo.getOne(destDto.getAirlineId());
+		Destination dest  = destRepo.findByAirportCode(destDto.getAirportCode());
+		if(dest == null) {
+			dest = new Destination();
+			dest.setAirportCode(destDto.getAirportCode());
+			dest.setAirport(destDto.getAirport());
+			dest.setCity(destDto.getCity());
+			dest.setCountry(destDto.getCountry());
+		}
 		a.getDestinations().add(dest);
 		airlineRepo.save(a);
 		return new ResponseEntity<Destination>(dest, HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(
-			value = "delete/{id}",
-			method = RequestMethod.DELETE
+			value = "delete-from-airline",
+			method = RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE
 			)
-	public void delete(@PathVariable("id") Long id) throws Exception {
-		destRepo.delete(id);
+	public ResponseEntity<Destination> deleteFromAirline(@RequestBody DestinationDto destDto) throws Exception {
+		Airline a = airlineRepo.getOne(destDto.getAirlineId());
+		Destination dest  = destRepo.findByAirportCode(destDto.getAirportCode());
+		a.getDestinations().remove(dest);
+		airlineRepo.save(a);
+		return new ResponseEntity<Destination>(dest, HttpStatus.OK);
 	}
 	
 	@RequestMapping(

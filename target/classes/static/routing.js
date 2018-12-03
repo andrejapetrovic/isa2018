@@ -7,7 +7,7 @@ app.config(function($routeProvider) {
 	}).when('/update-user/:id', {
 		templateUrl : 'user/update-form.html',
 		controller : 'uCtrl'
-	}).when('/seat-config/:planeId', {
+	}).when('/airplane-seat-config/:modelName/:modelNumber', {
 		templateUrl : 'airline-admin/seat-config.html',
 		controller : 'seatConfigCtrl'
 	}).when('/update-airline/:name', {

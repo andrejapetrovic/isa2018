@@ -4,8 +4,9 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import isa.project.segment.Segment;
-
 public interface AirplaneRepository extends JpaRepository<Airplane, Long> {
 
+	List<Airplane> findByOwnerId(Long id);
+	
+	Airplane findByModelNumberAndModelName(int modelNum, String modelName);
 }

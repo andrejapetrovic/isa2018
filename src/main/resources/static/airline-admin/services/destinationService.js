@@ -20,24 +20,24 @@ app.factory('destService', function($http) {
          });
      }
     
-    var addDest = function(dest) {
-      	return $http.post('/dest/add/', dest).then(function(response) {
-            return response.data;
-        });
-     }
-    
-    var addDestToAirline = function(destCode, airlineId) {
-      	return $http.post('/dest/add-to-airline/' + id + '/' + destCode).then(function(response) {
+    var addDestToAirline = function(data) {
+      	return $http.post('/dest/add-to-airline/', data).then(function(response) {
             return response.data;
         });
      }
      
+    var removeDest = function(data) {
+    	return $http.post('/dest/delete-from-airline/', data).then(function(response){
+    		return response.data;
+    	})
+    }
+    
      return {
     	 getDestByAirlineId: getDestByAirlineId,
     	 getNotAddedDestByAirlineId: getNotAddedDestByAirlineId,
     	 getDestByCode: getDestByCode,
-         addDest: addDest,
-         addDestToAirline: addDestToAirline
+         addDestToAirline: addDestToAirline,
+         removeDest: removeDest
        };
     
 });
