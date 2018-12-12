@@ -47,8 +47,7 @@ public class Airline implements Serializable {
 	@JsonIgnore
 	private Set<Destination> destinations;
 	
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinTable(name = "airline_flights", joinColumns = @JoinColumn(name = "airline_id"), inverseJoinColumns = @JoinColumn(name = "flight_id"))
+	@OneToMany(mappedBy="airline", cascade=CascadeType.ALL)
 	@JsonIgnore
 	private List<Flight> flights; 
 	

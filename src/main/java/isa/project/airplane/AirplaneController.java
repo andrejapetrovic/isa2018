@@ -39,8 +39,7 @@ public class AirplaneController {
 		a.getPlanes().add(plane);
 		plane.setOwner(a);
 		
-		airlineRepo.save(a);
-		return new ResponseEntity<>(HttpStatus.CREATED);
+		return new ResponseEntity<>(airplaneRepo.save(plane), HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(

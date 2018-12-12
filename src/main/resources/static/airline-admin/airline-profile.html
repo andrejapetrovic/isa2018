@@ -1,4 +1,6 @@
-<div class="col-sm-6">
+<!-- levo -->
+<div class="col-sm-6 well">
+<!--  update-osnovne informacije -->
    <div class="row">
       <div class="col-sm-12">
          <div class="panel panel-default text-left">
@@ -11,10 +13,46 @@
          </div>
       </div>
    </div>
+   <!-- lista letova -->
+   Flights <br> Search <input ng-model="flightSearchText">
+   <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#newFlightModal"> <span
+      class="glyphicon glyphicon-plus"></span> Add Flight
+   </button>
+   <div class="col-sm-12 well" style="height: 500px; overflow-y: scroll; background-color: white;">
+      <table class="table table-striped">
+         <thead>
+            <tr>
+               <th></th>
+               <th></th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr  ng-repeat="flight in flights | filter:flightSearchText">
+               <td>
+               	   From {{flight.from.airportCode}} To {{flight.to.airportCode}} <br> 
+               	   Depart Date: {{flight.departDate}}  {{flight.departTime}}<br>
+               	   Return Date: {{flight.returnDate}}  {{flight.returnTime}}
+               	   Airplane: {{flight.airplane.modelNumber}} {{flight.airplane.modelName}}
+				   <br>Stops: 
+				   <div ng-repeat="dest in flight.stops">
+						{{dest.airportCode}}
+					</div>
+               	   </td>
+               <td> 
+               		<button class="btn btn-sm btn-primary">Edit</button>
+               		<button class="btn btn-sm btn-danger" ng-click="removeFlight(flight)">x</button>
+               </td>
+            </tr>
+         </tbody>
+      </table>
+   </div>
 </div>
-<div class="col-sm-6">
+
+<!-- desno -->
+<div class="col-sm-6 well">
+<!-- lista destinacija na kojima posluje aviokompanija -->
 <div class="col-sm-12 well" style="background-color:white; height: 300px;">
-   Airline Destinations <br> Search <input ng-model="searchText"></label>
+   Airline Destinations <br> Search <input ng-model="searchText">
    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#destModal"> <span
       class="glyphicon glyphicon-plus"></span> Add Destination
    </button> 
@@ -35,9 +73,9 @@
       </table>
    </div>
    </div>
-   
+   <!-- lista aviona koje poseduje -->
    <div class="col-sm-12 well" style="background-color:white; height: 300px;">
-   Owned Airplanes <br> Search <input ng-model="searchTextPlanes"></label>
+   Owned Airplanes <br> Search <input ng-model="searchTextPlanes">
    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#planeModal"> <span
       class="glyphicon glyphicon-plus"></span> Add Airplane
    </button> 
@@ -61,8 +99,7 @@
    </div>
 </div>
 
-
-
+<!-- modal za odabir destinacije -->
 <div id="destModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
@@ -98,6 +135,7 @@
   </div>
 </div>
 
+<!-- modal za dodavanje nove destinacije -->
 <div id="newDestModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
@@ -122,6 +160,7 @@
   </div>
 </div>
 
+<!-- modal za dodavanje novog aviona -->
 <div id="planeModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
@@ -137,6 +176,161 @@
       </div>
       <div class="modal-footer">
       	<button type="button" class="btn btn-success" ng-click="addPlane()">Add</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- modal za dodavanje novog leta-->
+<div id="newFlightModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add New Flight</h4>
+      </div>
+      <div class="modal-body">
+     		
+    <div class="row">
+      <div>
+        <div class="well well-sm" style="height: 520px;overflow-y: auto;">
+          <form class="form-horizontal" action="" method="post" name="newFlightForm" ng-submit="submitNewFlight(newFlightForm.$valid)" novalidate>
+          <fieldset>
+    
+            <!-- From select-->
+            <div class="form-group">
+              <label class="col-md-3">From</label>
+              <div class="col-md-9">
+				<select name="from" ng-model="newFlight.from" ng-options="dest.airportCode + ' ' + dest.city +', ' + dest.country + ', ' +  dest.airport
+               	 	for dest in dests" class="form-controll" required>
+               	 	<option></option>
+               	 </select>
+               	 <p ng-show="newFlightForm.from.$invalid" class="help-block">Selecting destination is required.</p>		
+              </div>
+            </div>
+    
+            <!-- To select-->
+            <div class="form-group">
+              <label class="col-md-3">To</label>
+              <div class="col-md-9">
+				<select ng-model="newFlight.to" ng-options="dest.airportCode + ' ' + dest.city +', ' + dest.country + ', ' +  dest.airport
+				 	for dest in dests" class="form-controll" name="to" required>
+				 	<option></option>
+				 </select>
+				<p ng-show="newFlightForm.to.$invalid" class="help-block">Selecting destination is required.</p>
+				<p ng-show="newFlight.from.airportCode == newFlight.to.airportCode" class="help-block">Starting and ending destinations cannot be equal</p>			
+              </div>
+            </div>
+            
+			<!-- Depart date input-->
+            <div class="form-group">
+              <label class="col-md-3">Depart date and time</label>
+              <div class="col-md-9">
+					<input type="date" ng-model="newFlight.departDate" class="form-controll" name="departDate" required>
+					<input type="time" ng-model=newFlight.departTime class="form-controll" name="departTime" required>
+					<p ng-show="newFlightForm.departDate.$invalid || newFlightForm.departTime.$invalid" class="help-block">
+						Entering depart date and time is required.</p>	
+              </div>
+            </div>
+            
+            <!-- Return date input-->
+            <div class="form-group">
+              <label class="col-md-3">Return date and time</label>
+              <div class="col-md-9">
+					<input type="date" ng-model="newFlight.returnDate" class="form-controll" name="returnDate" required>
+					<input type="time" ng-model=newFlight.returnTime class="form-controll" name="returnTime" required>
+					<p ng-show="newFlightForm.returnDate.$invalid || newFlightForm.returnTime.$invalid" class="help-block">
+						Entering returning is required</p>
+              </div>
+            </div>
+    
+    		<!-- Airplane select-->
+            <div class="form-group">
+              <label class="col-md-3">Airplane</label>
+              <div class="col-md-9">
+					<select ng-model="newFlight.airplane" ng-options="plane.modelNumber + ' ' + plane.modelName 
+							for plane in planes" class="form-controll" name="airplane" required>
+					<option></option>		
+					</select>
+					<p ng-show="newFlightForm.airplane.$invalid" class="help-block">Selecting airplane is required</p>
+              </div>
+            </div>
+    
+    		<!-- Stops-->
+            <div class="form-group">
+              <label class="col-md-3">Stops</label>
+              <div class="col-md-9">
+					<button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#stopDestModal"
+					ng-disabled="newFlightForm.to.$invalid || newFlightForm.from.$invalid || newFlight.from.airportCode == newFlight.to.airportCode">
+					 <span class="glyphicon glyphicon-plus"></span> Add Stoping Destinations</button>
+					<p ng-show="newFlightForm.to.$invalid || newFlightForm.from.$invalid || newFlight.from.airportCode == newFlight.to.airportCode" 
+					class="help-block">You have to select valid starting and ending destinations before being able to select stopping destinations</p>
+         	      <table class="table table-striped">
+         <thead>
+            <tr>
+               <th></th>
+               <th></th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr ng-repeat="dest in stopDests" ng-if="dest !== newFlight.to && dest !== newFlight.from">
+               <td>({{dest.airportCode}}) {{dest.city}}, {{dest.country}}, {{dest.airport}} </td>
+               <td> <button class="btn btn-sm btn-danger" ng-click="removeStopDest(dest)">x</button></td>
+            </tr>
+         </tbody>
+      </table>
+              </div>
+            </div>
+            
+          </fieldset>
+          </form>
+        </div>
+      </div>
+	</div>	
+      		
+	
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-success" ng-click="addNewFlight()" 
+      	ng-disabled="newFlightForm.$invalid || newFlight.from.airportCode == newFlight.to.airportCode">Add</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- modal za odabir destinacije na kojima se avion zaustavlja na jednom letu-->
+<div id="stopDestModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Select destinations to add</h4>
+      </div>
+      <div class="modal-body">
+      Search <input ng-model="searchText2">
+      <table class="table table-striped">
+         <thead>
+            <tr>
+               <th></th>
+               <th></th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr  ng-repeat="dest in potentialStopDests | filter:searchText2" ng-if="dest !== newFlight.to && dest !== newFlight.from">
+               <td>({{dest.airportCode}}) {{dest.city}}, {{dest.country}}, {{dest.airport}} </td>
+               <td> <button class="btn btn-sm btn-primary" ng-click="addStopDest(dest)">+</button></td>
+            </tr>
+         </tbody>
+      </table>
+      </div>
+      <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>

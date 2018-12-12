@@ -1,6 +1,8 @@
 package isa.project.flight;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -11,11 +13,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import isa.project.airline.Airline;
 import isa.project.airplane.Airplane;
 import isa.project.destination.Destination;
 import isa.project.seat.Seat;
@@ -45,22 +52,37 @@ public class Flight {
 	@Temporal(TemporalType.DATE)
 	private java.util.Date returnDate;
 	 
+	@Basic
+	@Temporal(TemporalType.TIME)
+	private java.util.Date departTime;
+	 
+	@Basic
+	@Temporal(TemporalType.TIME)
+	private java.util.Date returnTime;
+	
 	private int stopCount;
 	
-	@OneToMany(cascade=CascadeType.ALL)
+	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "flight_stops", joinColumns = @JoinColumn(name = "flight_id"), inverseJoinColumns = @JoinColumn(name = "dest_id"))
-	private List<Destination> stops;
+	private Set<Destination> stops;
 	
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "flight_segments", joinColumns = @JoinColumn(name = "flight_id"), inverseJoinColumns = @JoinColumn(name = "segment_id"))
+	@JsonIgnore
 	private List<Segment> segments; 
 	
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "flight_seats", joinColumns = @JoinColumn(name = "flight_id"), inverseJoinColumns = @JoinColumn(name = "seat_id"))
+	@JsonIgnore
 	private List<Seat> seats;
 	
 	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="airplane_id")
 	private Airplane airplane;
+	
+	@ManyToOne
+	@JoinColumn(name = "airline_id")
+	private Airline airline;
 	
 	public Long getId() {
 		return id;
@@ -111,12 +133,8 @@ public class Flight {
 		this.stopCount = stopCount;
 	}
 
-	public List<Destination> getStops() {
+	public Set<Destination> getStops() {
 		return stops;
-	}
-
-	public void setStops(List<Destination> stops) {
-		this.stops = stops;
 	}
 
 	public List<Segment> getSegments() {
@@ -133,6 +151,42 @@ public class Flight {
 
 	public void setAirplane(Airplane airplane) {
 		this.airplane = airplane;
+	}
+
+	public java.util.Date getDepartTime() {
+		return departTime;
+	}
+
+	public void setDepartTime(java.util.Date departTime) {
+		this.departTime = departTime;
+	}
+
+	public java.util.Date getReturnTime() {
+		return returnTime;
+	}
+
+	public void setReturnTime(java.util.Date returnTime) {
+		this.returnTime = returnTime;
+	}
+
+	public List<Seat> getSeats() {
+		return seats;
+	}
+
+	public void setSeats(List<Seat> seats) {
+		this.seats = seats;
+	}
+
+	public Airline getAirline() {
+		return airline;
+	}
+
+	public void setAirline(Airline airline) {
+		this.airline = airline;
+	}
+
+	public void setStops(Set<Destination> stops) {
+		this.stops = stops;
 	}
 	
 }

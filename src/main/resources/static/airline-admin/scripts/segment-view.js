@@ -35,7 +35,6 @@ function SegmentView (segment, segNum, elementId) {
 	this.canvas.addEventListener("mousemove", mouseHandler);*/
 }
 
-//d = duzina stranice kvadrada, rx i ry razmak izmedju kvadrata po x i y
 SegmentView.prototype.draw = function() {
 	var d = this.d;
 	var rx = this.rx;

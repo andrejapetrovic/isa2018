@@ -41,8 +41,7 @@ public class DestinationController {
 			dest.setCountry(destDto.getCountry());
 		}
 		a.getDestinations().add(dest);
-		airlineRepo.save(a);
-		return new ResponseEntity<Destination>(dest, HttpStatus.CREATED);
+		return new ResponseEntity<Destination>(destRepo.save(dest), HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(

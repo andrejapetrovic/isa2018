@@ -1,7 +1,5 @@
 package isa.project.airline;
 
-import java.util.HashSet;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import isa.project.destination.Destination;
 import isa.project.destination.DestinationRepository;
 import isa.project.flight.FlightRepository;
 import isa.project.flight.pricelist.PriceListRepository;
@@ -55,8 +52,7 @@ public class AirlineController {
 		airline.setName(airlineDto.getName());
 		airline.setDescription(airlineDto.getDescription());
 		airline.setAddress(airlineDto.getAddress());
-		airlineRepo.save(airline);
-		return new ResponseEntity(HttpStatus.OK);
+		return new ResponseEntity<>(airlineRepo.save(airline), HttpStatus.OK);
 	}
 	
 }
