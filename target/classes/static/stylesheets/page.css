@@ -9,3 +9,7 @@ footer {
 	width: 100%;
 	text-align: center;
 }
+
+input::-webkit-calendar-picker-indicator {
+  display: none;
+}

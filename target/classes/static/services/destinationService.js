@@ -32,12 +32,19 @@ app.factory('destService', function($http) {
     	})
     }
     
+    var filter = function(input) {
+    	return $http.get('dest/filter/' + input).then(function(response) {
+    		return response.data;
+    	});
+    }
+    
      return {
     	 getDestByAirlineId: getDestByAirlineId,
     	 getNotAddedDestByAirlineId: getNotAddedDestByAirlineId,
     	 getDestByCode: getDestByCode,
          addDestToAirline: addDestToAirline,
-         removeDest: removeDest
+         removeDest: removeDest,
+         filter: filter
        };
     
 });

@@ -65,7 +65,7 @@
             </tr>
          </thead>
          <tbody>
-            <tr  ng-repeat="dest in dests | filter:searchText">
+            <tr ng-repeat="dest in dests | filter:searchText">
                <td>({{dest.airportCode}}) {{dest.city}}, {{dest.country}}, {{dest.airport}} </td>
                <td> <button class="btn btn-sm btn-danger" ng-click="removeDest(dest)">x</button></td>
             </tr>
@@ -197,7 +197,7 @@
     <div class="row">
       <div>
         <div class="well well-sm" style="height: 520px;overflow-y: auto;">
-          <form class="form-horizontal" action="" method="post" name="newFlightForm" ng-submit="submitNewFlight(newFlightForm.$valid)" novalidate>
+          <form class="form-horizontal" action="" method="post" name="newFlightForm" novalidate>
           <fieldset>
     
             <!-- From select-->

@@ -95,4 +95,17 @@ public class DestinationController {
 		List<Destination> dests = destRepo.findNonAddedByAirline(id);
 		return new ResponseEntity<List<Destination>>(dests, HttpStatus.OK);
 	}
+	
+	@RequestMapping(
+			value = "filter/{input}",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> filter(@PathVariable("input") String input) {
+		List<Destination> dests = destRepo.filter(input);
+		if (dests == null) {
+			return new ResponseEntity<String>("Anywhere", HttpStatus.OK);
+		}
+		return new ResponseEntity<List<Destination>>(dests, HttpStatus.OK);
+	}
+	
 }

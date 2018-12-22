@@ -13,3 +13,6 @@ input.hidden {
 	margin: 5px 0 5px 0
 }
 
+.collapsed .glyphicon {
+  transform: rotate(90deg);
+}

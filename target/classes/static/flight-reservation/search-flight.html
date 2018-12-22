@@ -1,0 +1,35 @@
+ <form class="form-horizontal" name="searchFlightForm" novalidate>
+ 	<div class="col-sm-12">
+ 		<div class= "col-sm-5" id="fromDiv"><br>
+ 		<label>From</label>
+ 		   	<input type="text" class="form-control" id="from" ng-model="search.from" list="fromList">
+ 		   	<datalist id="fromList">
+				<option ng-repeat="dest in fromDests" value="({{dest.airportCode}}) {{dest.city}}, {{dest.country}}, {{dest.airport}}"></option>
+			</datalist>
+    	</div>
+ 		<div class="col-sm-1" id="swapDiv"><br>
+ 		<br>
+    		<button class="btn btn-warning" ng-click="swapFields()">Swap</button>
+    	</div>
+    	<div class= "col-sm-5" id="toDiv"><br>
+    	<label>To</label>
+    		<input type="text" class="form-control" id="to" ng-model="search.to" list="toList">
+    		<datalist id="toList">
+				<option ng-repeat="dest in toDests" value="({{dest.airportCode}}) {{dest.city}}, {{dest.country}}, {{dest.airport}}"></option>
+			</datalist>
+    	</div>
+ 	</div>
+
+	 <div class="col-sm-12">
+ 		<div class= "col-sm-5"><br>
+	 	<label>Departure</label>
+ 		   	<input type="date" class="form-control" id="depart" ng-model="search.departDate">
+    	</div>
+    	 <div class= "col-sm-1"></div>
+    	<div class= "col-sm-5"><br>
+    	 <label>Return</label>
+    		<input type="date" class="form-control" id="return" ng-model="search.returnDate">
+    	</div>
+ 	</div>
+
+</form>

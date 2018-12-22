@@ -18,8 +18,8 @@ public interface UserRepository  extends JpaRepository<User, Long> {
 	User findById(Long id);
 	
 
-	@Query(value = "SELECT * FROM rezervacija.USER WHERE user_id IN" 
-	+ "(SELECT friend_id FROM rezervacija.FRIEND_RELATION WHERE user_id = :id)"
+	@Query(value = "SELECT * FROM USER WHERE user_id IN" 
+	+ "(SELECT friend_id FROM FRIEND_RELATION WHERE user_id = :id)"
 	,nativeQuery = true)
 	List<User> findFriends(@Param("id") Long id);
 }

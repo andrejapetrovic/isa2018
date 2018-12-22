@@ -13,6 +13,9 @@ app.config(function($routeProvider) {
 	}).when('/update-airline/:name', {
 		templateUrl : 'airline-admin/airline-profile.html',
 		controller : 'airlineCtrl'
+	}).when('/search-flight', {
+		templateUrl : 'flight-reservation/search-flight.html',
+		controller : 'searchFlightCtrl'
 	})
 });
 

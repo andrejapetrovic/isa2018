@@ -45,8 +45,9 @@ public class SegmentController {
 	public ResponseEntity<?> save(@PathVariable("planeId") Long id, @RequestBody SegmentsDto segDto) {
 		
 		Airplane a = airplaneRepo.getOne(id);
-		if(!segDto.getAdded().isEmpty())
+		if(!segDto.getAdded().isEmpty()) {
 			a.getSegments().addAll(segDto.getAdded());
+		}		
 		
 		if(!segDto.getDeleted().isEmpty()) {
 			segDto.getDeleted().forEach(seg->{
@@ -63,6 +64,7 @@ public class SegmentController {
 			});
 		}
 	
+		
 		airplaneRepo.save(a);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
