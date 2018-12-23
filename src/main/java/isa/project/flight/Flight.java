@@ -1,6 +1,5 @@
 package isa.project.flight;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Set;
 
@@ -25,6 +24,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import isa.project.airline.Airline;
 import isa.project.airplane.Airplane;
 import isa.project.destination.Destination;
+import isa.project.flight.fclass.FlightClass;
+import isa.project.flight.type.FlightType;
 import isa.project.seat.Seat;
 import isa.project.segment.Segment;
 
@@ -65,6 +66,14 @@ public class Flight {
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "flight_stops", joinColumns = @JoinColumn(name = "flight_id"), inverseJoinColumns = @JoinColumn(name = "dest_id"))
 	private Set<Destination> stops;
+	
+	@ManyToMany(cascade=CascadeType.ALL)
+	@JoinTable(name = "flights_classes", joinColumns = @JoinColumn(name = "flight_id"), inverseJoinColumns = @JoinColumn(name = "class_id"))
+	private Set<FlightClass> classes;
+	
+	@ManyToMany(cascade=CascadeType.ALL)
+	@JoinTable(name = "flights_types", joinColumns = @JoinColumn(name = "flight_id"), inverseJoinColumns = @JoinColumn(name = "flight_type_id"))
+	private Set<FlightType> types;
 	
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "flight_segments", joinColumns = @JoinColumn(name = "flight_id"), inverseJoinColumns = @JoinColumn(name = "segment_id"))
@@ -188,5 +197,21 @@ public class Flight {
 	public void setStops(Set<Destination> stops) {
 		this.stops = stops;
 	}
-	
+
+	public Set<FlightClass> getClasses() {
+		return classes;
+	}
+
+	public void setClasses(Set<FlightClass> classes) {
+		this.classes = classes;
+	}
+
+	public Set<FlightType> getTypes() {
+		return types;
+	}
+
+	public void setTypes(Set<FlightType> types) {
+		this.types = types;
+	}
+
 }

@@ -31,3 +31,11 @@ insert into destination(dest_id, airport_code, city, country, airport) values ('
 insert into airline_destinations(airline_id, dest_id) values ('1', '1');
 insert into airline_destinations(airline_id, dest_id) values ('1', '2');
 insert into airline_destinations(airline_id, dest_id) values ('1', '3');
+
+insert into flight_class(class_id, name) values ('1', 'Economy');
+insert into flight_class(class_id, name) values ('2', 'Premium Economy');
+insert into flight_class(class_id, name) values ('3', 'Bussines');
+insert into flight_class(class_id, name) values ('4', 'First');
+
+insert into flight_type(flight_type_id, name) values ('1', 'Round-trip');
+insert into flight_type(flight_type_id, name) values ('2', 'One-way');

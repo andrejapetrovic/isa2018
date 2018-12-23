@@ -1,7 +1,6 @@
 package isa.project.flight;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +18,10 @@ import isa.project.airline.Airline;
 import isa.project.airline.AirlineRepository;
 import isa.project.airplane.AirplaneRepository;
 import isa.project.destination.DestinationRepository;
+import isa.project.flight.fclass.FlightClass;
+import isa.project.flight.fclass.FlightClassRepository;
+import isa.project.flight.type.FlightType;
+import isa.project.flight.type.FlightTypeRepository;
 import isa.project.segment.SegmentRepository;
 
 @RestController
@@ -42,6 +45,12 @@ public class FlightController {
 	
 	@Autowired 
 	FlightRepository flightRepo;
+	
+	@Autowired 
+	FlightClassRepository fclassRepo;
+	
+	@Autowired 
+	FlightTypeRepository ftypeRepo;
 	
 	@RequestMapping(
 			value = "{id}",
@@ -85,6 +94,19 @@ public class FlightController {
 	public ResponseEntity<List<Flight>> getFlightByAirline(@PathVariable("id") Long id) {
 		List<Flight> flights = flightRepo.findByAirlineId(id);
 		return new ResponseEntity<List<Flight>>(flights, HttpStatus.OK);
+	}
+	
+	@RequestMapping(
+			value = "get-aditional-criteria",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<FlightCriteriaDto> getCriteria() {
+		List<FlightType> types = ftypeRepo.findAll();
+		List<FlightClass> classes = fclassRepo.findAll();
+		FlightCriteriaDto criteria = new FlightCriteriaDto();
+		criteria.setClasses(classes);
+		criteria.setTypes(types);
+		return new ResponseEntity<FlightCriteriaDto>(criteria, HttpStatus.OK);
 	}
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());

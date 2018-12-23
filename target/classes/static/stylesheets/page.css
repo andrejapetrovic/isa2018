@@ -13,3 +13,31 @@ footer {
 input::-webkit-calendar-picker-indicator {
   display: none;
 }
+
+.swap-btn {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top:18px;
+    border-radius: 8px;
+}
+
+.btn-outline {
+  border: 1px solid #e7def5;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+}
+
+.rotate-glyph {
+	/* Safari */
+    -webkit-transform: rotate(-90deg);
+
+    /* Firefox */
+    -moz-transform: rotate(-90deg);
+
+    /* IE */
+    -ms-transform: rotate(-90deg);
+
+    /* Opera */
+    -o-transform: rotate(-90deg);
+}

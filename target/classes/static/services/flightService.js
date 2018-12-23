@@ -20,10 +20,17 @@ app.factory('flightService', function($http) {
          });
      }
     
+	var getCriteria = function() {
+     	return $http.get('/flight/get-aditional-criteria').then(function(response) {
+            return response.data;
+        });
+	}
+	
      return {
     	 getFlightsByAirline: getFlightsByAirline,
     	 addFlight: addFlight,
-    	 deleteFlight: deleteFlight
+    	 deleteFlight: deleteFlight,
+    	 getCriteria: getCriteria
      };
     
 });

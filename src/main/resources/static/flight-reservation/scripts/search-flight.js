@@ -1,5 +1,5 @@
 var app = angular.module('app');
-app.controller('searchFlightCtrl', function($scope, $http, $window, destService) {
+app.controller('searchFlightCtrl', function($scope, $http, $window, destService, flightService) {
 	
 	$scope.fromDests = [];
 	$scope.toDests = [];
@@ -27,17 +27,15 @@ app.controller('searchFlightCtrl', function($scope, $http, $window, destService)
 		el2.after(btn);
 	}
 
-	function filterData(data, scopeData) {
-    	var destCodes = data.map(d => d.airportCode)
-    	var scopeDestCodes = scopeData.map(d => d.airportCode);
-    	var toRemove = scopeData.filter(function(d){
-    		return destCodes.indexOf(d.airportCode) == -1;
-    	});
-    	var toAdd = data.filter(function(d){
-    		return scopeDestCodes.indexOf(d.airportCode) == -1;
-    	});
-    	scopeData = scopeData.filter(d => !toRemove.includes(d));
-    	scopeData = scopeData.concat(toAdd);
-     	return scopeData;
-	}
+	var tripDatePicker = new datePicker({
+	    start:  document.getElementsByClassName('startDate'),
+	    end:    document.getElementsByClassName('endDate'),
+	    months: 2,
+	});
+	
+	flightService.getCriteria().then(function(data){
+		console.log(data);
+		$scope.classes = data.classes;
+		$scope.types = data.types;
+	});
 });

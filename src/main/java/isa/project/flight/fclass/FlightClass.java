@@ -1,4 +1,4 @@
-package isa.project.seat;
+package isa.project.flight.fclass;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,17 +7,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Seat {
+public class FlightClass {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "seat_id")
+	@Column(name = "class_id")
 	private Long id;
+	
+	@Column(unique = true)
+	private String name;
 
-	private String code;
-	
-	private boolean reserved;
-	
 	public Long getId() {
 		return id;
 	}
@@ -26,21 +25,14 @@ public class Seat {
 		this.id = id;
 	}
 
-	public String getCode() {
-		return code;
+	public String getName() {
+		return name;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+	public void setName(String name) {
+		this.name = name;
 	}
-
-	public boolean isReserved() {
-		return reserved;
-	}
-
-	public void setReserved(boolean reserved) {
-		this.reserved = reserved;
-	}
-
+	
+	
 	
 }

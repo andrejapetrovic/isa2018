@@ -1,4 +1,14 @@
  <form class="form-horizontal" name="searchFlightForm" novalidate>
+  	<div class="col-sm-12">
+  		<div class="col-sm-12">
+			<select name="fclass" class="form controll btn btn-outline" ng-model="ftype" required>
+			<option ng-selected="$first" ng-repeat="ftype in types" value={{id}}>{{ftype.name}}</option>
+            </select>
+			<select name="fclass" class="btn btn-outline" ng-model="fclass" required>
+				 <option ng-selected="$first" ng-repeat="fclass in classes" value={{id}}>{{fclass.name}}</option>
+            </select>
+ 		</div>
+ 	</div>
  	<div class="col-sm-12">
  		<div class= "col-sm-5" id="fromDiv"><br>
  		<label>From</label>
@@ -8,8 +18,8 @@
 			</datalist>
     	</div>
  		<div class="col-sm-1" id="swapDiv"><br>
- 		<br>
-    		<button class="btn btn-warning" ng-click="swapFields()">Swap</button>
+    		<button class="btn btn-warning swap-btn" ng-click="swapFields()">
+    		<i class="glyphicon glyphicon-sort rotate-glyph"></i></button>
     	</div>
     	<div class= "col-sm-5" id="toDiv"><br>
     	<label>To</label>
@@ -22,13 +32,19 @@
 
 	 <div class="col-sm-12">
  		<div class= "col-sm-5"><br>
-	 	<label>Departure</label>
- 		   	<input type="date" class="form-control" id="depart" ng-model="search.departDate">
+	 		<label>Departure</label>
+ 			<div class="right-inner-addon">
+ 		   		<i class="glyphicon glyphicon-calendar"></i>
+ 		   		<input type="text" class="form-control startDate" id="depart" ng-model="search.departDate">
+    		</div>
     	</div>
-    	 <div class= "col-sm-1"></div>
+    	<div class= "col-sm-1"></div>
     	<div class= "col-sm-5"><br>
-    	 <label>Return</label>
-    		<input type="date" class="form-control" id="return" ng-model="search.returnDate">
+    	 	<label>Return</label>
+    		<div class="right-inner-addon">
+    			<i class="glyphicon glyphicon-calendar"></i>
+    			<input type="text" class="form-control endDate" id="return" ng-model="search.returnDate">
+    		</div>
     	</div>
  	</div>
 
