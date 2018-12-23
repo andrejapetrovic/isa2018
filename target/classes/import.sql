@@ -39,3 +39,14 @@ insert into flight_class(class_id, name) values ('4', 'First');
 
 insert into flight_type(flight_type_id, name) values ('1', 'Round-trip');
 insert into flight_type(flight_type_id, name) values ('2', 'One-way');
+
+insert into passenger(passenger_id, type) values ('1', 'Adults');
+insert into passenger(passenger_id, type) values ('2', 'Children');
+insert into passenger(passenger_id, type) values ('3', 'Infants');
+
+insert into flight(flight_id, from_id, to_id, depart_date, return_date, airline_id, airplane_id, stop_count, remaining_seats) values ('1', '1', '2', '2018-12-29', '2018-12-30', 1, 1, 0, 3);
+insert into flight(flight_id, from_id, to_id, depart_date, return_date, airline_id, airplane_id, stop_count, remaining_seats) values ('2', '1', '2', '2018-12-29', '2018-12-30', 2, 2, 0, 1);
+insert into flights_classes(flight_id, class_id) values ('1', '1');	
+insert into flights_classes(flight_id, class_id) values ('1', '2');
+insert into flights_classes(flight_id, class_id) values ('1', '3');
+insert into flights_types(flight_id, flight_type_id) values ('1', '1');					

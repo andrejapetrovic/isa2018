@@ -93,6 +93,8 @@ public class Flight {
 	@JoinColumn(name = "airline_id")
 	private Airline airline;
 	
+	private int remainingSeats;
+	
 	public Long getId() {
 		return id;
 	}
@@ -214,4 +216,13 @@ public class Flight {
 		this.types = types;
 	}
 
+	public int getRemainingSeats() {
+		return remainingSeats;
+	}
+
+	public void setRemainingSeats(int remainingSeats) {
+		this.remainingSeats = remainingSeats;
+	}
+
+	
 }

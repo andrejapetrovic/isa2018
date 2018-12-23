@@ -1,14 +1,26 @@
  <form class="form-horizontal" name="searchFlightForm" novalidate>
   	<div class="col-sm-12">
   		<div class="col-sm-12">
-			<select name="fclass" class="form controll btn btn-outline" ng-model="ftype" required>
-			<option ng-selected="$first" ng-repeat="ftype in types" value={{id}}>{{ftype.name}}</option>
+			<select name="ftype" class="form controll btn btn-outline search-ft" ng-model="ftype" 
+			ng-options="ftype.name for ftype in types" required>
             </select>
-			<select name="fclass" class="btn btn-outline" ng-model="fclass" required>
-				 <option ng-selected="$first" ng-repeat="fclass in classes" value={{id}}>{{fclass.name}}</option>
+			<select name="fclass" class="btn btn-outline search-fc" ng-model="fclass" 
+			ng-options="fclass.name for fclass in classes" required>
             </select>
- 		</div>
+ 	 	<div class="dropdown col-sm-2">
+            <a class="btn btn-outline dropdown-toggle search-fp" data-toggle="dropdown" role="button" aria-expanded="false">{{numOfPassengers}}{{sufix}}</a>
+            <div class="dropdown-menu form-passengers stop-propagation" role="menu">
+         		<div class="col-sm-12" ng-repeat="fpassenger in passengers">
+         			<label class="col-sm-6">{{fpassenger.type}}</label>  
+         			<input class="col-sm-2 btn btn-default btn-xs" type="button" value="-" ng-click="decrementPassengers(fpassenger)">
+         			<label class="col-sm-2">{{fpassenger.num}}</label>  
+         			<input class="col-sm-2 btn btn-default btn-xs" type="button" value="+" ng-click="incrementPassengers(fpassenger)">
+         		</div>
+          </div>
  	</div>
+ </div>
+ 	
+ 	
  	<div class="col-sm-12">
  		<div class= "col-sm-5" id="fromDiv"><br>
  		<label>From</label>
@@ -46,6 +58,8 @@
     			<input type="text" class="form-control endDate" id="return" ng-model="search.returnDate">
     		</div>
     	</div>
+    	
  	</div>
-
+ 	<button class="btn btn-info col-sm-1 search-f" ng-click="search()"><i class="glyphicon glyphicon-search"></i> Search</button>
+ 	</div>
 </form>

@@ -12,3 +12,7 @@ function filterData(data, scopeData) {
     	scopeData = scopeData.concat(toAdd);
      	return scopeData;
 	}
+
+$('.stop-propagation').on('click', function (e) {
+    e.stopPropagation();
+});

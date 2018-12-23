@@ -1,4 +1,4 @@
-package isa.project.flight;
+package isa.project.flight.dto;
 
 import java.util.List;
 

@@ -10,7 +10,6 @@ public interface FlightService {
 	
 	Flight findById(Long id);
 	
-	//napisati query za filtriranje
 	List<Flight> filter();
 	
 }

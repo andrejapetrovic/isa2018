@@ -18,8 +18,13 @@ import isa.project.airline.Airline;
 import isa.project.airline.AirlineRepository;
 import isa.project.airplane.AirplaneRepository;
 import isa.project.destination.DestinationRepository;
+import isa.project.flight.dto.FlightCriteriaDto;
+import isa.project.flight.dto.FlightDto;
+import isa.project.flight.dto.FlightSearchDto;
 import isa.project.flight.fclass.FlightClass;
 import isa.project.flight.fclass.FlightClassRepository;
+import isa.project.flight.passenger.Passenger;
+import isa.project.flight.passenger.PassengerRepository;
 import isa.project.flight.type.FlightType;
 import isa.project.flight.type.FlightTypeRepository;
 import isa.project.segment.SegmentRepository;
@@ -51,6 +56,9 @@ public class FlightController {
 	
 	@Autowired 
 	FlightTypeRepository ftypeRepo;
+	
+	@Autowired
+	PassengerRepository passengerRepo;
 	
 	@RequestMapping(
 			value = "{id}",
@@ -103,10 +111,22 @@ public class FlightController {
 	public ResponseEntity<FlightCriteriaDto> getCriteria() {
 		List<FlightType> types = ftypeRepo.findAll();
 		List<FlightClass> classes = fclassRepo.findAll();
+		List<Passenger> passengers = passengerRepo.findAll();
 		FlightCriteriaDto criteria = new FlightCriteriaDto();
 		criteria.setClasses(classes);
 		criteria.setTypes(types);
+		criteria.setPassengers(passengers);
 		return new ResponseEntity<FlightCriteriaDto>(criteria, HttpStatus.OK);
+	}
+	
+	@RequestMapping(
+			value = "search",
+			method = RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Flight>> search(@RequestBody FlightSearchDto flightDto) throws Exception {
+		List<Flight> foundFlights = flightRepo.filterSearch(flightDto);
+		return new ResponseEntity<List<Flight>>(foundFlights, HttpStatus.CREATED);
 	}
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());

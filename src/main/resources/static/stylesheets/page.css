@@ -28,6 +28,22 @@ input::-webkit-calendar-picker-indicator {
   cursor: pointer;
 }
 
+.search-f{
+	margin-top: 19px;
+	margin-left: 29px;	
+}
+
+
+.search-ft{
+	margin-left: -60px;	
+}
+.search-fp{
+	display:inline-block;
+	min-width: 100px;
+	width: 100px;
+	height: 31.5px;
+}
+
 .rotate-glyph {
 	/* Safari */
     -webkit-transform: rotate(-90deg);
@@ -40,4 +56,9 @@ input::-webkit-calendar-picker-indicator {
 
     /* Opera */
     -o-transform: rotate(-90deg);
+}
+
+.form-passengers {
+  padding: 1em;
+  min-width: 280px;
 }

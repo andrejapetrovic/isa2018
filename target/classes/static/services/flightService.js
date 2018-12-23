@@ -26,6 +26,12 @@ app.factory('flightService', function($http) {
         });
 	}
 	
+	var search = function(data) {
+		return $http.post('/flight/search', data).then(function(response){
+			return response.data;
+		});
+	}
+	
      return {
     	 getFlightsByAirline: getFlightsByAirline,
     	 addFlight: addFlight,
