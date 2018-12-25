@@ -55,11 +55,19 @@ public class Flight {
 	 
 	@Basic
 	@Temporal(TemporalType.TIME)
-	private java.util.Date departTime;
+	private java.util.Date takeoffTime1;
 	 
 	@Basic
 	@Temporal(TemporalType.TIME)
-	private java.util.Date returnTime;
+	private java.util.Date landingTime1;
+	
+	@Basic
+	@Temporal(TemporalType.TIME)
+	private java.util.Date takeoffTime2;
+	 
+	@Basic
+	@Temporal(TemporalType.TIME)
+	private java.util.Date landingTime2;
 	
 	private int stopCount;
 	
@@ -68,11 +76,11 @@ public class Flight {
 	private Set<Destination> stops;
 	
 	@ManyToMany(cascade=CascadeType.ALL)
-	@JoinTable(name = "flights_classes", joinColumns = @JoinColumn(name = "flight_id"), inverseJoinColumns = @JoinColumn(name = "class_id"))
+	@JoinTable(name = "flight_classes", joinColumns = @JoinColumn(name = "flight_id"), inverseJoinColumns = @JoinColumn(name = "class_id"))
 	private Set<FlightClass> classes;
 	
 	@ManyToMany(cascade=CascadeType.ALL)
-	@JoinTable(name = "flights_types", joinColumns = @JoinColumn(name = "flight_id"), inverseJoinColumns = @JoinColumn(name = "flight_type_id"))
+	@JoinTable(name = "flight_types", joinColumns = @JoinColumn(name = "flight_id"), inverseJoinColumns = @JoinColumn(name = "flight_type_id"))
 	private Set<FlightType> types;
 	
 	@OneToMany(cascade=CascadeType.ALL)
@@ -94,6 +102,8 @@ public class Flight {
 	private Airline airline;
 	
 	private int remainingSeats;
+	
+	private double price;
 	
 	public Long getId() {
 		return id;
@@ -164,22 +174,6 @@ public class Flight {
 		this.airplane = airplane;
 	}
 
-	public java.util.Date getDepartTime() {
-		return departTime;
-	}
-
-	public void setDepartTime(java.util.Date departTime) {
-		this.departTime = departTime;
-	}
-
-	public java.util.Date getReturnTime() {
-		return returnTime;
-	}
-
-	public void setReturnTime(java.util.Date returnTime) {
-		this.returnTime = returnTime;
-	}
-
 	public List<Seat> getSeats() {
 		return seats;
 	}
@@ -224,5 +218,43 @@ public class Flight {
 		this.remainingSeats = remainingSeats;
 	}
 
-	
+	public java.util.Date getTakeoffTime1() {
+		return takeoffTime1;
+	}
+
+	public void setTakeoffTime1(java.util.Date takeoffTime1) {
+		this.takeoffTime1 = takeoffTime1;
+	}
+
+	public java.util.Date getLandingTime1() {
+		return landingTime1;
+	}
+
+	public void setLandingTime1(java.util.Date landingTime1) {
+		this.landingTime1 = landingTime1;
+	}
+
+	public java.util.Date getTakeoffTime2() {
+		return takeoffTime2;
+	}
+
+	public void setTakeoffTime2(java.util.Date takeoffTime2) {
+		this.takeoffTime2 = takeoffTime2;
+	}
+
+	public java.util.Date getLandingTime2() {
+		return landingTime2;
+	}
+
+	public void setLandingTime2(java.util.Date landingTime2) {
+		this.landingTime2 = landingTime2;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
 }

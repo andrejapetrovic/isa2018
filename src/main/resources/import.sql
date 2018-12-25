@@ -11,6 +11,7 @@ insert into airline(airline_id, name, address) values ('1', 'Air Serbia', 'Бу�
 insert into airline(airline_id, name, address) values ('2', 'Aegan Airlines', 'Кнез Михаилова 30/IV, 11000 Београд');
 
 insert into airplane(airplane_id, model_name, model_number, owner_airline_id) values('1', 'Boeing 747', '123', '1');
+insert into airplane(airplane_id, model_name, model_number, owner_airline_id) values('2', 'Boeing 747', '111', '2');
 
 insert into segment(segment_id, cols, rows, travel_class) values ('1', 5, 30, 'Economy');
 insert into segment(segment_id, cols, rows, travel_class) values ('2', 5, 30, 'Economy');
@@ -44,9 +45,17 @@ insert into passenger(passenger_id, type) values ('1', 'Adults');
 insert into passenger(passenger_id, type) values ('2', 'Children');
 insert into passenger(passenger_id, type) values ('3', 'Infants');
 
-insert into flight(flight_id, from_id, to_id, depart_date, return_date, airline_id, airplane_id, stop_count, remaining_seats) values ('1', '1', '2', '2018-12-29', '2018-12-30', 1, 1, 0, 3);
-insert into flight(flight_id, from_id, to_id, depart_date, return_date, airline_id, airplane_id, stop_count, remaining_seats) values ('2', '1', '2', '2018-12-29', '2018-12-30', 2, 2, 0, 1);
-insert into flights_classes(flight_id, class_id) values ('1', '1');	
-insert into flights_classes(flight_id, class_id) values ('1', '2');
-insert into flights_classes(flight_id, class_id) values ('1', '3');
-insert into flights_types(flight_id, flight_type_id) values ('1', '1');					
+insert into flight(flight_id, from_id, to_id, depart_date, return_date, airline_id, airplane_id, stop_count, remaining_seats, price, takeoff_time1, landing_time1, takeoff_time2, landing_time2) values ('1', '1', '2', '2018-12-29', '2018-12-30', 1, 1, 0, 3, 400.00, '8:00', '9:30', '9:00', '10:30');
+insert into flight(flight_id, from_id, to_id, depart_date, return_date, airline_id, airplane_id, stop_count, remaining_seats, price, takeoff_time1, landing_time1, takeoff_time2, landing_time2) values ('2', '1', '2', '2018-12-29', '2018-12-30', 2, 2, 0, 1, 600.00, '12:00', '14:00', '15:00', '16:20');
+insert into flight_classes(flight_id, class_id) values ('1', '1');	
+insert into flight_classes(flight_id, class_id) values ('1', '2');
+insert into flight_classes(flight_id, class_id) values ('1', '3');
+insert into flight_types(flight_id, flight_type_id) values ('1', '1');			
+insert into flight_classes(flight_id, class_id) values ('2', '1');	
+insert into flight_classes(flight_id, class_id) values ('2', '2');
+insert into flight_classes(flight_id, class_id) values ('2', '3');
+insert into flight_types(flight_id, flight_type_id) values ('2', '1');	
+insert into flight_types(flight_id, flight_type_id) values ('2', '2');		
+
+insert into flight_stops values(1, 3);
+insert into flight_stops values(1, 4);	

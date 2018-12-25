@@ -4,6 +4,8 @@ app.config(function($routeProvider) {
 	.when('/user/:id', {
 		templateUrl : 'user/user.html',
 		controller : 'uCtrl'
+	}).when('/', {
+		redirectTo: '/search-flight'
 	}).when('/update-user/:id', {
 		templateUrl : 'user/update-form.html',
 		controller : 'uCtrl'
@@ -16,6 +18,9 @@ app.config(function($routeProvider) {
 	}).when('/search-flight', {
 		templateUrl : 'flight-reservation/search-flight.html',
 		controller : 'searchFlightCtrl'
+	}).when('/flights/:dests/:departDate/:returnDate/:fclass/:ftype/:passNum', {
+		templateUrl : 'flight-reservation/flight-list.html',
+		controller : 'flightListCtrl'
 	})
 });
 

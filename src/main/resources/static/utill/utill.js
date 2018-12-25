@@ -13,6 +13,8 @@ function filterData(data, scopeData) {
      	return scopeData;
 	}
 
+//stop propagation na dropdown
 $('.stop-propagation').on('click', function (e) {
     e.stopPropagation();
 });
+

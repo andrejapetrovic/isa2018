@@ -29,4 +29,9 @@ public interface DestinationRepository extends JpaRepository<Destination, Long> 
 			+"WHERE CONCAT(city, country, airport_code, airport) LIKE CONCAT('%', :input, '%')"  
 	,nativeQuery = true)
 	List<Destination> filter(@Param("input") String input);
+	
+	@Query(value = "SELECT * FROM DESTINATION WHERE dest_id IN" 
+	+ "(SELECT dest_id FROM FLIGHT_STOPS WHERE flight_id in :ids)"  
+	,nativeQuery = true)
+	List<Destination> findStops(@Param("ids") List<Long> flightIds);
 }

@@ -11,20 +11,19 @@ app.controller('searchFlightCtrl', function($scope, $http, $window, destService,
 	    });
 	});
 	
-	$("#to").on('keyup paste click', function () {
+	$("#to").on('keyup paste click', function (e) {
 		if($("#to").val() == "") return;
 	    destService.filter($scope.search.to).then(function(data){
 	    	$scope.toDests = filterData(data, $scope.toDests);
 	    	console.log($scope.toDests);
 	    });
+	    //$(this).select();
 	});
 	
 	$scope.swapFields = function(){
-		var btn = $("#swapDiv");
-		var el1 = btn.prev("div");
-		var el2 = btn.next("div");
-		el1.before(el2);
-		el2.after(btn);
+		var temp = $scope.search.to;
+		$scope.search.to = $scope.search.from;
+		$scope.search.from = temp;
 	}
 
 	var tripDatePicker = new datePicker({
@@ -68,18 +67,14 @@ app.controller('searchFlightCtrl', function($scope, $http, $window, destService,
 	});
 	
 	$scope.search = function() {
-		var searchDto = {
-			fromDestCode: $scope.search.from.substring(1,4),
-			toDestCode: $scope.search.to.substring(1,4),
-			departDate: $("#depart").val().split(' ').join('-'),
-			returnDate: $("#return").val().split(' ').join('-'),
-			fclass: $scope.fclass,
-			type: $scope.ftype,
-			numOfPassengers: $scope.numOfPassengers
-		};
-		console.log(searchDto);
-		flightService.search(searchDto).then(function(data){
-			console.log(data);
-		});
+		var searchParams = 
+			$scope.search.from.substring(1,4).concat('-').concat($scope.search.to.substring(1,4))
+			.concat('/').concat($("#depart").val().split(' ').join('-'))
+			.concat('/').concat($("#return").val().split(' ').join('-'))
+			.concat('/').concat($scope.fclass.name)
+			.concat('/').concat($scope.ftype.name)
+			.concat('/').concat($scope.numOfPassengers);
+		console.log(searchParams);
+		$window.location.href = '#!/flights/' + searchParams;
 	}
 });

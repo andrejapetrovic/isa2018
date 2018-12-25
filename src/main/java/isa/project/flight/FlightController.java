@@ -1,6 +1,9 @@
 package isa.project.flight;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,9 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 import isa.project.airline.Airline;
 import isa.project.airline.AirlineRepository;
 import isa.project.airplane.AirplaneRepository;
+import isa.project.destination.Destination;
 import isa.project.destination.DestinationRepository;
-import isa.project.flight.dto.FlightCriteriaDto;
 import isa.project.flight.dto.FlightDto;
+import isa.project.flight.dto.FlightFilterDto;
+import isa.project.flight.dto.FlightReturnDto;
 import isa.project.flight.dto.FlightSearchDto;
 import isa.project.flight.fclass.FlightClass;
 import isa.project.flight.fclass.FlightClassRepository;
@@ -82,8 +87,8 @@ public class FlightController {
 		Flight flight = new Flight();
 		flight.setDepartDate(flightDto.getDepartDate());
 		flight.setReturnDate(flightDto.getReturnDate());
-		flight.setDepartTime(flightDto.getDepartTime());
-		flight.setReturnTime(flightDto.getReturnTime());
+		//flight.setDepartTime(flightDto.getDepartTime());
+		//flight.setReturnTime(flightDto.getReturnTime());
 		flight.setStopCount(flightDto.getStopCount());
 		flight.setFrom(destRepo.findByAirportCode(flightDto.getFrom()));
 		flight.setTo(destRepo.findByAirportCode(flightDto.getTo()));
@@ -108,25 +113,33 @@ public class FlightController {
 			value = "get-aditional-criteria",
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<FlightCriteriaDto> getCriteria() {
+	public ResponseEntity<FlightSearchDto> getCriteria() {
 		List<FlightType> types = ftypeRepo.findAll();
 		List<FlightClass> classes = fclassRepo.findAll();
 		List<Passenger> passengers = passengerRepo.findAll();
-		FlightCriteriaDto criteria = new FlightCriteriaDto();
+		FlightSearchDto criteria = new FlightSearchDto();
 		criteria.setClasses(classes);
 		criteria.setTypes(types);
 		criteria.setPassengers(passengers);
-		return new ResponseEntity<FlightCriteriaDto>(criteria, HttpStatus.OK);
+		return new ResponseEntity<FlightSearchDto>(criteria, HttpStatus.OK);
 	}
 	
 	@RequestMapping(
 			value = "search",
-			method = RequestMethod.POST,
-			consumes = MediaType.APPLICATION_JSON_VALUE,
+			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Flight>> search(@RequestBody FlightSearchDto flightDto) throws Exception {
-		List<Flight> foundFlights = flightRepo.filterSearch(flightDto);
-		return new ResponseEntity<List<Flight>>(foundFlights, HttpStatus.CREATED);
+	public ResponseEntity<FlightReturnDto> search(@Valid FlightFilterDto flightDto) throws Exception {
+		List<Flight> foundFlights = flightRepo.filterQuery(flightDto);
+		List<Long> ids = foundFlights.stream()
+                .map(Flight::getId)
+                .collect(Collectors.toList());
+		List<Destination> stops = destRepo.findStops(ids);
+		List<Airline> airlines = airlineRepo.findByFlights(ids);
+		FlightReturnDto retVal = new FlightReturnDto();
+		retVal.setAirlines(airlines);
+		retVal.setFlights(foundFlights);
+		retVal.setStops(stops);
+		return new ResponseEntity<FlightReturnDto>(retVal, HttpStatus.CREATED);
 	}
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());

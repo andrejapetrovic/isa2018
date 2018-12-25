@@ -1,78 +1,43 @@
 package isa.project.flight.dto;
 
-import java.util.Date;
+import java.util.List;
+
+import isa.project.flight.fclass.FlightClass;
+import isa.project.flight.passenger.Passenger;
+import isa.project.flight.type.FlightType;
 
 public class FlightSearchDto {
 
-	private String fromDestCode;
+	private List<FlightType> types;
 	
-	private String toDestCode;
+	private List<FlightClass> classes;
 	
-	private Date departDate;
+	private List<Passenger> passengers;
+
+	public List<FlightType> getTypes() {
+		return types;
+	}
+
+	public void setTypes(List<FlightType> types) {
+		this.types = types;
+	}
+
+	public List<FlightClass> getClasses() {
+		return classes;
+	}
+
+	public void setClasses(List<FlightClass> classes) {
+		this.classes = classes;
+	}
+
+	public List<Passenger> getPassengers() {
+		return passengers;
+	}
+
+	public void setPassengers(List<Passenger> passengers) {
+		this.passengers = passengers;
+	}
 	
-	private Date returnDate;
-	
-	private String type;
-	
-	private String fclass;
-	
-	private int numOfPassengers;
-
-	public String getFromDestCode() {
-		return fromDestCode;
-	}
-
-	public void setFromDestCode(String fromDestCode) {
-		this.fromDestCode = fromDestCode;
-	}
-
-	public String getToDestCode() {
-		return toDestCode;
-	}
-
-	public void setToDestCode(String toDestCode) {
-		this.toDestCode = toDestCode;
-	}
-
-	public Date getDepartDate() {
-		return departDate;
-	}
-
-	public void setDepartDate(Date departDate) {
-		this.departDate = departDate;
-	}
-
-	public Date getReturnDate() {
-		return returnDate;
-	}
-
-	public void setReturnDate(Date returnDate) {
-		this.returnDate = returnDate;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public String getFclass() {
-		return fclass;
-	}
-
-	public void setFclass(String fclass) {
-		this.fclass = fclass;
-	}
-
-	public int getNumOfPassengers() {
-		return numOfPassengers;
-	}
-
-	public void setNumOfPassengers(int numOfPassengers) {
-		this.numOfPassengers = numOfPassengers;
-	}
 	
 	
 }

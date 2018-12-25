@@ -25,6 +25,8 @@ public class FlightDto {
 	private List<String> stopDestCodes;
 	
 	private Long airlineId;
+	
+	private Sort sort;
 
 	public String getFrom() {
 		return from;
@@ -112,6 +114,14 @@ public class FlightDto {
 
 	public void setStopDestCodes(List<String> stopDestCodes) {
 		this.stopDestCodes = stopDestCodes;
+	}
+
+	public Sort getSort() {
+		return sort;
+	}
+
+	public void setSort(Sort sort) {
+		this.sort = sort;
 	}
 	
 }
