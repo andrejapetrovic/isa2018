@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import isa.project.cabin.FlightClass;
+
 public interface FlightRepository extends JpaRepository<Flight, Long> {
 
 	List<Flight> findByAirlineId(Long id);
@@ -27,9 +29,6 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
 			@Param("toCode") String toCode,
 			@Param("departure") Date departure
 			);
-	
-	
-	List<Flight> findByFromAirportCodeAndToAirportCodeAndDepartureDate(String fromCode, String toCode, Date departure);
 	
 	@Query(value = "SELECT * FROM flight WHERE flight_id IN :ids order by one_way_price asc"   
 			,nativeQuery = true)
@@ -110,13 +109,15 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
 			@Param("codes") List<String> codes);
 	
 	@Query(value = "SELECT flight_id FROM flight "
-			+"NATURAL JOIN flight_classes " 
-			+"NATURAL JOIN flight_class "
-			+"WHERE flight_id in :ids and flight_class.name = :className and remaining_seats >= :passNum"
+			+"NATURAL JOIN flight_seat " 
+			+"NATURAL JOIN seat "
+			+"NATURAL JOIN cabin "
+			+"WHERE flight_id in :ids and flight_class = :flightClass and reserved = false "
+			+"GROUP BY flight_id HAVING COUNT(reserved) >= :passNum"
 	,nativeQuery = true)
 	List<BigInteger> findByClassAndRemainingSeats(
 			@Param("ids") List<BigInteger> ids, 
-			@Param("className") String className, 
+			@Param("flightClass") String className, 
 			@Param("passNum") int passNum);
 	
 	@Query(value = "SELECT flight_id FROM flight WHERE flight_id IN :ids and one_way_price BETWEEN :lowest AND :highest"   

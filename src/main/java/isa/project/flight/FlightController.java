@@ -18,31 +18,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import isa.project.aircraft.AircraftRepository;
 import isa.project.airline.Airline;
 import isa.project.airline.AirlineRepository;
-import isa.project.airplane.AirplaneRepository;
+import isa.project.cabin.CabinRepository;
 import isa.project.destination.Destination;
 import isa.project.destination.DestinationRepository;
 import isa.project.flight.dto.FlightDto;
 import isa.project.flight.dto.FlightFilterDto;
 import isa.project.flight.dto.FlightReturnDto;
 import isa.project.flight.dto.FlightSearchDto;
-import isa.project.flight.fclass.FlightClassRepository;
-import isa.project.flight.passenger.PassengerRepository;
-import isa.project.segment.SegmentRepository;
 
 @RestController
 @RequestMapping(value="flight")
 public class FlightController {
 
 	@Autowired
-	AirplaneRepository airplaneRepo;
+	AircraftRepository airplaneRepo;
 	
 	@Autowired 
 	DestinationRepository destRepo;	
-	
-	@Autowired
-	SegmentRepository segmentRepo;
 
 	@Autowired
 	AirlineRepository airlineRepo;
@@ -51,10 +46,7 @@ public class FlightController {
 	FlightRepository flightRepo;
 	
 	@Autowired 
-	FlightClassRepository fclassRepo;
-	
-	@Autowired
-	PassengerRepository passengerRepo;
+	CabinRepository fclassRepo;
 	
 	@Autowired
 	FlightService flightService;

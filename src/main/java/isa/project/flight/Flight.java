@@ -1,6 +1,5 @@
 package isa.project.flight;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Basic;
@@ -19,14 +18,10 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import isa.project.aircraft.Aircraft;
 import isa.project.airline.Airline;
-import isa.project.airplane.Airplane;
+import isa.project.cabin.Cabin;
 import isa.project.destination.Destination;
-import isa.project.flight.fclass.FlightClass;
-import isa.project.seat.Seat;
-import isa.project.segment.Segment;
 
 @Entity
 public class Flight {
@@ -62,29 +57,17 @@ public class Flight {
 	@JoinTable(name = "flight_stops", joinColumns = @JoinColumn(name = "flight_id"), inverseJoinColumns = @JoinColumn(name = "dest_id"))
 	private Set<Destination> stops;
 	
-	@ManyToMany(cascade=CascadeType.ALL)
-	@JoinTable(name = "flight_classes", joinColumns = @JoinColumn(name = "flight_id"), inverseJoinColumns = @JoinColumn(name = "class_id"))
-	private Set<FlightClass> classes;
-	
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinTable(name = "flight_segments", joinColumns = @JoinColumn(name = "flight_id"), inverseJoinColumns = @JoinColumn(name = "segment_id"))
-	@JsonIgnore
-	private List<Segment> segments; 
-	
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinTable(name = "flight_seats", joinColumns = @JoinColumn(name = "flight_id"), inverseJoinColumns = @JoinColumn(name = "seat_id"))
-	@JsonIgnore
-	private List<Seat> seats;
+	@JoinTable(name = "flight_cabins", joinColumns = @JoinColumn(name = "flight_id"), inverseJoinColumns = @JoinColumn(name = "cabin_id"))
+	private Set<Cabin> cabin;
 	
 	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="airplane_id")
-	private Airplane airplane;
+	@JoinColumn(name="aircraft_id")
+	private Aircraft airplane;
 	
 	@ManyToOne
 	@JoinColumn(name = "airline_id")
 	private Airline airline;
-	
-	private int remainingSeats;
 	
 	private double oneWayPrice;
 	
@@ -114,9 +97,6 @@ public class Flight {
 		this.to = to;
 	}
 
-
-
-
 	public int getStopCount() {
 		return stopCount;
 	}
@@ -129,28 +109,12 @@ public class Flight {
 		return stops;
 	}
 
-	public List<Segment> getSegments() {
-		return segments;
-	}
-
-	public void setSegments(List<Segment> segments) {
-		this.segments = segments;
-	}
-
-	public Airplane getAirplane() {
+	public Aircraft getAirplane() {
 		return airplane;
 	}
 
-	public void setAirplane(Airplane airplane) {
+	public void setAirplane(Aircraft airplane) {
 		this.airplane = airplane;
-	}
-
-	public List<Seat> getSeats() {
-		return seats;
-	}
-
-	public void setSeats(List<Seat> seats) {
-		this.seats = seats;
 	}
 
 	public Airline getAirline() {
@@ -165,20 +129,12 @@ public class Flight {
 		this.stops = stops;
 	}
 
-	public Set<FlightClass> getClasses() {
-		return classes;
+	public Set<Cabin> getClasses() {
+		return cabin;
 	}
 
-	public void setClasses(Set<FlightClass> classes) {
-		this.classes = classes;
-	}
-
-	public int getRemainingSeats() {
-		return remainingSeats;
-	}
-
-	public void setRemainingSeats(int remainingSeats) {
-		this.remainingSeats = remainingSeats;
+	public void setClasses(Set<Cabin> classes) {
+		this.cabin = classes;
 	}
 
 	public double getOneWayPrice() {

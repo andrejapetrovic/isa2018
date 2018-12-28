@@ -1,10 +1,15 @@
 package isa.project.seat;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import isa.project.cabin.Cabin;
 
 @Entity
 public class Seat {
@@ -16,7 +21,11 @@ public class Seat {
 
 	private String code;
 	
-	private boolean reserved;
+	private int x, y;//pozicija u kabini
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="cabin_id")
+	private Cabin cabin;
 	
 	public Long getId() {
 		return id;
@@ -34,13 +43,28 @@ public class Seat {
 		this.code = code;
 	}
 
-	public boolean isReserved() {
-		return reserved;
+	public int getX() {
+		return x;
 	}
 
-	public void setReserved(boolean reserved) {
-		this.reserved = reserved;
+	public void setX(int x) {
+		this.x = x;
 	}
 
-	
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public Cabin getCabin() {
+		return cabin;
+	}
+
+	public void setCabin(Cabin cabin) {
+		this.cabin = cabin;
+	}
+
 }

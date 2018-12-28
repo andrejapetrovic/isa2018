@@ -17,7 +17,7 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import isa.project.airplane.Airplane;
+import isa.project.aircraft.Aircraft;
 import isa.project.destination.Destination;
 import isa.project.flight.Flight;
 import isa.project.flight.pricelist.PriceList;
@@ -53,7 +53,7 @@ public class Airline implements Serializable {
 	
 	@OneToMany(mappedBy="owner", cascade=CascadeType.ALL)
 	@JsonIgnore
-	private List<Airplane> planes; 
+	private List<Aircraft> planes; 
 	
 	@OneToMany(mappedBy="airline")
 	@JsonIgnore
@@ -102,11 +102,11 @@ public class Airline implements Serializable {
 		this.flights = flights;
 	}
 
-	public List<Airplane> getPlanes() {
+	public List<Aircraft> getPlanes() {
 		return planes;
 	}
 
-	public void setPlanes(List<Airplane> planes) {
+	public void setPlanes(List<Aircraft> planes) {
 		this.planes = planes;
 	}
 

@@ -1,13 +1,14 @@
 package isa.project.flight.dto;
 
 import java.util.Date;
-import java.util.List;
+
+import isa.project.cabin.FlightClass;
 
 public class FlightFilterDto {
 
 	private FlightType ftype;
 	
-	private String fclass = "Economy";
+	private FlightClass fclass = FlightClass.Economy;
 	
 	private int adults = 1;
 
@@ -33,11 +34,11 @@ public class FlightFilterDto {
 	
 	private String stopDests;
 	
-	public String getFclass() {
+	public FlightClass getFclass() {
 		return fclass;
 	}
 
-	public void setFclass(String fclass) {
+	public void setFclass(FlightClass fclass) {
 		this.fclass = fclass;
 	}
 

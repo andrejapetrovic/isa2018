@@ -10,17 +10,8 @@ insert into friend_relation(user_id, friend_id) values ('3', '1');
 insert into airline(airline_id, name, address) values ('1', 'Air Serbia', 'Булевар уметности 16a, 11070 Нови Београд');
 insert into airline(airline_id, name, address) values ('2', 'Aegan Airlines', 'Кнез Михаилова 30/IV, 11000 Београд');
 
-insert into airplane(airplane_id, model_name, model_number, owner_airline_id) values('1', 'Boeing 747', '123', '1');
-insert into airplane(airplane_id, model_name, model_number, owner_airline_id) values('2', 'Boeing 747', '111', '2');
-
-insert into segment(segment_id, cols, rows, travel_class) values ('1', 5, 30, 'Economy');
-insert into segment(segment_id, cols, rows, travel_class) values ('2', 5, 30, 'Economy');
-insert into segment(segment_id, cols, rows, travel_class) values ('3', 2, 25, 'Business');
-insert into segment(segment_id, cols, rows, travel_class) values ('4', 2, 25, 'Business');
-insert into airplane_segments(airplane_id, segment_id) values ('1', '1');
-insert into airplane_segments(airplane_id, segment_id) values ('1', '2');
-insert into airplane_segments(airplane_id, segment_id) values ('1', '3');
-insert into airplane_segments(airplane_id, segment_id) values ('1', '4');
+insert into aircraft(aircraft_id, model_name, model_number, owner_airline_id) values('1', 'Boeing 747', '123', '1');
+insert into aircraft(aircraft_id, model_name, model_number, owner_airline_id) values('2', 'Boeing 747', '111', '2');
 
 insert into destination(dest_id, airport_code, city, country, airport) values ('1', 'BEG', 'Belgrade', 'Serbia', 'Nikola Tesla');
 insert into destination(dest_id, airport_code, city, country, airport) values ('2', 'VIE', 'Vienna', 'Austria', 'Vienna International');       
@@ -33,23 +24,21 @@ insert into airline_destinations(airline_id, dest_id) values ('1', '1');
 insert into airline_destinations(airline_id, dest_id) values ('1', '2');
 insert into airline_destinations(airline_id, dest_id) values ('1', '3');
 
-insert into flight_class(class_id, name) values ('1', 'Economy');
-insert into flight_class(class_id, name) values ('2', 'Premium Economy');
-insert into flight_class(class_id, name) values ('3', 'Bussines');
-insert into flight_class(class_id, name) values ('4', 'First');
-
-insert into passenger(passenger_id, type) values ('1', 'Adults');
-insert into passenger(passenger_id, type) values ('2', 'Children');
-insert into passenger(passenger_id, type) values ('3', 'Infants');
-
-insert into flight(flight_id, from_id, to_id, departure_date, airline_id, airplane_id, stop_count, remaining_seats, one_way_price, return_price, takeoff_time, landing_time) values ('1', '1', '2', '2018-12-29', 1, 1, 0, 3, 400.00, 800.00, '8:00', '9:30');
-insert into flight(flight_id, from_id, to_id, departure_date, airline_id, airplane_id, stop_count, remaining_seats, one_way_price, return_price, takeoff_time, landing_time) values ('2', '1', '2', '2018-12-29', 2, 2, 0, 1, 600.00, 900.00, '12:00', '14:00');
-insert into flight_classes(flight_id, class_id) values ('1', '1');	
-insert into flight_classes(flight_id, class_id) values ('1', '2');
-insert into flight_classes(flight_id, class_id) values ('1', '3');			
-insert into flight_classes(flight_id, class_id) values ('2', '1');	
-insert into flight_classes(flight_id, class_id) values ('2', '2');
-insert into flight_classes(flight_id, class_id) values ('2', '3');	
+insert into flight(flight_id, from_id, to_id, departure_date, airline_id, aircraft_id, stop_count, one_way_price, return_price, takeoff_time, landing_time) values ('1', '1', '2', '2018-12-29', 1, 1, 0, 400.00, 800.00, '8:00', '9:30');
+insert into flight(flight_id, from_id, to_id, departure_date, airline_id, aircraft_id, stop_count, one_way_price, return_price, takeoff_time, landing_time) values ('2', '1', '2', '2018-12-29', 2, 2, 0, 600.00, 900.00, '12:00', '14:00');
 
 insert into flight_stops values(1, 3);
 insert into flight_stops values(1, 4);	
+insert into cabin(cabin_id, flight_class, aircraft_id) values (1, 'Economy', 1);
+insert into cabin(cabin_id, flight_class, aircraft_id) values (2, 'Bussines', 1);
+insert into cabin(cabin_id, flight_class, aircraft_id) values (3, 'Economy', 2);
+insert into seat(seat_id, cabin_id, x, y) values (1, 1, 0, 0);
+insert into seat(seat_id, cabin_id, x, y) values (2, 1, 0, 0);
+insert into seat(seat_id, cabin_id, x, y) values (3, 1, 0, 0);
+insert into seat(seat_id, cabin_id, x, y) values (4, 1, 0, 0);
+insert into seat(seat_id, cabin_id, x, y) values (5, 3, 0, 0);
+insert into flight_seat(id, flight_id, seat_id, reserved) values (1, 1, 1, true);
+insert into flight_seat(id, flight_id, seat_id, reserved) values (2, 1, 2, false);
+insert into flight_seat(id, flight_id, seat_id, reserved) values (3, 1, 3, false);
+insert into flight_seat(id, flight_id, seat_id, reserved) values (4, 1, 4, false);
+insert into flight_seat(id, flight_id, seat_id, reserved) values (5, 2, 5, false);

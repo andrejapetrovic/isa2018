@@ -72,7 +72,7 @@ public class FlightServiceImpl implements FlightService {
 	@Override
 	public List<BigInteger> filter(List<BigInteger> ids, FlightFilterDto filterDto) {
 		if	(!ids.isEmpty()) {
-			ids = flightRepo.findByClassAndRemainingSeats(ids, filterDto.getFclass(),
+			ids = flightRepo.findByClassAndRemainingSeats(ids, filterDto.getFclass().toString(),
 					filterDto.getAdults() + filterDto.getChildren());
 		}
 		if (filterDto.getStops() != -1 && !ids.isEmpty()) {
