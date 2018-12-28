@@ -1,14 +1,21 @@
 package isa.project.flight.reservation;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import isa.project.flight.Flight;
+import isa.project.flight.seat.FlightSeat;
 import isa.project.seat.Seat;
 
 @Entity
@@ -19,21 +26,33 @@ public class Reservation {
 	@Column(name = "res_id")
 	private Long id;
 	
+	@NotNull
 	private String firstName;
 	
+	@NotNull
 	private String lastName;
 	
+	@NotNull
 	private String email;
 	
+	@NotNull
 	private int phoneNum;
 	
-	@OneToOne
-	@JoinColumn(name="seat_id")
-	private Seat seat;
+	@NotNull
+	@Size(min=7, message="Passport should have atleast 7 characters")
+	private int passportId;
 	
-	@OneToOne
-	@JoinColumn(name="flight_id")
-	private Flight flight;
+	@ManyToMany(cascade=CascadeType.ALL)
+	@JoinTable(name = "flight_reservation", joinColumns = @JoinColumn(name = "res_id"), inverseJoinColumns = @JoinColumn(name = "flight_id"))
+	private Set<FlightSeat> flightSeat;
+	
+	public int getPassportId() {
+		return passportId;
+	}
+	
+	public void setPassportId(int passportId) {
+		this.passportId = passportId;
+	}
 
 	public String getFirstName() {
 		return firstName;
@@ -67,20 +86,12 @@ public class Reservation {
 		this.phoneNum = phoneNum;
 	}
 
-	public Seat getSeat() {
-		return seat;
+	public Set<FlightSeat> getFlightSeat() {
+		return flightSeat;
 	}
 
-	public void setSeat(Seat seat) {
-		this.seat = seat;
-	}
-
-	public Flight getFlight() {
-		return flight;
-	}
-
-	public void setFlight(Flight flight) {
-		this.flight = flight;
+	public void setFlightSeat(Set<FlightSeat> flightSeat) {
+		this.flightSeat = flightSeat;
 	}
 
 	public Long getId() {

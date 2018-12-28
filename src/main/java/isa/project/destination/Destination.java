@@ -55,5 +55,8 @@ public class Destination {
 		this.airport = airport;
 	}
 
-	
+	@Override
+	public String toString() {
+		return "(" + airportCode + ") " + city + ", " + country + ", " + airport; 
+	}
 }
