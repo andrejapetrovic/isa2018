@@ -8,15 +8,11 @@ import isa.project.flight.Flight;
 
 public class FlightReturnDto {
 
-	private List<Flight> flights;
+	private List<List<Flight>> flights;
 	
 	private List<Airline> airlines;
 	
 	private List<Destination> stops;
-
-	public List<Flight> getFlights() {
-		return flights;
-	}
 
 	public List<Airline> getAirlines() {
 		return airlines;
@@ -34,9 +30,12 @@ public class FlightReturnDto {
 		this.stops = stops;
 	}
 
-	public void setFlights(List<Flight> flights) {
+	public List<List<Flight>> getFlights() {
+		return flights;
+	}
+
+	public void setFlights(List<List<Flight>> flights) {
 		this.flights = flights;
 	}
-	
-	
+
 }

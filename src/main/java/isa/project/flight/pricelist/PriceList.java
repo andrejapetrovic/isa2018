@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import isa.project.airline.Airline;
 import isa.project.flight.Flight;
 
 @Entity
@@ -19,17 +20,17 @@ public class PriceList {
 	private Long id;
 	
 	@ManyToOne
-	@JoinColumn(name="flight_id")
-	private Flight flight;
+	@JoinColumn(name="airline_id")
+	private Airline airline;
 	
-	private String carryOnBagPrice;
+	private double carryOnBagFee;
 	
-	private String checkedBagPrice;
+	private double firstCheckedBagFee;
 	
-	private int carryOnBagCount;
+	private double secondCheckedBagFee;
 	
-	private int checkedBagCount;
-
+	private double additionalBagFee;
+	
 	public Long getId() {
 		return id;
 	}
@@ -38,45 +39,45 @@ public class PriceList {
 		this.id = id;
 	}
 
-	public Flight getFlight() {
-		return flight;
+	public Airline getAirline() {
+		return airline;
 	}
 
-	public void setFlight(Flight flight) {
-		this.flight = flight;
+	public void setAirline(Airline airline) {
+		this.airline = airline;
 	}
 
-	public String getCarryOnBagPrice() {
-		return carryOnBagPrice;
+	public double getCarryOnBagFee() {
+		return carryOnBagFee;
 	}
 
-	public void setCarryOnBagPrice(String carryOnBagPrice) {
-		this.carryOnBagPrice = carryOnBagPrice;
+	public void setCarryOnBagFee(double carryOnBagFee) {
+		this.carryOnBagFee = carryOnBagFee;
 	}
 
-	public String getCheckedBagPrice() {
-		return checkedBagPrice;
+	public double getFirstCheckedBagFee() {
+		return firstCheckedBagFee;
 	}
 
-	public void setCheckedBagPrice(String checkedBagPrice) {
-		this.checkedBagPrice = checkedBagPrice;
+	public void setFirstCheckedBagFee(double firstCheckedBagFee) {
+		this.firstCheckedBagFee = firstCheckedBagFee;
 	}
 
-	public int getCarryOnBagCount() {
-		return carryOnBagCount;
+	public double getSecondCheckedBagFee() {
+		return secondCheckedBagFee;
 	}
 
-	public void setCarryOnBagCount(int carryOnBagCount) {
-		this.carryOnBagCount = carryOnBagCount;
+	public void setSecondCheckedBagFee(double secondCheckedBagFee) {
+		this.secondCheckedBagFee = secondCheckedBagFee;
 	}
 
-	public int getCheckedBagCount() {
-		return checkedBagCount;
+	public double getAdditionalBagFee() {
+		return additionalBagFee;
 	}
 
-	public void setCheckedBagCount(int checkedBagCount) {
-		this.checkedBagCount = checkedBagCount;
+	public void setAdditionalBagFee(double additionalBagFee) {
+		this.additionalBagFee = additionalBagFee;
 	}
-	
+
 	
 }

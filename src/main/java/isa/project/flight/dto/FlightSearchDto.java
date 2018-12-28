@@ -1,43 +1,48 @@
 package isa.project.flight.dto;
 
-import java.util.List;
-
-import isa.project.flight.fclass.FlightClass;
-import isa.project.flight.passenger.Passenger;
-import isa.project.flight.type.FlightType;
+import java.util.Date;
 
 public class FlightSearchDto {
 
-	private List<FlightType> types;
+	private String fromDest;
 	
-	private List<FlightClass> classes;
+	private String toDest;
 	
-	private List<Passenger> passengers;
-
-	public List<FlightType> getTypes() {
-		return types;
-	}
-
-	public void setTypes(List<FlightType> types) {
-		this.types = types;
-	}
-
-	public List<FlightClass> getClasses() {
-		return classes;
-	}
-
-	public void setClasses(List<FlightClass> classes) {
-		this.classes = classes;
-	}
-
-	public List<Passenger> getPassengers() {
-		return passengers;
-	}
-
-	public void setPassengers(List<Passenger> passengers) {
-		this.passengers = passengers;
-	}
+	private Date departDate;
 	
-	
+	private Date returnDate;
+
+	public String getFromDest() {
+		return fromDest;
+	}
+
+	public void setFromDest(String fromDest) {
+		this.fromDest = fromDest;
+	}
+
+	public String getToDest() {
+		return toDest;
+	}
+
+	public void setToDest(String toDest) {
+		this.toDest = toDest;
+	}
+
+	public Date getDepartDate() {
+		return departDate;
+	}
+
+	public void setDepartDate(Date departDate) {
+		this.departDate = departDate;
+	}
+
+	public Date getReturnDate() {
+		return returnDate;
+	}
+
+	public void setReturnDate(Date returnDate) {
+		this.returnDate = returnDate;
+	}
+
 	
 }

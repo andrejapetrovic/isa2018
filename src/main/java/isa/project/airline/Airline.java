@@ -55,7 +55,7 @@ public class Airline implements Serializable {
 	@JsonIgnore
 	private List<Airplane> planes; 
 	
-	@OneToMany(mappedBy="flight")
+	@OneToMany(mappedBy="airline")
 	@JsonIgnore
 	private List<PriceList> pricelist;
 	

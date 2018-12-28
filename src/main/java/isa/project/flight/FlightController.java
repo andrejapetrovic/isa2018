@@ -1,5 +1,6 @@
 package isa.project.flight;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,21 +27,14 @@ import isa.project.flight.dto.FlightDto;
 import isa.project.flight.dto.FlightFilterDto;
 import isa.project.flight.dto.FlightReturnDto;
 import isa.project.flight.dto.FlightSearchDto;
-import isa.project.flight.fclass.FlightClass;
 import isa.project.flight.fclass.FlightClassRepository;
-import isa.project.flight.passenger.Passenger;
 import isa.project.flight.passenger.PassengerRepository;
-import isa.project.flight.type.FlightType;
-import isa.project.flight.type.FlightTypeRepository;
 import isa.project.segment.SegmentRepository;
 
 @RestController
 @RequestMapping(value="flight")
 public class FlightController {
 
-	@Autowired
-	FlightService flightService;
-	
 	@Autowired
 	AirplaneRepository airplaneRepo;
 	
@@ -59,18 +53,18 @@ public class FlightController {
 	@Autowired 
 	FlightClassRepository fclassRepo;
 	
-	@Autowired 
-	FlightTypeRepository ftypeRepo;
-	
 	@Autowired
 	PassengerRepository passengerRepo;
+	
+	@Autowired
+	FlightService flightService;
 	
 	@RequestMapping(
 			value = "{id}",
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Flight> getFlight(@PathVariable("id") Long id) {
-		Flight flight = flightService.findById(id);
+		Flight flight = flightRepo.findOne(id);
 		if(flight != null)
 			return new ResponseEntity<Flight>(flight, HttpStatus.OK);
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -85,10 +79,7 @@ public class FlightController {
 	public ResponseEntity<Flight> add(@RequestBody FlightDto flightDto) throws Exception {
 		Airline airline = airlineRepo.getOne(flightDto.getAirlineId());
 		Flight flight = new Flight();
-		flight.setDepartDate(flightDto.getDepartDate());
-		flight.setReturnDate(flightDto.getReturnDate());
-		//flight.setDepartTime(flightDto.getDepartTime());
-		//flight.setReturnTime(flightDto.getReturnTime());
+		flight.setDepartureDate(flightDto.getDepartDate());
 		flight.setStopCount(flightDto.getStopCount());
 		flight.setFrom(destRepo.findByAirportCode(flightDto.getFrom()));
 		flight.setTo(destRepo.findByAirportCode(flightDto.getTo()));
@@ -110,36 +101,29 @@ public class FlightController {
 	}
 	
 	@RequestMapping(
-			value = "get-aditional-criteria",
-			method = RequestMethod.GET,
-			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<FlightSearchDto> getCriteria() {
-		List<FlightType> types = ftypeRepo.findAll();
-		List<FlightClass> classes = fclassRepo.findAll();
-		List<Passenger> passengers = passengerRepo.findAll();
-		FlightSearchDto criteria = new FlightSearchDto();
-		criteria.setClasses(classes);
-		criteria.setTypes(types);
-		criteria.setPassengers(passengers);
-		return new ResponseEntity<FlightSearchDto>(criteria, HttpStatus.OK);
-	}
-	
-	@RequestMapping(
 			value = "search",
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<FlightReturnDto> search(@Valid FlightFilterDto flightDto) throws Exception {
-		List<Flight> foundFlights = flightRepo.filterQuery(flightDto);
-		List<Long> ids = foundFlights.stream()
-                .map(Flight::getId)
-                .collect(Collectors.toList());
+	public ResponseEntity<FlightReturnDto> search(
+			@Valid FlightFilterDto filterDto, @Valid FlightSearchDto searchDto
+			) throws Exception {
+		List<List<Flight>> foundFlights = flightService.searchAndFilter(searchDto, filterDto);
+		if(foundFlights == null) {
+			return new ResponseEntity<FlightReturnDto>(HttpStatus.NOT_FOUND);
+		}
+		List<Long> ids = new ArrayList<>(); 
+		for (List<Flight> list : foundFlights) {
+			ids.addAll(list.stream()
+					.map(Flight::getId)
+					.collect(Collectors.toList()));
+		}
 		List<Destination> stops = destRepo.findStops(ids);
 		List<Airline> airlines = airlineRepo.findByFlights(ids);
 		FlightReturnDto retVal = new FlightReturnDto();
 		retVal.setAirlines(airlines);
 		retVal.setFlights(foundFlights);
 		retVal.setStops(stops);
-		return new ResponseEntity<FlightReturnDto>(retVal, HttpStatus.CREATED);
+		return new ResponseEntity<FlightReturnDto>(retVal, HttpStatus.FOUND);
 	}
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());

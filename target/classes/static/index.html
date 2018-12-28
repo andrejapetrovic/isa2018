@@ -9,8 +9,7 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 <script
-	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
-
+	src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.20/angular-ui-router.js"></script>
 <link rel="stylesheet"
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
@@ -57,22 +56,22 @@
 <link rel="stylesheet" type="text/css" href="stylesheets/user.css">
 <link rel="stylesheet" type="text/css" href="stylesheets/datepicker.css">
 </head>
-<body>
+<body ng-app="app">
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<a class="navbar-brand" href="#">ISA 2018/2019</a>
 			</div>
 			<ul class="nav navbar-nav">
-				<li><a href="#">Page 1</a></li>
-				<li><a href="#">Page 2</a></li>
+				<li><a>Page 1</a></li>
+				<li><a>Page 2</a></li>
 			</ul>
 		</div>
 	</nav>
 
 	<div class="container">
 
-		<div ng-view></div>
+		<div ui-view></div>
 
 	</div>
 

@@ -20,12 +20,6 @@ app.factory('flightService', function($http) {
          });
      }
     
-	var getCriteria = function() {
-     	return $http.get('/flight/get-aditional-criteria').then(function(response) {
-            return response.data;
-        });
-	}
-	
 	var search = function(params) {
 		return $http.get('/flight/search' + params).then(function(response){
 			return response.data;

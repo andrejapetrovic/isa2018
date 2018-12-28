@@ -5,20 +5,16 @@ import java.util.List;
 
 public class FlightFilterDto {
 
-	private String fromDest;
+	private FlightType ftype;
 	
-	private String toDest;
+	private String fclass = "Economy";
 	
-	private Date departDate;
-	
-	private Date returnDate;
-	
-	private String ftype;
-	
-	private String fclass;
-	
-	private int passNum;
+	private int adults = 1;
 
+	private int children;
+	
+	private int infants;
+	
 	private String priceRange;
 	
 	private int stops = -1;
@@ -37,22 +33,6 @@ public class FlightFilterDto {
 	
 	private String stopDests;
 	
-	public Date getDepartDate() {
-		return departDate;
-	}
-
-	public void setDepartDate(Date departDate) {
-		this.departDate = departDate;
-	}
-
-	public Date getReturnDate() {
-		return returnDate;
-	}
-
-	public void setReturnDate(Date returnDate) {
-		this.returnDate = returnDate;
-	}
-
 	public String getFclass() {
 		return fclass;
 	}
@@ -61,36 +41,36 @@ public class FlightFilterDto {
 		this.fclass = fclass;
 	}
 
-	public String getFtype() {
+	public FlightType getFtype() {
 		return ftype;
 	}
 
-	public void setFtype(String ftype) {
+	public void setFtype(FlightType ftype) {
 		this.ftype = ftype;
 	}
 
-	public int getPassNum() {
-		return passNum;
+	public int getAdults() {
+		return adults;
 	}
 
-	public void setPassNum(int passNum) {
-		this.passNum = passNum;
+	public void setAdults(int adults) {
+		this.adults = adults;
 	}
 
-	public String getFromDest() {
-		return fromDest;
+	public int getChildren() {
+		return children;
 	}
 
-	public void setFromDest(String fromDest) {
-		this.fromDest = fromDest;
+	public void setChildren(int children) {
+		this.children = children;
 	}
 
-	public String getToDest() {
-		return toDest;
+	public int getInfants() {
+		return infants;
 	}
 
-	public void setToDest(String toDest) {
-		this.toDest = toDest;
+	public void setInfants(int infants) {
+		this.infants = infants;
 	}
 
 	public String getPriceRange() {
@@ -164,5 +144,6 @@ public class FlightFilterDto {
 	public void setSort(Sort sort) {
 		this.sort = sort;
 	}
+
 }
 

@@ -2,10 +2,10 @@
   	<div class="col-sm-12">
   		<div class="col-sm-12">
 			<select name="ftype" class="form controll btn btn-outline search-ft" ng-model="ftype" 
-			ng-options="ftype.name for ftype in types" required>
+			ng-options="ftype for ftype in types" required>
             </select>
 			<select name="fclass" class="btn btn-outline search-fc" ng-model="fclass" 
-			ng-options="fclass.name for fclass in classes" required>
+			ng-options="fclass for fclass in classes" required>
             </select>
  	 	<div class="dropdown col-sm-2">
             <a class="btn btn-outline dropdown-toggle search-fp" data-toggle="dropdown" role="button" aria-expanded="false">{{numOfPassengers}}{{sufix}}</a>
@@ -63,4 +63,4 @@
  	<button class="btn btn-info col-sm-1 search-f" ng-click="search()"><i class="glyphicon glyphicon-search"></i> Search</button>
  	</div>
 </form>
-
+<div ui-view></div>

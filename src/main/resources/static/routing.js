@@ -1,6 +1,7 @@
-var app = angular.module('app', [ 'ngRoute' ]);
-app.config(function($routeProvider) {
-	$routeProvider
+var app = angular.module('app', [ 'ui.router' ]);
+app.config(function($stateProvider, $urlRouterProvider) {
+	 $urlRouterProvider.otherwise("/home")
+	/*$routeProvider
 	.when('/user/:id', {
 		templateUrl : 'user/user.html',
 		controller : 'uCtrl'
@@ -21,6 +22,18 @@ app.config(function($routeProvider) {
 	}).when('/flights/:dests/:departDate/:returnDate/:fclass/:ftype/:passNum', {
 		templateUrl : 'flight-reservation/flight-list.html',
 		controller : 'flightListCtrl'
-	})
+	})*/
+	$stateProvider
+        .state('home', {
+            url: "/home",
+            templateUrl: "flight-reservation/search-flight.html",
+            controller: "searchFlightCtrl"
+        })
+          .state('home.searchFlight', {
+              url: "/search/",
+              templateUrl: "flight-reservation/flight-list.html",
+              controller: "flightListCtrl"
+          })
+	
 });
 
