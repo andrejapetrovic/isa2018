@@ -14,9 +14,8 @@ import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import isa.project.flight.Flight;
+import isa.project.flight.dto.FlightType;
 import isa.project.flight.seat.FlightSeat;
-import isa.project.seat.Seat;
 
 @Entity
 public class Reservation {
@@ -45,6 +44,8 @@ public class Reservation {
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "flight_reservation", joinColumns = @JoinColumn(name = "res_id"), inverseJoinColumns = @JoinColumn(name = "flight_id"))
 	private Set<FlightSeat> flightSeat;
+	
+	private FlightType flightType;
 	
 	public int getPassportId() {
 		return passportId;
@@ -100,6 +101,14 @@ public class Reservation {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public FlightType getFlightType() {
+		return flightType;
+	}
+
+	public void setFlightType(FlightType flightType) {
+		this.flightType = flightType;
 	}
 	
 }
