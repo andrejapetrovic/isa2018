@@ -10,8 +10,8 @@ insert into friend_relation(user_id, friend_id) values ('3', '1');
 insert into airline(airline_id, name, address) values ('1', 'Air Serbia', 'Булевар уметности 16a, 11070 Нови Београд');
 insert into airline(airline_id, name, address) values ('2', 'Aegan Airlines', 'Кнез Михаилова 30/IV, 11000 Београд');
 
-insert into aircraft(aircraft_id, model_name, model_number, owner_airline_id) values('1', 'Boeing 747', '123', '1');
-insert into aircraft(aircraft_id, model_name, model_number, owner_airline_id) values('2', 'Boeing 747', '111', '2');
+insert into aircraft(aircraft_id, model_name, model_number, owner_airline_id, ready) values('1', 'Boeing 747', '123', '1', false);
+insert into aircraft(aircraft_id, model_name, model_number, owner_airline_id, ready) values('2', 'Boeing 747', '111', '2', false);
 
 insert into destination(dest_id, airport_code, city, country, airport) values ('1', 'BEG', 'Belgrade', 'Serbia', 'Nikola Tesla');
 insert into destination(dest_id, airport_code, city, country, airport) values ('2', 'VIE', 'Vienna', 'Austria', 'Vienna International');       
@@ -31,9 +31,11 @@ insert into flight(flight_id, from_id, to_id, departure_date, landing_date, airl
 
 insert into flight_stops values(1, 3);
 insert into flight_stops values(1, 4);	
-insert into cabin(cabin_id, flight_class, aircraft_id) values (1, 'Economy', 1);
-insert into cabin(cabin_id, flight_class, aircraft_id) values (2, 'Bussines', 1);
-insert into cabin(cabin_id, flight_class, aircraft_id) values (3, 'Economy', 2);
+/*insert into cabin(cabin_id, flight_class, aircraft_id) values (1, 'Economy', 1);
+insert into cabin(cabin_id, flight_class, aircraft_id) values (2, 'Premium_economy)', 1);
+insert into cabin(cabin_id, flight_class, aircraft_id) values (3, 'Bussines', 1);
+insert into cabin(cabin_id, flight_class, aircraft_id) values (4, 'First', 1);
+insert into cabin(cabin_id, flight_class, aircraft_id) values (5, 'Economy', 2);
 insert into seat(seat_id, cabin_id, x, y) values (1, 1, 0, 0);
 insert into seat(seat_id, cabin_id, x, y) values (2, 1, 0, 0);
 insert into seat(seat_id, cabin_id, x, y) values (3, 1, 0, 0);
@@ -43,4 +45,4 @@ insert into flight_seat(id, flight_id, seat_id, reserved) values (1, 1, 1, true)
 insert into flight_seat(id, flight_id, seat_id, reserved) values (2, 1, 2, false);
 insert into flight_seat(id, flight_id, seat_id, reserved) values (3, 1, 3, false);
 insert into flight_seat(id, flight_id, seat_id, reserved) values (4, 1, 4, false);
-insert into flight_seat(id, flight_id, seat_id, reserved) values (5, 2, 5, false);
+insert into flight_seat(id, flight_id, seat_id, reserved) values (5, 2, 5, false);*/

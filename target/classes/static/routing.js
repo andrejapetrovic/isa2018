@@ -35,6 +35,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
               templateUrl: "flight-reservation/flight-list.html",
               controller: "flightListCtrl"
           })
+         .state('seatConf', {
+            url: "/airline-admin/seat-config/:id",
+            templateUrl: "airline-admin/seat-config.html",
+            controller: "seatConfigCtrl"
+        })
 	
 });
 

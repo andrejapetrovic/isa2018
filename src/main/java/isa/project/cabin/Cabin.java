@@ -38,6 +38,17 @@ public class Cabin {
 	@JoinColumn(name = "aircraft_id")
 	private Aircraft aircraft;
 	
+	private boolean configured;
+	
+	//broj redova kolona,razmak izmedju sedista po x i y, i d = duzina stranice kvadrata koji predstavlja sediste
+	private int row, col, dx, dy, d;
+	
+	//string koji definise raspored sedista, u formatu n1-n2-n3-n... sum(n)<col
+	private String separations;
+	
+	//velicina razmaka izmedju svake odvojene grupe sedista u kabini
+	private int separationSize;
+	
 	public Long getId() {
 		return id;
 	}
@@ -70,4 +81,69 @@ public class Cabin {
 		this.aircraft = aircraft;
 	}
 
+	public boolean isConfigured() {
+		return configured;
+	}
+
+	public void setConfigured(boolean configured) {
+		this.configured = configured;
+	}
+
+	public int getRow() {
+		return row;
+	}
+
+	public void setRow(int row) {
+		this.row = row;
+	}
+
+	public int getCol() {
+		return col;
+	}
+
+	public void setCol(int col) {
+		this.col = col;
+	}
+
+	public int getDx() {
+		return dx;
+	}
+
+	public void setDx(int dx) {
+		this.dx = dx;
+	}
+
+	public int getDy() {
+		return dy;
+	}
+
+	public void setDy(int dy) {
+		this.dy = dy;
+	}
+
+	public String getSeparations() {
+		return separations;
+	}
+
+	public void setSeparations(String separations) {
+		this.separations = separations;
+	}
+
+	public int getSeparationSize() {
+		return separationSize;
+	}
+
+	public void setSeparationSize(int separationSize) {
+		this.separationSize = separationSize;
+	}
+
+	public int getD() {
+		return d;
+	}
+
+	public void setD(int d) {
+		this.d = d;
+	}
+
+	
 }

@@ -2,8 +2,8 @@ var app = angular.module('app');
 
 app.factory('airplaneService', function($http) {
 	
-	var getAirplane = function(modelName, modelNumber) {
-     	return $http.get('/airplane/'+ modelName + '/' + modelNumber).then(function(response) {
+	var getAirplane = function(id) {
+     	return $http.get('/airplane/'+ id).then(function(response) {
             return response.data;
         });
 	}

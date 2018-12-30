@@ -58,11 +58,11 @@ public class AircraftController {
 	}
 	
 	@RequestMapping(
-			value = "{modelName}/{modelNumber}",
+			value = "{id}",
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Aircraft> get(@PathVariable("modelName") String name, @PathVariable("modelNumber") int num) {
-		Aircraft airplane = airplaneRepo.findByModelNumberAndModelName(num, name);
+	public ResponseEntity<Aircraft> get(@PathVariable("id") Long id) {
+		Aircraft airplane = airplaneRepo.findOne(id);
 		if(airplane != null)
 			return new ResponseEntity<Aircraft>(airplane, HttpStatus.OK);
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -1,75 +1,29 @@
+ <h3>{{aircraft.owner.name}} - {{aircraft.modelName}} [{{aircraft.modelNumber}}]</h3>
+ 
+ <input type="checkbox" name="economy" id="economy"><span class="checkboxtext">Economy</span> 
+<input type="checkbox" name="premium" id="premium"><span class="checkboxtext">Premium Economy</span> 
+<input type="checkbox" name="bussines" id="business"><span class="checkboxtext">Business</span> 
+<input type="checkbox" name="first" id="first"><span class="checkboxtext">First</span>
+
+<br><br><br>
+Rows <input ng-model="rows" size="1" maxlength="2" ng-required="true">
+Columns <input ng-model="cols" size="1" maxlength="2" ng-required="true">
+Separations <input ng-model="sep" ng-required="true">
+Separation size <input ng-model="sepSize" size="1" maxlength="2" ng-required="true">
+ <button type="button" class="btn btn-xs" ng-click="addSeats()">Create seats</button>
+
+ 
 <div class="container">
-	<div class="row">
-		<div class="col-md-12"></div>
-		<button class="btn btn-md btn-primary" data-toggle="modal" data-target="#addSegModal"> <span
-			class="glyphicon glyphicon-plus"></span> New segment
-		</button>
-		<button class="btn btn-md btn-primary" ng-click="saveChanges()"> <span
-			class="glyphicon glyphicon-save"></span> Save changes
-		</button>
-	</div>
-</div>
-
-<br>
-
-  <ul class="nav nav-tabs">
-    <li class="active"><a data-toggle="tab" href="seat-config/#menu1" id="economy-tab">Economy class</a></li>
-    <li><a data-toggle="tab" href="seat-config/#menu2" id="business-tab">Business class</a></li>
-  </ul>
-
-  <div class="tab-content">
-    <div id="menu1" class="tab-pane fade in active">
-      <h3>Economy class cabin</h3>
-      <div id="cTest"></div>
-      <div id="economy-class-segments">
-      		
-      </div>
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="active"><a href="#contact_01" data-toggle="tab">Joe Smith</a><span>x</span>
+        </li>
+        <li><a href="#contact_02" data-toggle="tab">Molly Lewis</a>  <span> x </span> 
+        </li>
+        <li><a href="#" class="add-contact">+ Add Contact</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="contact_01">Contact Form: Joe Smith</div>
+        <div class="tab-pane" id="contact_02">Contact Form: Molly Lewis</div>
     </div>
-    <div id="menu2" class="tab-pane fade">
-      <h3>Business class cabin</h3>
-      <div id="business-class-segments">
-      		
-      </div>
-    </div>
-  </div> 
-  
-  
-<!-- Modal -->
-<div class="modal fade" id="addSegModal" role="dialog">
-   <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Specify number of rows and colums</h4>
-         </div>
-         <div class="modal-body">
-            Rows <input ng-model="newSeg.rows" size="1" maxlength="2" ng-required="true">
-            Columns <input ng-model="newSeg.cols" size="1" maxlength="2" ng-required="true">
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-success" ng-click="addSeg()">Submit</button>
-         </div>
-      </div>
-   </div>
 </div>
-  
- <!-- Modal -->
-<div class="modal fade" id="updSegModal" role="dialog">
-   <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Specify number of rows and colums</h4>
-         </div>
-         <div class="modal-body">
-            Rows <input ng-model="updSeg.rows" size="1" maxlength="2" ng-required="true">
-            Columns <input ng-model="updSeg.cols" size="1" maxlength="2" ng-required="true">
-         </div>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-success" id="submitUpdSeg">Submit</button>
-         </div>
-      </div>
-   </div>
-</div> 

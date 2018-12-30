@@ -40,6 +40,8 @@ public class Aircraft {
 	
 	private AircraftType type;
 	
+	private boolean ready;
+	
 	public Long getId() {
 		return id;
 	}
@@ -86,6 +88,14 @@ public class Aircraft {
 
 	public void setType(AircraftType type) {
 		this.type = type;
+	}
+
+	public boolean isReady() {
+		return ready;
+	}
+
+	public void setReady(boolean ready) {
+		this.ready = ready;
 	}
 	
 }
