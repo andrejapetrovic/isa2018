@@ -44,9 +44,11 @@ public class FlightServiceImpl implements FlightService {
 	}
 
 	@Override
-	public List<Flight> sort(Sort sort, List<BigInteger> ids, Date takeoffTime, Date landingTime, FlightType type) {
+	public List<Flight> sort(FlightFilterDto filterDto, List<BigInteger> ids) {
 		if(ids.isEmpty())
 			return null;
+		Sort sort = filterDto.getSort();
+		FlightType type = filterDto.getFtype();
 		if (sort != null ) {
 			if (sort == Sort.cheapest && type == FlightType.One_way) {
 				return flightRepo.findByCheapestOneWay(ids);
@@ -61,9 +63,9 @@ public class FlightServiceImpl implements FlightService {
 			} else if (sort == Sort.latest_takeoff1 || sort == Sort.latest_takeoff2) {
 				return flightRepo.findByLatestTakeoff(ids);
 			} else if (sort == Sort.quickest) {
-				return flightRepo.findByQuickest(ids, takeoffTime, landingTime);
+				return flightRepo.findByQuickest(ids);
 			} else if (sort.equals(Sort.slowest)) {
-				return flightRepo.findBySlowest(ids, takeoffTime, landingTime);
+				return flightRepo.findBySlowest(ids);
 			}
 		}
 		return flightRepo.findByIds(ids);
@@ -71,10 +73,10 @@ public class FlightServiceImpl implements FlightService {
 
 	@Override
 	public List<BigInteger> filter(List<BigInteger> ids, FlightFilterDto filterDto) {
-		if	(!ids.isEmpty()) {
+		/*if	(!ids.isEmpty()) {
 			ids = flightRepo.findByClassAndRemainingSeats(ids, filterDto.getFclass().toString(),
 					filterDto.getAdults() + filterDto.getChildren());
-		}
+		}*/
 		if (filterDto.getStops() != -1 && !ids.isEmpty()) {
 			ids = flightRepo.findByStopNum(ids, filterDto.getStops());
 		}
@@ -103,12 +105,12 @@ public class FlightServiceImpl implements FlightService {
 	@Override
 	public List<List<Flight>> searchRoundTrips(FlightSearchDto searchDto, FlightFilterDto filterDto) {
 		List<Flight> flightsFrom = searchOneWays(searchDto, filterDto);
-		
 		List<BigInteger> ids = flightRepo.findIds(
-				searchDto.getToDest(), searchDto.getFromDest(), searchDto.getDepartDate());
+				searchDto.getToDest(), searchDto.getFromDest(), searchDto.getReturnDate());
 		ids = filter(ids, filterDto);
-		List<Flight> flightsTo = sort(filterDto.getSort(), ids, filterDto.getTakeoffTime1(), filterDto.getLandingTime1(), filterDto.getFtype());
-		
+		List<Flight> flightsTo = sort(filterDto, ids);
+		logger.info("letovi 1: " + flightsFrom.size());
+		logger.info("letovi 2: " + flightsTo.size());
 		if(flightsFrom == null || flightsTo == null) {
 			return null;
 		}
@@ -123,11 +125,9 @@ public class FlightServiceImpl implements FlightService {
 	public List<Flight> searchOneWays(FlightSearchDto searchDto, FlightFilterDto filterDto) {
 		List<BigInteger> ids = flightRepo.findIds(
 				searchDto.getFromDest(), searchDto.getToDest(), searchDto.getDepartDate());
-		logger.info("lista " + ids.size());
 		List<Flight> flights = null;
 		ids = filter(ids, filterDto);
-		flights = sort(
-				filterDto.getSort(), ids, filterDto.getTakeoffTime1(), filterDto.getLandingTime1(), filterDto.getFtype());
+		flights = sort(filterDto, ids);
 			
 		return flights;
 	}

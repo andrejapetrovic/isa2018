@@ -1,7 +1,7 @@
  <form class="form-horizontal" name="searchFlightForm" novalidate>
   	<div class="col-sm-12">
   		<div class="col-sm-12">
-			<select name="ftype" class="form controll btn btn-outline search-ft" ng-model="ftype" 
+			<select name="ftype" class="form controll btn btn-outline search-ft" id="ftype" ng-model="ftype" 
 			ng-options="ftype for ftype in types" required>
             </select>
 			<select name="fclass" class="btn btn-outline search-fc" ng-model="fclass" 
@@ -24,18 +24,18 @@
  	<div class="col-sm-12">
  		<div class= "col-sm-5" id="fromDiv"><br>
  		<label>From</label>
- 		   	<input type="text" class="form-control" id="from" ng-model="search.from" list="fromList">
+ 		   	<input type="text" class="form-control" id="from" ng-model="from" list="fromList">
  		   	<datalist id="fromList">
 				<option ng-repeat="dest in fromDests" value="({{dest.airportCode}}) {{dest.city}}, {{dest.country}}, {{dest.airport}}"></option>
 			</datalist>
     	</div>
- 		<div class="col-sm-1"><br>
-    		<button class="btn btn-warning swap-btn" ng-click="swapFields()">
+ 		<div class="col-sm-1"><br><br>
+    		<button type="button" class="btn btn-warning swap-btn" ng-click="swapFields()">
     		<i class="glyphicon glyphicon-sort rotate-glyph"></i></button>
     	</div>
     	<div class= "col-sm-5" id="toDiv"><br>
     	<label>To</label>
-    		<input type="text" class="form-control" id="to" ng-model="search.to" list="toList">
+    		<input type="text" class="form-control" id="to" ng-model="to" list="toList">
     		<datalist id="toList">
 				<option ng-repeat="dest in toDests" value="({{dest.airportCode}}) {{dest.city}}, {{dest.country}}, {{dest.airport}}"></option>
 			</datalist>
@@ -47,20 +47,24 @@
 	 		<label>Departure</label>
  			<div class="right-inner-addon">
  		   		<i class="glyphicon glyphicon-calendar"></i>
- 		   		<input type="text" class="form-control startDate" id="depart" ng-model="search.departDate">
+ 		   		<input type="text" class="form-control startDate" id="depart" ng-model="departDate" autocomplete="off">
     		</div>
     	</div>
     	<div class= "col-sm-1"></div>
-    	<div class= "col-sm-5"><br>
+    	<div class= "col-sm-5 ret-date-div"><br>
     	 	<label>Return</label>
     		<div class="right-inner-addon">
     			<i class="glyphicon glyphicon-calendar"></i>
-    			<input type="text" class="form-control endDate" id="return" ng-model="search.returnDate">
+    			<input type="text" class="form-control endDate" id="return" ng-model="returnDate" autocomplete="off">
     		</div>
     	</div>
     	
  	</div>
- 	<button class="btn btn-info col-sm-1 search-f" ng-click="search()"><i class="glyphicon glyphicon-search"></i> Search</button>
+ 	<button type="submit" class="btn btn-info col-sm-1 search-f" ng-click="search()"><i class="glyphicon glyphicon-search"></i></button>
  	</div>
 </form>
-<div ui-view></div>
+
+<div class="col-sm-12">
+<br><br><br><br>
+	<div ui-view></div>
+</div>

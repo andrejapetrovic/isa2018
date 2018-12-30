@@ -24,8 +24,10 @@ insert into airline_destinations(airline_id, dest_id) values ('1', '1');
 insert into airline_destinations(airline_id, dest_id) values ('1', '2');
 insert into airline_destinations(airline_id, dest_id) values ('1', '3');
 
-insert into flight(flight_id, from_id, to_id, departure_date, airline_id, aircraft_id, stop_count, one_way_price, return_price, takeoff_time, landing_time) values ('1', '1', '2', '2018-12-29', 1, 1, 0, 400.00, 800.00, '8:00', '9:30');
-insert into flight(flight_id, from_id, to_id, departure_date, airline_id, aircraft_id, stop_count, one_way_price, return_price, takeoff_time, landing_time) values ('2', '1', '2', '2018-12-29', 2, 2, 0, 600.00, 900.00, '12:00', '14:00');
+insert into flight(flight_id, from_id, to_id, departure_date, landing_date, airline_id, aircraft_id, stop_count, one_way_price, return_price) values ('1', '1', '2', '2018-12-29 8:00','2019-01-10 13:00', 1, 1, 2, 400.00, 800.00);
+insert into flight(flight_id, from_id, to_id, departure_date, landing_date, airline_id, aircraft_id, stop_count, one_way_price, return_price) values ('2', '1', '2', '2018-12-29 12:00','2018-12-29 13:30', 2, 2, 0, 600.00, 900.00);
+insert into flight(flight_id, from_id, to_id, departure_date, landing_date, airline_id, aircraft_id, stop_count, one_way_price, return_price) values ('3', '2', '1', '2018-12-30 23:30','2018-12-31 00:45', 1, 1, 0, 400.00, 800.00);
+insert into flight(flight_id, from_id, to_id, departure_date, landing_date, airline_id, aircraft_id, stop_count, one_way_price, return_price) values ('4', '2', '1', '2018-12-30 17:50','2018-12-30 19:55', 1, 1, 0, 400.00, 800.00);
 
 insert into flight_stops values(1, 3);
 insert into flight_stops values(1, 4);	

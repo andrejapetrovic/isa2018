@@ -26,5 +26,5 @@ public interface FlightService {
 	
 	List<List<Flight>> searchRoundTrips(FlightSearchDto searchDto, FlightFilterDto filterDto);
 
-	List<Flight> sort(Sort sort, List<BigInteger> ids, Date takeoffTime, Date landingTime, FlightType type);
+	List<Flight> sort(FlightFilterDto filterDto, List<BigInteger> ids);
 }

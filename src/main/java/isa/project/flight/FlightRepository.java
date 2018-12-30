@@ -22,7 +22,7 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
 	@Query(value = "SELECT flight_id FROM flight "
 					+"INNER JOIN destination df on from_id = df.dest_id " 
 					+"INNER JOIN destination dt on to_id = dt.dest_id "
-					+"WHERE df.airport_code = :fromCode and dt.airport_code = :toCode and departure_date = :departure"
+					+"WHERE df.airport_code = :fromCode and dt.airport_code = :toCode and DATE(departure_date) = :departure"
 			,nativeQuery = true)
 	List<BigInteger> findIds(
 			@Param("fromCode") String fromCode, 
@@ -50,39 +50,35 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
 	List<Flight> findByHighestPriceReturn(
 			@Param("ids") List<BigInteger> ids);
 	
-	@Query(value = "SELECT * FROM flight WHERE flight_id IN :ids order by takeoff_time asc"   
+	@Query(value = "SELECT * FROM flight WHERE flight_id IN :ids order by TIME(departure_date) asc"   
 			,nativeQuery = true)
 	List<Flight> findEarliestTakeoff(
 			@Param("ids") List<BigInteger> ids);
 	
-	@Query(value = "SELECT * FROM flight WHERE flight_id IN :ids order by takeoff_time desc"   
+	@Query(value = "SELECT * FROM flight WHERE flight_id IN :ids order by TIME(departure_date) desc"   
 			,nativeQuery = true)
 	List<Flight> findByLatestTakeoff(
 			@Param("ids") List<BigInteger> ids);
 	
-	@Query(value = "SELECT * FROM flight WHERE flight_id IN :ids order by landing_time asc"   
+	@Query(value = "SELECT * FROM flight WHERE flight_id IN :ids order by TIME(landing_date) asc"   
 			,nativeQuery = true)
 	List<Flight> findByEarliestLanding(
 			@Param("ids") List<BigInteger> ids);
 	
-	@Query(value = "SELECT * FROM flight WHERE flight_id IN :ids order by landing_time desc"   
+	@Query(value = "SELECT * FROM flight WHERE flight_id IN :ids order by TIME(landing_date) desc"   
 			,nativeQuery = true)
 	List<Flight> findByLatestLanding(
 			@Param("ids") List<BigInteger> ids);
 	
-	@Query(value = "SELECT * FROM flight WHERE flight_id IN :ids order by abs(:landing - :takeoff) asc"   
+	@Query(value = "SELECT * FROM flight WHERE flight_id IN :ids order by (landing_date - departure_date) asc"   
 			,nativeQuery = true)
 	List<Flight> findByQuickest(
-			@Param("ids") List<BigInteger> ids,
-			@Param("takeoff") Date takeoffTime,
-			@Param("landing") Date landingTime
+			@Param("ids") List<BigInteger> ids
 			);
-	@Query(value = "SELECT * FROM flight WHERE flight_id IN :ids order by abs(:landing - :takeoff) desc"   
+	@Query(value = "SELECT * FROM flight WHERE flight_id IN :ids order by (landing_date - departure_date) desc"   
 			,nativeQuery = true)
 	List<Flight> findBySlowest(
-			@Param("ids") List<BigInteger> ids,
-			@Param("takeoff") Date takeoffTime,
-			@Param("landing") Date landingTime
+			@Param("ids") List<BigInteger> ids
 			);
 	
 	@Query(value = "SELECT flight_id FROM flight "

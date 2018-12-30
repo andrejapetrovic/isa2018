@@ -115,7 +115,7 @@ public class FlightController {
 		retVal.setAirlines(airlines);
 		retVal.setFlights(foundFlights);
 		retVal.setStops(stops);
-		return new ResponseEntity<FlightReturnDto>(retVal, HttpStatus.FOUND);
+		return new ResponseEntity<FlightReturnDto>(retVal, HttpStatus.OK);
 	}
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());

@@ -17,7 +17,7 @@ input::-webkit-calendar-picker-indicator {
 .swap-btn {
     margin-left: 10px;
     margin-right: 10px;
-    margin-top:18px;
+    margin-bottm:500px;
     border-radius: 8px;
 }
 
@@ -62,3 +62,11 @@ input::-webkit-calendar-picker-indicator {
   padding: 1em;
   min-width: 280px;
 }
+
+.search-div {
+  outline: 1px solid blue;
+}
+.list-div {
+  outline: 1px solid blue;
+}
+

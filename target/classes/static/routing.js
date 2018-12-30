@@ -30,7 +30,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
             controller: "searchFlightCtrl"
         })
           .state('home.searchFlight', {
-              url: "/search/",
+              url: "/search?fromDest&toDest&departDate&returnDate&fclass&ftype&adults&children&infants" +
+              		"&sort&airlines&stopDests&price",
               templateUrl: "flight-reservation/flight-list.html",
               controller: "flightListCtrl"
           })

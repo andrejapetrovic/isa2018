@@ -18,6 +18,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import isa.project.aircraft.Aircraft;
 import isa.project.airline.Airline;
 import isa.project.cabin.Cabin;
@@ -40,16 +42,14 @@ public class Flight {
 	private Destination to;
 	
 	@Basic
-	@Temporal(TemporalType.DATE)
+	@Column(columnDefinition="DATETIME")
+	@Temporal(TemporalType.TIMESTAMP)
 	private java.util.Date departureDate;
 	 
 	@Basic
-	@Temporal(TemporalType.TIME)
-	private java.util.Date takeoffTime;
-	 
-	@Basic
-	@Temporal(TemporalType.TIME)
-	private java.util.Date landingTime;
+	@Column(columnDefinition="DATETIME")
+	@Temporal(TemporalType.TIMESTAMP)
+	private java.util.Date landingDate;
 	
 	private int stopCount;
 	
@@ -59,6 +59,7 @@ public class Flight {
 	
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "flight_cabins", joinColumns = @JoinColumn(name = "flight_id"), inverseJoinColumns = @JoinColumn(name = "cabin_id"))
+	@JsonIgnore
 	private Set<Cabin> cabin;
 	
 	@OneToOne(cascade=CascadeType.ALL)
@@ -161,20 +162,20 @@ public class Flight {
 		this.departureDate = departureDate;
 	}
 
-	public java.util.Date getTakeoffTime() {
-		return takeoffTime;
+	public java.util.Date getLandingDate() {
+		return landingDate;
 	}
 
-	public void setTakeoffTime(java.util.Date takeoffTime) {
-		this.takeoffTime = takeoffTime;
+	public void setLandingDate(java.util.Date landingDate) {
+		this.landingDate = landingDate;
 	}
 
-	public java.util.Date getLandingTime() {
-		return landingTime;
+	public Set<Cabin> getCabin() {
+		return cabin;
 	}
 
-	public void setLandingTime(java.util.Date landingTime) {
-		this.landingTime = landingTime;
+	public void setCabin(Set<Cabin> cabin) {
+		this.cabin = cabin;
 	}
-	
+
 }

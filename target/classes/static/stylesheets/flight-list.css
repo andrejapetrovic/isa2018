@@ -1,0 +1,61 @@
+.wrap {
+    background: white;
+    padding: 1rem 1rem 1rem 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 7px 7px 30px -5px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+}
+
+.wrap:hover {
+    outline: 1px solid blue;
+}
+
+.make-res-btn{
+}
+
+.flight-label {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.flight-label2 {
+	font-size: 14px;
+	font-weight: normal !important;
+}
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: orange;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}

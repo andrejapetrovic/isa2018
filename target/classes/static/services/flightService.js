@@ -21,7 +21,7 @@ app.factory('flightService', function($http) {
      }
     
 	var search = function(params) {
-		return $http.get('/flight/search' + params).then(function(response){
+		return $http.get('/flight/search?' + params).then(function(response){
 			return response.data;
 		});
 	}
@@ -30,7 +30,6 @@ app.factory('flightService', function($http) {
     	 getFlightsByAirline: getFlightsByAirline,
     	 addFlight: addFlight,
     	 deleteFlight: deleteFlight,
-    	 getCriteria: getCriteria,
     	 search: search
      };
     
