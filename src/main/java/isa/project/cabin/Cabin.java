@@ -28,7 +28,7 @@ public class Cabin {
 	private Long id;
 	
 	@Enumerated(EnumType.STRING)
-	private FlightClass flight_class;
+	private FlightClass flightClass;
 
 	@OneToMany(mappedBy="cabin", cascade=CascadeType.ALL)
 	@JsonIgnore
@@ -57,12 +57,12 @@ public class Cabin {
 		this.id = id;
 	}
 
-	public FlightClass getFlight_class() {
-		return flight_class;
+	public FlightClass getFlightClass() {
+		return flightClass;
 	}
 
-	public void setFlight_class(FlightClass flight_class) {
-		this.flight_class = flight_class;
+	public void setFlightClass(FlightClass flightClass) {
+		this.flightClass = flightClass;
 	}
 
 	public List<Seat> getSeats() {

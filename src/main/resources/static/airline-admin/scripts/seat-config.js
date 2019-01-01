@@ -6,18 +6,29 @@ app.controller('seatConfigCtrl', function($scope, $http, $window, $stateParams, 
 			$scope.aircraft = data;
 			console.log(data);
 			
-			jQuery('<div/>', {
-			    id: 'economy'
-			}).appendTo('body');
+			var selectedCanvasId;
+			var cabins = {
+					economy: {configured: false},
+					bussiness: {configured: false},
+					premium: {configured: false},
+					first: {configured: false}
+			};
 			
-			var canvas = document.createElement('canvas');
-			var ctx = canvas.getContext('2d');
-			$("#economy").append(canvas);
 			$scope.rows = 40;
 			$scope.cols = 10;
 			$scope.sep = "3-4-3";
 			$scope.sepSize = 40;
+			
+			function createCanvas(id) {
+				var canvas = document.createElement('canvas');
+				canvas.id = id + "-canvas";
+				$("#" + id).append(canvas);
+				return canvas;
+			}
+			
 			$scope.addSeats = function() {
+				var canvas = document.getElementById(selectedCanvasId);
+				var ctx = canvas.getContext('2d');
 				var rows = $scope.rows;
 				var cols = $scope.cols;
 				var sep = $scope.sep.split('-').map(function(t){return parseInt(t)});
@@ -41,6 +52,8 @@ app.controller('seatConfigCtrl', function($scope, $http, $window, $stateParams, 
 				canvas.height = (d+ry)*cols+ry + sepAtCols.length*sepSize;
 				ctx.fillStyle = "#FFFFFF";
 				ctx.strokeStyle = "#000000";
+				className = canvas.id.split('-')[0];
+				var seats = [];
 				for (i=0; i<rows; i++) {
 					s = 0;
 					for (j=0; j<cols; j++) {
@@ -51,32 +64,68 @@ app.controller('seatConfigCtrl', function($scope, $http, $window, $stateParams, 
 						//parametri x,y,duzina po x, duzina po y
 						ctx.strokeRect(i*d+(i+1)*rx, j*d+(j+1)*ry+s, d, d);
 						ctx.fillRect(i*d+(i+1)*rx,j*d+(j+1)*ry+s,d,d);
+						seats.push( {
+								x: i*d+(i+1)*rx,
+								y: j*d+(j+1)*ry+s,
+								row: i,
+								col: j,
+								cabin: className
+						});
 					}
 				}
+				cabins[className] = {
+					flightClass: className,
+					row: rows,
+					col: cols,
+					dx: rx,
+					dy: ry,
+					d: d,
+					separations: $scope.sep,
+					separationsSize: $scope.sepSize,
+					seats: seats,
+				}
+				
+				var saveBtn = $('<button/>')
+			    .text('Save')
+			    .click(function () {
+			    	$(this).next().remove();
+			    	$(this).remove();
+			    	$("#" + className).prop('disabled', true);
+			    	cabins[className].configured = true;
+			    	console.log(cabins[className]);
+			    	$("#create-seats").prop('disabled', true);
+			    })
+			    var txt = $('<span/>').text(' Once you save you will no longer be able to make changes to this cabin');
+				$("#"+selectedCanvasId).parent().prepend(txt).prepend(saveBtn).prepend('<br>');
 			}
 			
+			$(".cabin-cbox").on("change", function(e){
+				var tabId = $(this).attr('id') + '-cabin';
+				if(this.checked){
+					var id = $(".nav-tabs").children().length; 
+					var name = $(this).attr('id');
+					name = name.replace(name[0], name[0].toUpperCase());
+					$(".anchor").closest('li').before('<li><a href="#' + tabId + '" id="' + tabId + '-tab">'+ name + '</a></li>');
+					$('.tab-content').append('<div class="tab-pane" id="' + tabId + '"><h3>'+name+' cabin</h3></div>');
+					$('.nav-tabs li:nth-child(' + id + ') a').click();
+					
+					var canvas = createCanvas(tabId);
+				}
+				else{
+					$("#"+tabId).remove();
+					$("#"+tabId + "-tab").remove();
+				}
+			});
+			
+			$(".nav-tabs").on("click", "a", function (e) {
+				var cabinClass = $(this).attr('id').split('-')[0];
+				$("#create-seats").prop("disabled", cabins[cabinClass].configured);
+				e.preventDefault();
+				$(this).tab('show');
+				selectedCanvasId = $(this).attr('id').replace("-tab", "-canvas");
+				console.log(selectedCanvasId);
+			});
 		});
 		
-		
-		$(".nav-tabs").on("click", "a", function (e) {
-	        e.preventDefault();
-	        if (!$(this).hasClass('add-contact')) {
-	            $(this).tab('show');
-	        }
-	    })
-	    .on("click", "span", function () {
-	        var anchor = $(this).siblings('a');
-	        $(anchor.attr('href')).remove();
-	        $(this).parent().remove();
-	        $(".nav-tabs li").children('a').first().click();
-	    });
-
-	$('.add-contact').click(function (e) {
-	    e.preventDefault();
-	    var id = $(".nav-tabs").children().length; //think about it ;)
-	    var tabId = 'contact_' + id;
-	    $(this).closest('li').before('<li><a href="#contact_' + id + '">New Tab</a> <span> x </span></li>');
-	    $('.tab-content').append('<div class="tab-pane" id="' + tabId + '">Contact Form: New Contact ' + id + '</div>');
-	   $('.nav-tabs li:nth-child(' + id + ') a').click();
-	});
+	
 });

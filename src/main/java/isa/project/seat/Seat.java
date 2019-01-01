@@ -19,7 +19,7 @@ public class Seat {
 	@Column(name = "seat_id")
 	private Long id;
 
-	private String code;
+	private int row, col;
 	
 	private int x, y;//pozicija u kabini
 	
@@ -35,12 +35,20 @@ public class Seat {
 		this.id = id;
 	}
 
-	public String getCode() {
-		return code;
+	public int getRow() {
+		return row;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+	public void setRow(int row) {
+		this.row = row;
+	}
+
+	public int getCol() {
+		return col;
+	}
+
+	public void setCol(int col) {
+		this.col = col;
 	}
 
 	public int getX() {

@@ -1,29 +1,26 @@
  <h3>{{aircraft.owner.name}} - {{aircraft.modelName}} [{{aircraft.modelNumber}}]</h3>
  
- <input type="checkbox" name="economy" id="economy"><span class="checkboxtext">Economy</span> 
-<input type="checkbox" name="premium" id="premium"><span class="checkboxtext">Premium Economy</span> 
-<input type="checkbox" name="bussines" id="business"><span class="checkboxtext">Business</span> 
-<input type="checkbox" name="first" id="first"><span class="checkboxtext">First</span>
+ <br>
+ <h5>Choose cabins</h5>
+ <input type="checkbox" name="economy" id="economy" class="cabin-cbox"><span class="checkboxtext">Economy</span> 
+<input type="checkbox" name="premium" id="premium" class="cabin-cbox"><span class="checkboxtext">Premium Economy</span> 
+<input type="checkbox" name="bussines" id="business" class="cabin-cbox"><span class="checkboxtext">Business</span> 
+<input type="checkbox" name="first" id="first" class="cabin-cbox"><span class="checkboxtext">First</span>
 
-<br><br><br>
+<br><br><br><br>
+<form>
 Rows <input ng-model="rows" size="1" maxlength="2" ng-required="true">
 Columns <input ng-model="cols" size="1" maxlength="2" ng-required="true">
 Separations <input ng-model="sep" ng-required="true">
 Separation size <input ng-model="sepSize" size="1" maxlength="2" ng-required="true">
- <button type="button" class="btn btn-xs" ng-click="addSeats()">Create seats</button>
-
+ <button id="create-seats" type="submit" class="btn btn-xs" ng-click="addSeats()">Create seats</button>
+</form>
  
 <div class="container">
     <ul class="nav nav-tabs" role="tablist">
-        <li class="active"><a href="#contact_01" data-toggle="tab">Joe Smith</a><span>x</span>
-        </li>
-        <li><a href="#contact_02" data-toggle="tab">Molly Lewis</a>  <span> x </span> 
-        </li>
-        <li><a href="#" class="add-contact">+ Add Contact</a>
+        <li><span class="anchor"></span>
         </li>
     </ul>
     <div class="tab-content">
-        <div class="tab-pane active" id="contact_01">Contact Form: Joe Smith</div>
-        <div class="tab-pane" id="contact_02">Contact Form: Molly Lewis</div>
     </div>
 </div>
