@@ -1,6 +1,6 @@
 var app = angular.module('app');
 
-app.controller('seatConfigCtrl', function($scope, $http, $window, $stateParams, airplaneService) {
+app.controller('seatConfigCtrl', function($scope, $http, $window, $stateParams, airplaneService, cabinService) {
 
 		airplaneService.getAirplane($stateParams.id).then(function(data){
 			$scope.aircraft = data;
@@ -67,9 +67,8 @@ app.controller('seatConfigCtrl', function($scope, $http, $window, $stateParams, 
 						seats.push( {
 								x: i*d+(i+1)*rx,
 								y: j*d+(j+1)*ry+s,
-								row: i,
-								col: j,
-								cabin: className
+								row: i+1,
+								col: j+1
 						});
 					}
 				}
@@ -83,6 +82,7 @@ app.controller('seatConfigCtrl', function($scope, $http, $window, $stateParams, 
 					separations: $scope.sep,
 					separationsSize: $scope.sepSize,
 					seats: seats,
+					aircraftId: $scope.aircraft.id
 				}
 				
 				var saveBtn = $('<button/>')
@@ -90,10 +90,11 @@ app.controller('seatConfigCtrl', function($scope, $http, $window, $stateParams, 
 			    .click(function () {
 			    	$(this).next().remove();
 			    	$(this).remove();
-			    	$("#" + className).prop('disabled', true);
 			    	cabins[className].configured = true;
-			    	console.log(cabins[className]);
-			    	$("#create-seats").prop('disabled', true);
+			    	cabinService.addCabin(cabins[className]).then(function(data){
+			    		$("#" + className).prop('disabled', true);
+			    		$("#create-seats").prop('disabled', true);
+			    	});
 			    })
 			    var txt = $('<span/>').text(' Once you save you will no longer be able to make changes to this cabin');
 				$("#"+selectedCanvasId).parent().prepend(txt).prepend(saveBtn).prepend('<br>');

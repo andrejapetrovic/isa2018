@@ -73,7 +73,7 @@ app.controller('searchFlightCtrl', function($scope, $http, $window, $state, dest
 		if($scope.ftype == "Round-trip"){
 			searchParams["returnDate"] = $("#return").val().split(' ').join('-');
 		}
-		searchParams["fclass"] = $scope.fclass.split(' ').join('_');
+		searchParams["fclass"] = $scope.fclass.split(' ')[0];
 		searchParams["ftype"] = $scope.ftype.split('-').join('_');
 			if($scope.numOfPassengers > 1) {
 				angular.forEach($scope.passengers, function(value,index){
