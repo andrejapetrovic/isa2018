@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,12 +34,13 @@ public class Aircraft {
 	
 	@OneToMany(mappedBy="aircraft", cascade=CascadeType.ALL)
 	@JsonIgnore
-	private List<Cabin> cabin; 
+	private List<Cabin> cabins; 
 	
 	@ManyToOne
 	@JoinColumn(name = "owner_airline_id")
 	private Airline owner;
 	
+	@Enumerated(EnumType.STRING)
 	private AircraftType type;
 	
 	public Long getId() {
@@ -72,12 +75,8 @@ public class Aircraft {
 		this.modelNumber = modelNumber;
 	}
 
-	public List<Cabin> getCabin() {
-		return cabin;
-	}
-
-	public void setCabin(List<Cabin> cabin) {
-		this.cabin = cabin;
+	public List<Cabin> getCabins() {
+		return cabins;
 	}
 
 	public AircraftType getType() {
@@ -86,6 +85,10 @@ public class Aircraft {
 
 	public void setType(AircraftType type) {
 		this.type = type;
+	}
+
+	public void setCabins(List<Cabin> cabins) {
+		this.cabins = cabins;
 	}
 
 }

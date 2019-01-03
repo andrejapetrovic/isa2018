@@ -4,7 +4,7 @@ app.controller('searchFlightCtrl', function($scope, $http, $window, $state, dest
 	$scope.toDests = [];
 	var maxTravelers = 9;
 	
-	$scope.classes = ["Economy", "Premium economy", "Bussines", "First"];
+	$scope.classes = ["Economy", "Premium economy", "Business", "First"];
 	$scope.types = ["Round-trip", "One-way"];
 	$scope.passengers = [{type: 'Adults', num: 1}, {type: 'Children', num: 0}, {type: 'Infants', num: 0}];
 	$scope.fclass = $scope.classes[0];

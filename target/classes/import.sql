@@ -10,8 +10,9 @@ insert into friend_relation(user_id, friend_id) values ('3', '1');
 insert into airline(airline_id, name, address) values ('1', 'Air Serbia', 'Булевар уметности 16a, 11070 Нови Београд');
 insert into airline(airline_id, name, address) values ('2', 'Aegan Airlines', 'Кнез Михаилова 30/IV, 11000 Београд');
 
-insert into aircraft(aircraft_id, model_name, model_number, owner_airline_id) values('1', 'Boeing 747', '123', '1');
-insert into aircraft(aircraft_id, model_name, model_number, owner_airline_id) values('2', 'Boeing 747', '111', '2');
+insert into aircraft(aircraft_id, model_name, model_number, owner_airline_id, type) values('1', 'Boeing 747', '123', '1', 'Wide_body_jet');
+insert into aircraft(aircraft_id, model_name, model_number, owner_airline_id, type) values('2', 'Boeing 747', '111', '2', 'Wide_body_jet');
+insert into aircraft(aircraft_id, model_name, model_number, owner_airline_id, type) values('3', 'Boeing 747', '1234', '1', 'Wide_body_jet');
 
 insert into destination(dest_id, airport_code, city, country, airport) values ('1', 'BEG', 'Belgrade', 'Serbia', 'Nikola Tesla');
 insert into destination(dest_id, airport_code, city, country, airport) values ('2', 'VIE', 'Vienna', 'Austria', 'Vienna International');       

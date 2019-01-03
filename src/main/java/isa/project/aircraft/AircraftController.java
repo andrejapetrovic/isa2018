@@ -1,5 +1,6 @@
 package isa.project.aircraft;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +11,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import isa.project.airline.Airline;
 import isa.project.airline.AirlineRepository;
+import isa.project.cabin.Cabin;
+import isa.project.cabin.CabinRepository;
+import isa.project.seat.Seat;
+import isa.project.seat.SeatRepository;
 
 @RestController
 @RequestMapping(value="airplane")
@@ -26,6 +30,12 @@ public class AircraftController {
 	@Autowired
 	AirlineRepository airlineRepo;
 	
+	@Autowired
+	CabinRepository cabinRepo;
+	
+	@Autowired
+	SeatRepository seatRepo;
+	
 	@RequestMapping(
 			value = "add",
 			method = RequestMethod.POST,
@@ -35,6 +45,7 @@ public class AircraftController {
 		Aircraft plane = new Aircraft();
 		plane.setModelName(airplaneDto.getModelName());
 		plane.setModelNumber(airplaneDto.getModelNumber());
+		plane.setType(AircraftType.valueOf(airplaneDto.getType()));
 		Airline a = airlineRepo.getOne(airplaneDto.getOwnerId());
 		a.getPlanes().add(plane);
 		plane.setOwner(a);
@@ -43,29 +54,38 @@ public class AircraftController {
 	}
 	
 	@RequestMapping(
-			value = "delete",
-			method = RequestMethod.POST,
-			consumes = MediaType.APPLICATION_JSON_VALUE,
+			value = "delete/{aircraftId}/{airlineId}",
+			method = RequestMethod.DELETE,
 			produces = MediaType.APPLICATION_JSON_VALUE
 			)
-	public ResponseEntity<?> delete(@RequestBody AircraftDto airplaneDto) throws Exception {
-		Airline a = airlineRepo.getOne(airplaneDto.getOwnerId());
-		Aircraft plane = airplaneRepo.findByModelNumberAndModelName(airplaneDto.getModelNumber(), airplaneDto.getModelName());
+	public ResponseEntity<Aircraft> delete(@PathVariable("aircraftId") Long aircraftId,
+			@PathVariable("airlineId") Long airlineId) throws Exception {
+		Airline a = airlineRepo.findOne(airlineId);
+		Aircraft plane = airplaneRepo.findOne(aircraftId);
 		a.getPlanes().remove(plane);
-		airplaneRepo.delete(plane);
 		airlineRepo.save(a);
-		return new ResponseEntity<>(HttpStatus.OK);
+		airplaneRepo.delete(plane.getId());
+		return new ResponseEntity<Aircraft>(plane, HttpStatus.OK);
 	}
 	
 	@RequestMapping(
 			value = "{id}",
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Aircraft> get(@PathVariable("id") Long id) {
+	public ResponseEntity<AircraftReturnDto> get(@PathVariable("id") Long id) {
+		AircraftReturnDto ret = new AircraftReturnDto();
 		Aircraft airplane = airplaneRepo.findOne(id);
-		if(airplane != null)
-			return new ResponseEntity<Aircraft>(airplane, HttpStatus.OK);
-		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		if(airplane == null)
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		ret.setAircraft(airplane);
+		List<Cabin> cabins = cabinRepo.findByAircraftId(airplane.getId());
+		if(cabins != null) {
+			ret.setCabins(cabins);
+			List<Seat> seats = new ArrayList<>();
+			cabins.forEach(cabin -> seats.addAll(seatRepo.findByCabinId(cabin.getId())));
+			ret.setSeats(seats);
+		}
+		return new ResponseEntity<AircraftReturnDto>(ret, HttpStatus.OK);
 	}
 	
 	@RequestMapping(

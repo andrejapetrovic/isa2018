@@ -31,11 +31,11 @@ public class AirlineController {
 	PriceListRepository pricelistRepo;
 	
 	@RequestMapping(
-			value = "{name}",
+			value = "{id}",
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Airline> get(@PathVariable("name") String name) {
-		Airline airline = airlineRepo.findByNameContainingIgnoreCase(name);
+	public ResponseEntity<Airline> get(@PathVariable("id") Long id) {
+		Airline airline = airlineRepo.findOne(id);
 		if(airline != null)
 			return new ResponseEntity<Airline>(airline, HttpStatus.OK);
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);

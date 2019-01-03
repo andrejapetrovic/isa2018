@@ -8,6 +8,8 @@ public class AircraftDto {
 
 	private int modelNumber;
 	
+	private String type;
+	
 	public Long getOwnerId() {
 		return ownerId;
 	}
@@ -30,6 +32,14 @@ public class AircraftDto {
 
 	public void setModelNumber(int modelNumber) {
 		this.modelNumber = modelNumber;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 	

@@ -8,4 +8,6 @@ public interface CabinRepository extends JpaRepository<Cabin, Long> {
 
 	List<Cabin> findAll();
 	
+	List<Cabin> findByAircraftId(Long id);
+	
 }

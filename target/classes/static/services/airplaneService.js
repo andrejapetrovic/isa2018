@@ -20,8 +20,8 @@ app.factory('airplaneService', function($http) {
          });
      }
     
-    var deleteAirplane = function(data) {    
-     	return $http.post('/airplane/delete/', data).then(function(response) {
+    var deleteAirplane = function(planeId, airlineId) {    
+     	return $http.delete('/airplane/delete/' + planeId + '/' +  airlineId).then(function(response) {
              return response.data;
          });
      }

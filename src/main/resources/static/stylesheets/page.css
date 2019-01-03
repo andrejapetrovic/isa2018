@@ -70,3 +70,15 @@ input::-webkit-calendar-picker-indicator {
   outline: 1px solid blue;
 }
 
+.airline-table {
+	font-size: 14px;
+}
+
+.x-btn {
+	margin-top: -2px;
+}
+
+.add-plane-btn {
+	margin-top: 2px;
+	margin-left: -80px;
+}

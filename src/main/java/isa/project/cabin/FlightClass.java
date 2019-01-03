@@ -1,5 +1,5 @@
 package isa.project.cabin;
 
 public enum FlightClass {
-	Economy, Premium, Bussines, First
+	Economy, Premium, Business, First
 }

@@ -21,9 +21,10 @@ public interface DestinationRepository extends JpaRepository<Destination, Long> 
 	List<Destination> findByAirline(@Param("airlineId") Long airlineId);
 	
 	@Query(value = "SELECT * FROM DESTINATION WHERE dest_id NOT IN" 
-	+ "(SELECT dest_id FROM AIRLINE_DESTINATIONS WHERE airline_id = :airlineId)"
+	+ "(SELECT dest_id FROM AIRLINE_DESTINATIONS WHERE airline_id = :airlineId) "
+	+ "AND CONCAT(city, country, airport_code, airport) LIKE CONCAT('%', :input, '%')"
 	,nativeQuery = true)
-	List<Destination> findNonAddedByAirline(@Param("airlineId") Long airlineId);
+	List<Destination> filterNonAddedByAirline(@Param("airlineId") Long airlineId, @Param("input") String input);
 	
 	@Query(value = "SELECT * FROM DESTINATION "
 			+"WHERE CONCAT(city, country, airport_code, airport) LIKE CONCAT('%', :input, '%')"  

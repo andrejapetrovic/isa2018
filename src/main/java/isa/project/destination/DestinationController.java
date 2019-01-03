@@ -45,14 +45,14 @@ public class DestinationController {
 	}
 	
 	@RequestMapping(
-			value = "delete-from-airline",
-			method = RequestMethod.POST,
-			consumes = MediaType.APPLICATION_JSON_VALUE,
+			value = "delete-from-airline/{destId}/{airlineId}",
+			method = RequestMethod.DELETE,
 			produces = MediaType.APPLICATION_JSON_VALUE
 			)
-	public ResponseEntity<Destination> deleteFromAirline(@RequestBody DestinationDto destDto) throws Exception {
-		Airline a = airlineRepo.getOne(destDto.getAirlineId());
-		Destination dest  = destRepo.findByAirportCode(destDto.getAirportCode());
+	public ResponseEntity<Destination> deleteFromAirline(@PathVariable("destId") Long destId,
+			@PathVariable("airlineId") Long airlineId) throws Exception {
+		Airline a = airlineRepo.getOne(airlineId);
+		Destination dest  = destRepo.findOne(destId);
 		a.getDestinations().remove(dest);
 		airlineRepo.save(a);
 		return new ResponseEntity<Destination>(dest, HttpStatus.OK);
@@ -88,11 +88,11 @@ public class DestinationController {
 	}
 	
 	@RequestMapping(
-			value = "airline/not-added/{id}",
+			value = "airline/not-added/{id}/{input}",
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<Destination>> getNotAddedByAirline(@PathVariable("id") Long id) {
-		List<Destination> dests = destRepo.findNonAddedByAirline(id);
+	public ResponseEntity<List<Destination>> getNotAddedByAirline(@PathVariable("id") Long id, @PathVariable("input") String input) {
+		List<Destination> dests = destRepo.filterNonAddedByAirline(id, input);
 		return new ResponseEntity<List<Destination>>(dests, HttpStatus.OK);
 	}
 	
