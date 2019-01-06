@@ -1,6 +1,9 @@
 package isa.project.flight;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -71,14 +74,25 @@ public class FlightController {
 	public ResponseEntity<Flight> add(@RequestBody FlightDto flightDto) throws Exception {
 		Airline airline = airlineRepo.getOne(flightDto.getAirlineId());
 		Flight flight = new Flight();
-		flight.setDepartureDate(flightDto.getDepartDate());
+		
+		SimpleDateFormat ft = new SimpleDateFormat ("dd-MMM-yyyy HH:mm");
+		try {
+			flight.setDepartureDate(ft.parse(flightDto.getDepartureDate()));
+			flight.setLandingDate(ft.parse(flightDto.getLandingDate()));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		flight.setStopCount(flightDto.getStopCount());
 		flight.setFrom(destRepo.findByAirportCode(flightDto.getFrom()));
 		flight.setTo(destRepo.findByAirportCode(flightDto.getTo()));
 		if(flightDto.getStopCount() > 0) 
 			flight.setStops(destRepo.findAllByCodes(flightDto.getStopDestCodes()));
-		flight.setAirplane(airplaneRepo.findByModelNumberAndModelName(flightDto.getAirplaneModelNumber(), flightDto.getAirplaneModelName()));
+		flight.setAirplane(airplaneRepo.findOne(flightDto.getAircraftId()));
 		flight.setAirline(airline);
+		flight.setOneWayPrice(flightDto.getOneWayPrice());
+		flight.setReturnPrice(flightDto.getReturnPrice());
 		airline.getFlights().add(flight);
 		return new ResponseEntity<Flight>(flightRepo.save(flight), HttpStatus.CREATED);
 	}

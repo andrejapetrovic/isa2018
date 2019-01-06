@@ -8,14 +8,20 @@ app.factory('destService', function($http) {
          });
      }
 	
-    var getDestByAirlineId = function(id) {    
-     	return $http.get('/dest/airline/' + id).then(function(response) {
+    var filterNonAddedByAirline = function(id, input) {    
+     	return $http.get('/dest/airline/not-added/' + id + '/' + input).then(function(response) {
              return response.data;
          });
      }
     
-    var filterNonAddedByAirline = function(id, input) {    
-     	return $http.get('/dest/airline/not-added/' + id + '/' + input).then(function(response) {
+    var filterByAirline = function(id, input) {    
+     	return $http.get('/dest/airline/' + id + '/' + input).then(function(response) {
+             return response.data;
+         });
+     }
+    
+    var getByAirline = function(id) {    
+     	return $http.get('/dest/get-by-airline/' + id).then(function(response) {
              return response.data;
          });
      }
@@ -39,8 +45,9 @@ app.factory('destService', function($http) {
     }
     
      return {
-    	 getDestByAirlineId: getDestByAirlineId,
+    	 filterByAirline: filterByAirline,
     	 filterNonAddedByAirline: filterNonAddedByAirline,
+    	 getByAirline: getByAirline,
     	 getDestByCode: getDestByCode,
          addDestToAirline: addDestToAirline,
          removeDest: removeDest,

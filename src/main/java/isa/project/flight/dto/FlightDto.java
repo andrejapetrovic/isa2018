@@ -8,25 +8,20 @@ public class FlightDto {
 	
 	private String to;
 	
-	private java.util.Date departDate;
+	private String departureDate;
 	 
-	private java.util.Date returnDate;
-
-	private java.util.Date departTime;
-
-	private java.util.Date returnTime;
+	private String landingDate;
 	
 	private int stopCount;
 
-	private int airplaneModelNumber;
-	
-	private String airplaneModelName;
-	
 	private List<String> stopDestCodes;
 	
 	private Long airlineId;
 	
-	private Sort sort;
+	private Long aircraftId;
+	
+	private int returnPrice, oneWayPrice;
+	
 
 	public String getFrom() {
 		return from;
@@ -44,60 +39,12 @@ public class FlightDto {
 		this.to = to;
 	}
 
-	public java.util.Date getDepartDate() {
-		return departDate;
-	}
-
-	public void setDepartDate(java.util.Date departDate) {
-		this.departDate = departDate;
-	}
-
-	public java.util.Date getReturnDate() {
-		return returnDate;
-	}
-
-	public void setReturnDate(java.util.Date returnDate) {
-		this.returnDate = returnDate;
-	}
-
-	public java.util.Date getDepartTime() {
-		return departTime;
-	}
-
-	public void setDepartTime(java.util.Date departTime) {
-		this.departTime = departTime;
-	}
-
-	public java.util.Date getReturnTime() {
-		return returnTime;
-	}
-
-	public void setReturnTime(java.util.Date returnTime) {
-		this.returnTime = returnTime;
-	}
-
 	public int getStopCount() {
 		return stopCount;
 	}
 
 	public void setStopCount(int stopCount) {
 		this.stopCount = stopCount;
-	}
-
-	public int getAirplaneModelNumber() {
-		return airplaneModelNumber;
-	}
-
-	public void setAirplaneModelNumber(int airplaneModelNumber) {
-		this.airplaneModelNumber = airplaneModelNumber;
-	}
-
-	public String getAirplaneModelName() {
-		return airplaneModelName;
-	}
-
-	public void setAirplaneModelName(String airplaneModelName) {
-		this.airplaneModelName = airplaneModelName;
 	}
 
 	public Long getAirlineId() {
@@ -116,12 +63,46 @@ public class FlightDto {
 		this.stopDestCodes = stopDestCodes;
 	}
 
-	public Sort getSort() {
-		return sort;
+	public String getDepartureDate() {
+		return departureDate;
 	}
 
-	public void setSort(Sort sort) {
-		this.sort = sort;
+	public void setDepartureDate(String departureDate) {
+		this.departureDate = departureDate;
 	}
+
+	public String getLandingDate() {
+		return landingDate;
+	}
+
+	public void setLandingDate(String landingDate) {
+		this.landingDate = landingDate;
+	}
+
+	public Long getAircraftId() {
+		return aircraftId;
+	}
+
+	public void setAircraftId(Long aircraftId) {
+		this.aircraftId = aircraftId;
+	}
+
+	public int getReturnPrice() {
+		return returnPrice;
+	}
+
+	public void setReturnPrice(int returnPrice) {
+		this.returnPrice = returnPrice;
+	}
+
+	public int getOneWayPrice() {
+		return oneWayPrice;
+	}
+
+	public void setOneWayPrice(int oneWayPrice) {
+		this.oneWayPrice = oneWayPrice;
+	}
+
+
 	
 }

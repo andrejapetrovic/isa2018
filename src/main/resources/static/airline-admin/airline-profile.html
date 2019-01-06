@@ -138,23 +138,82 @@
 		<div class="col-sm-12 well" style="background-color: white;">
 		<div class="col-sm-12 well">
 		<form>		
-			<div class="col-sm-3 ">
-				<label>Model number</label>
-				<input class="form-control" type="text" ng-model="plane.modelNumber" autocomplete="off">
+			 	<div class="col-sm-12">
+ 		<div class= "col-sm-6" id="fromDiv"><br>
+ 		<label>From</label>
+ 		   	<input type="text" class="form-control" id="from" ng-model="newFlight.from" list="fromList" autocomplete="off">
+ 		   	<datalist id="fromList">
+				<option ng-repeat="dest in fromDests" value="({{dest.airportCode}}) {{dest.city}}, {{dest.country}}, {{dest.airport}}"></option>
+			</datalist>
+    	</div>
+    	<div class= "col-sm-6" id="toDiv"><br>
+    	<label>To</label>
+    		<input type="text" class="form-control" id="to" ng-model="newFlight.to" list="toList" autocomplete="off">
+    		<datalist id="toList">
+				<option ng-repeat="dest in toDests" value="({{dest.airportCode}}) {{dest.city}}, {{dest.country}}, {{dest.airport}}"></option>
+			</datalist>
+    	</div>
+ 	</div>
+
+	 <div class="col-sm-12">
+ 		<div class= "col-sm-4"><br>
+	 		<label>Departure date</label>
+ 			<div class="right-inner-addon">
+ 		   		<i class="glyphicon glyphicon-calendar"></i>
+ 		   		<input type="text" class="form-control startDate" id="depart" ng-model="newFlight.departureDate" autocomplete="off">
+    		</div>
+    	</div>
+    	<div class="col-sm-2"><br>
+    		<label>time</label>
+			<input type="text" class="form-control" id="time-departure">
+    	</div>
+    	<div class= "col-sm-4 ret-date-div"><br>
+    	 	<label>Landing date</label>
+    		<div class="right-inner-addon">
+    			<i class="glyphicon glyphicon-calendar"></i>
+    			<input type="text" class="form-control endDate" id="landing" ng-model="newFlight.landingDate" autocomplete="off">
+    		</div>
+    	</div>
+    	<div class="col-sm-2"><br>
+    		<label>time</label>
+			<input type="text" class="form-control" id="time-landing" ng-model="landingTime">
+    	</div>
+    	</div>
+    	<div>
+    	
+    	<div class="col-sm-12">
+           	<div class= "col-sm-2"><br>
+ 				<label>One way price</label><br>
+ 				<input type="text" class="form-control" ng-model="newFlight.oneWayPrice">
+           	</div>	 	 
+           	<div class= "col-sm-2"><br>
+ 				<label>Round trip price</label><br>
+ 				<input type="text" class="form-control" ng-model="newFlight.returnPrice">
+           	</div>	 
+    		<div class= "col-sm-4"><br>
+ 				<label>Aircraft</label><br>
+				<select name="aircraft" class="btn btn-outline" ng-model="flightAircraft" 
+					ng-options="plane.modelNumber + ' ' + plane.modelName for plane in planes" required>
+           		 </select>
+           	</div>
+    	</div>
+    	
+    	<div class="col-sm-12"><br>
+    	<div class= "col-sm-5" id="toDiv">
+    		<label>Stops</label>
+    		<input type="text" class="form-control" id="stop" ng-model="newFlight.stop" list="stopList" autocomplete="off">
+    		<datalist id="stopList">
+				<option ng-repeat="dest in stopDests" value="({{dest.airportCode}}) {{dest.city}}, {{dest.country}}, {{dest.airport}}"></option>
+			</datalist>
+    	</div><br>
+    		<button class="btn btn-sm btn-success col-sm-1 add-stop-btn" ng-click="addStop()">+</button>
+    	</div>
+    	<div class="col-sm-12">
+			<div class="col-sm-5 stops">
 			</div>
-			<div class="col-sm-3 ">
-				<label>Model name</label>
-				<input class="form-control" type="text" ng-model="plane.modelName" autocomplete="off">
-			</div>
-			<div class="col-sm-3">
-				<label>Aircarft type</label><br>
-				<select name="aircraftType" class="btn btn-outline" ng-model="aircraftType" 
-					ng-options="aircraftType for aircraftType in aircraftTypes" required>
-            </select>
-			</div>
-			<div class="col-sm-2"><br>
-				<input type="submit" ng-click="addPlane()" class="form-control btn btn-sm btn-success add-plane-btn" value="Add aircraft">
-			</div>
+    	</div>
+	    <button type="submit" class="btn btn-sm btn-success col-sm-2 add-flight-btn" ng-click="addFlight()">Add flight</button>
+</div>
 		</form>
 		</div>
 		<div class="col-sm-12"><br><br>

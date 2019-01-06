@@ -3,11 +3,21 @@ var app = angular.module('app');
 app.controller('airlineCtrl', function($scope, $http, $window, $stateParams, airlineService, destService, airplaneService, flightService) {
 	
 	var id = $stateParams.id;
-	airlineService.getAirline(id).then(function(airline) {
-		console.log(airline);
-		$scope.airline = airline;
+	var stopDests = [];
+	
+	airlineService.getAirlineProfile(id).then(function(data) {
+		console.log(data);
+		$scope.airline = data["airline"];
 		$scope.potentialDests = [];
-
+		$scope.toDests = [];
+		$scope.fromDests = [];
+		$scope.dests = data["destinations"];
+		$scope.planes = data["aircrafts"];
+		$scope.aircraftTypes = ['Wide body jet', 'Narrow body jet', 'Turbo prop plane', 'Regional jet'];
+		$scope.aircraftType = $scope.aircraftTypes[0];
+		$scope.flights = data["flights"];
+		$scope.flightAircraft = $scope.planes[0];		
+		
 		$(".nav-tabs").on("click", "a", function (e) {
 			e.preventDefault();
 			$(this).tab('show');
@@ -34,123 +44,161 @@ app.controller('airlineCtrl', function($scope, $http, $window, $stateParams, air
 		    });
 		});
 		
-		destService.getDestByAirlineId(airline.id).then(function(dests) {
-			console.log(dests);
-			$scope.dests = dests;
-			$scope.stopDests = [];
-			$scope.potentialStopDests = dests;
+		$("#from").on('keyup paste click', function () {
+			if($("#from").val() == "") return;
+		    destService.filterByAirline(id, $scope.newFlight.from).then(function(data){
+		    	$scope.fromDests = filterData(data, $scope.fromDests);
+		    });
 		});
 		
-		
-		airplaneService.getAirplaneByOwner(airline.id).then(function(planes) {
-			console.log(planes);
-			$scope.planes = planes;
-			$scope.aircraftTypes = ['Wide body jet', 'Narrow body jet', 'Turbo prop plane', 'Regional jet'];
-			$scope.aircraftType = $scope.aircraftTypes[0];
+		$("#to").on('keyup paste click', function (e) {
+			if($("#to").val() == "") return;
+		    destService.filterByAirline(id, $scope.newFlight.to).then(function(data){
+		    	$scope.toDests = filterData(data, $scope.toDests);
+		    });
 		});
 		
-		flightService.getFlightsByAirline(airline.id).then(function(data) {
-			console.log("flights");
-			console.log(data);
-			$scope.flights = data;
+		$("#stop").on('keyup paste click', function (e) {
+			if($("#stop").val() == "") return;
+		    destService.filterByAirline(id, $scope.newFlight.stop).then(function(data){
+		    	$scope.stopDests = filterData(data, $scope.stopDests);
+		    });
 		});
-			
-	});
-
-	$scope.addDest = function() {
-		console.log($scope.searchDest);
-		var data = {
-			airportCode: $scope.searchDest.substring(1,4),
-			airlineId: id	
-		};
-		destService.addDestToAirline(data).then(function(dest) {
-			$scope.dests.push(dest);
-			$scope.searchDest = "";
-		});
-	}
-	
-	$scope.addNewDest = function() {
-		$scope.newDest.airlineId = id;
-		var dest = angular.toJson($scope.newDest);
-		console.log(dest);
-		destService.addDestToAirline(dest).then(function(dest) {
-			$scope.dests.push(dest);
-			delete $scope.newDest;
-		});
-	}
-	
-	$scope.removeDest = function(destToRemove) {
-		console.log(destToRemove);
-		destService.removeDest(destToRemove.id, id).then(function(dest) {
-			$scope.dests = $scope.dests.filter(d => d.airportCode != dest.airportCode);
-		});
-	}
-
-	$scope.addPlane = function() {
-		$scope.plane.type = $scope.aircraftType.split(' ').join('_');
-		$scope.plane.ownerId = id;
-		console.log($scope.plane);
-		airplaneService.addAirplane($scope.plane).then(function(data){
-			$scope.planes.push(data);
-			delete $scope.plane;
-		});
-	}
 		
-	$scope.removePlane = function(planeToRemove) {
-		airplaneService.deleteAirplane(planeToRemove.id, id).then(function(retPlane){
-			$scope.planes = $scope.planes.filter(plane => plane.id != retPlane.id);
+		var tripDatePicker = new datePicker({
+		    start:  document.getElementsByClassName('startDate'),
+		    end:    document.getElementsByClassName('endDate'),
+		    months: 2,
 		});
-	}
-	
-	$scope.addNewFlight = function() {
-		$scope.newFlight.airlineId = id;
-		$scope.newFlight.from = $scope.newFlight.from.airportCode;
-		$scope.newFlight.to = $scope.newFlight.to.airportCode
-		$scope.newFlight.airplaneModelName = $scope.newFlight.airplane.modelName;
-		$scope.newFlight.airplaneModelNumber = $scope.newFlight.airplane.modelNumber;
-		var flight = $scope.newFlight;
-		$scope.newFlight.stopDestCodes = [];
-		if($scope.stopDests != null) {
-			$scope.stopDests.forEach(function(dest){
-				$scope.newFlight.stopDestCodes.push(dest.airportCode);
+		
+		var timepicker = new TimePicker(['time-departure', 'time-landing'], {
+			lang: 'en',
+			theme: 'dark'
+		});
+		timepicker.on('change', function(evt) {
+			var value = (evt.hour || '00') + ':' + (evt.minute || '00');
+			evt.element.value = value;
+		});
+		
+		$scope.addDest = function() {
+			console.log($scope.searchDest);
+			var data = {
+					airportCode: $scope.searchDest.substring(1,4),
+					airlineId: id	
+			};
+			destService.addDestToAirline(data).then(function(dest) {
+				$scope.dests.push(dest);
+				$scope.searchDest = "";
 			});
 		}
-		$scope.newFlight.stopCount = $scope.newFlight.stopDestCodes.length;
-		console.log(flight);
-		flightService.addFlight(flight).then(function(data){
-			console.log(data);
-			$scope.flights.push(data);
-			delete $scope.newFlight;
-			delete $scope.stopDests;
-		});
-	}
-	
-	$scope.addStopDest = function(dest) {
-		$scope.stopDests.push(dest);
-		$scope.potentialStopDests = $scope.potentialStopDests.filter(d => d != dest);
-	}
-	
-	$scope.removeStopDest = function(dest) {
-		$scope.stopDests = $scope.stopDests.filter(d => d != dest);
-		$scope.potentialStopDests.push(dest);
-	}
-	
-	$scope.parseAircraftType = function(type) {
-		return type.split('_').join(' ');
-	}
-	
-	$scope.formatDate = function(date) {
-		var d = new Date(date);
-		var retVal = d.toString();
-		retVal = retVal.substring(0, retVal.indexOf(':')+3);
-		return retVal;
-	}
-	
-	var selectedTab = localStorage.getItem('selectedTab');
+		
+		$scope.addNewDest = function() {
+			$scope.newDest.airlineId = id;
+			var dest = angular.toJson($scope.newDest);
+			console.log(dest);
+			destService.addDestToAirline(dest).then(function(dest) {
+				$scope.dests.push(dest);
+				delete $scope.newDest;
+			});
+		}
+		
+		$scope.removeDest = function(destToRemove) {
+			console.log(destToRemove);
+			destService.removeDest(destToRemove.id, id).then(function(dest) {
+				$scope.dests = $scope.dests.filter(d => d.airportCode != dest.airportCode);
+			});
+		}
+		
+		$scope.addPlane = function() {
+			$scope.plane.type = $scope.aircraftType.split(' ').join('_');
+			$scope.plane.ownerId = id;
+			console.log($scope.plane);
+			airplaneService.addAirplane($scope.plane).then(function(data){
+				$scope.planes.push(data);
+				delete $scope.plane;
+			});
+		}
+		
+		$scope.removePlane = function(planeToRemove) {
+			airplaneService.deleteAirplane(planeToRemove.id, id).then(function(retPlane){
+				$scope.planes = $scope.planes.filter(plane => plane.id != retPlane.id);
+			});
+		}
+		
+		$scope.addFlight = function() {
+			$scope.newFlight.airlineId = id;
+			$scope.newFlight.from = $scope.newFlight.from.substring(1,4);
+			$scope.newFlight.to = $scope.newFlight.to.substring(1,4);
+			$scope.newFlight.aircraftId = $scope.flightAircraft.id;
+			$scope.newFlight.stopDestCodes = [];
+			stopDests.forEach(function(dest){
+				$scope.newFlight.stopDestCodes.push(dest.substring(1,4));
+			});
+			$scope.newFlight.stopCount = $scope.newFlight.stopDestCodes.length;
+			$scope.newFlight.departureDate = parseDateTime($('#depart').val(), $('#time-departure').val());
+			$scope.newFlight.landingDate = parseDateTime($('#landing').val(), $('#time-landing').val());
+			console.log($scope.newFlight.departureDate);
+			console.log($scope.newFlight);
+			flightService.addFlight($scope.newFlight).then(function(data){
+				console.log(data);
+				$scope.flights.push(data);
+				delete $scope.newFlight;
+				stopDests.empty();
+				$('.stopDests').empty();
+			});
+		}
+		
+		$scope.addStopDest = function(dest) {
+			$scope.stopDests.push(dest);
+			$scope.potentialStopDests = $scope.potentialStopDests.filter(d => d != dest);
+		}
+		
+		$scope.removeStopDest = function(dest) {
+			$scope.stopDests = $scope.stopDests.filter(d => d != dest);
+			$scope.potentialStopDests.push(dest);
+		}
+		
+		$scope.parseAircraftType = function(type) {
+			return type.split('_').join(' ');
+		}
+		
+		$scope.formatDate = function(date) {
+			var d = new Date(date);
+			var retVal = d.toString();
+			retVal = retVal.substring(0, retVal.indexOf(':')+3);
+			return retVal;
+		}
+		
+		$scope.addStop = function() {
+			var txt = $('<span/>')
+			.addClass('airline-table')
+			.text($('#stop').val());
+			
+			var xBtn = $('<button/>')
+			.text('x')
+			.addClass('btn btn-link x-btn')
+			.click(function () {
+				stopDests = stopDests.filter(d => d != txt);
+				$(this).prev().remove();
+				$(this).next().remove();
+				$(this).remove();
+			});
+			delete $scope.newFlight.stop;
+			$(".stops").append(txt).append(xBtn).append('<br>');
+			stopDests.push(txt.text());
+		}
+		
+		var selectedTab = localStorage.getItem('selectedTab');
 		if (selectedTab != null) {
 			console.log(selectedTab);
 			$('a[data-toggle="tab"][href="' + selectedTab + '"]').tab('show');
 			$('.nav-tabs').find('.active').removeClass('active');
 			$('.nav-tabs').find('a[href="'+selectedTab+'"]').parent().addClass('active');
 		}
+		
+		function parseDateTime(date, time) {
+			date = date.split(' ').join('-');
+			return date += ' ' + time;
+		}
+	});
   });

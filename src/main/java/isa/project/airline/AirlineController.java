@@ -1,5 +1,7 @@
 package isa.project.airline;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -10,7 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import isa.project.aircraft.Aircraft;
+import isa.project.aircraft.AircraftRepository;
+import isa.project.destination.Destination;
 import isa.project.destination.DestinationRepository;
+import isa.project.flight.Flight;
 import isa.project.flight.FlightRepository;
 import isa.project.flight.pricelist.PriceListRepository;
 
@@ -30,6 +36,9 @@ public class AirlineController {
 	@Autowired
 	PriceListRepository pricelistRepo;
 	
+	@Autowired
+	AircraftRepository aircraftRepo;
+	
 	@RequestMapping(
 			value = "{id}",
 			method = RequestMethod.GET,
@@ -41,6 +50,24 @@ public class AirlineController {
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
+	@RequestMapping(
+			value = "profile/{id}",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<AirlineProfileDto> getProfileInfo(@PathVariable("id") Long id) {
+		Airline airline = airlineRepo.findOne(id);
+		if(airline == null)
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		List<Flight> flights = flightRepo.findByAirlineId(airline.getId());
+		List<Destination> destinations = destRepo.findByAirline(airline.getId());
+		List<Aircraft> aircrafts = aircraftRepo.findByOwnerId(airline.getId());
+		AirlineProfileDto airlineProfile = new AirlineProfileDto();
+		airlineProfile.setAircrafts(aircrafts);
+		airlineProfile.setAirline(airline);
+		airlineProfile.setDestinations(destinations);
+		airlineProfile.setFlights(flights);
+		return new ResponseEntity<AirlineProfileDto>(airlineProfile, HttpStatus.OK);
+	}
 	
 	@RequestMapping(
 			value = "update/",

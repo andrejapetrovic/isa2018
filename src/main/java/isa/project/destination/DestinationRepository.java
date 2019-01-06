@@ -16,9 +16,10 @@ public interface DestinationRepository extends JpaRepository<Destination, Long> 
 	Set<Destination> findAllByCodes(@Param("airportCodes") List<String> airportCodes);
 	
 	@Query(value = "SELECT * FROM DESTINATION WHERE dest_id IN" 
-	+ "(SELECT dest_id FROM AIRLINE_DESTINATIONS WHERE airline_id = :airlineId)"
+	+ "(SELECT dest_id FROM AIRLINE_DESTINATIONS WHERE airline_id = :airlineId) "
+	+ "AND CONCAT(city, country, airport_code, airport) LIKE CONCAT('%', :input, '%')"
 	,nativeQuery = true)
-	List<Destination> findByAirline(@Param("airlineId") Long airlineId);
+	List<Destination> filterByAirline(@Param("airlineId") Long airlineId,  @Param("input") String input);
 	
 	@Query(value = "SELECT * FROM DESTINATION WHERE dest_id NOT IN" 
 	+ "(SELECT dest_id FROM AIRLINE_DESTINATIONS WHERE airline_id = :airlineId) "
@@ -35,4 +36,9 @@ public interface DestinationRepository extends JpaRepository<Destination, Long> 
 	+ "(SELECT dest_id FROM FLIGHT_STOPS WHERE flight_id in :ids)"  
 	,nativeQuery = true)
 	List<Destination> findStops(@Param("ids") List<Long> flightIds);
+	
+	@Query(value = "SELECT * FROM DESTINATION WHERE dest_id IN" 
+	+ "(SELECT dest_id FROM AIRLINE_DESTINATIONS WHERE airline_id = :airlineId)"
+	,nativeQuery = true)
+	List<Destination> findByAirline(@Param("airlineId") Long airlineId);
 }

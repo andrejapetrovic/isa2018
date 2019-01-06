@@ -79,11 +79,20 @@ public class DestinationController {
 	}
 	
 	@RequestMapping(
-			value = "airline/{id}",
+			value = "get-by-airline/{id}",
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Destination>> getByAirline(@PathVariable("id") Long id) {
 		List<Destination> dests = destRepo.findByAirline(id);
+		return new ResponseEntity<List<Destination>>(dests, HttpStatus.OK);
+	}
+	
+	@RequestMapping(
+			value = "airline/{id}/{input}",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Destination>> filterByAirline(@PathVariable("id") Long id, @PathVariable("input") String input) {
+		List<Destination> dests = destRepo.filterByAirline(id, input);
 		return new ResponseEntity<List<Destination>>(dests, HttpStatus.OK);
 	}
 	

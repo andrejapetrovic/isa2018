@@ -1,5 +1,7 @@
 //pomocna funkcija za upadtovanje genericne liste na frontendu prilikom filtriranja na backendu
 function filterData(data, scopeData) {
+		if(data == undefined)
+			return;
     	var destCodes = data.map(d => d.airportCode)
     	var scopeDestCodes = scopeData.map(d => d.airportCode);
     	var toRemove = scopeData.filter(function(d){

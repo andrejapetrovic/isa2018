@@ -33,11 +33,11 @@ public class Flight {
 	@Column(name = "flight_id")
 	private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="from_id")
 	private Destination from;
 	
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="to_id")
 	private Destination to;
 	
@@ -62,7 +62,7 @@ public class Flight {
 	@JsonIgnore
 	private Set<Cabin> cabin;
 	
-	@OneToOne(cascade=CascadeType.ALL)
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="aircraft_id")
 	private Aircraft airplane;
 	

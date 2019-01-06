@@ -8,6 +8,12 @@ app.factory('airlineService', function($http) {
          });
      }
     
+    var getAirlineProfile = function(id) {    
+     	return $http.get('/airline/profile/' + id).then(function(response) {
+             return response.data;
+         });
+     }
+    
     var updateAirline = function(updateData) {
       	return $http.post('/airline/update/' , updateData).then(function(response) {
             return response.data;
@@ -16,6 +22,7 @@ app.factory('airlineService', function($http) {
      
      return {
     	 getAirline: getAirline,
+    	 getAirlineProfile: getAirlineProfile,
          updateAirline: updateAirline
        };
     
