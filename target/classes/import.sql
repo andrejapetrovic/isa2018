@@ -1,6 +1,12 @@
-insert into user (user_id, activated, city, email, last_name, name, password, phone, role) values ('1', true, 'Novi Sad', 'andreja2092@gmail.com', 'Petrovic', 'Andreja', '123', '123', 'RegisteredUser');
-insert into user (user_id, activated, city, email, last_name, name, password, phone, role) values ('2', true, 'Novi Sad', 'kovac@gmail.com', 'Kovac', 'Nikola', '123', '123', 'RegisteredUser');
-insert into user (user_id, activated, city, email, last_name, name, password, phone, role) values ('3', true, 'Novi Sad', 'radovanovic@gmail.com', 'Radovanovic', 'Aleksandar', '123', '123', 'RegisteredUser');
+insert into user (user_id, activated, city, email, last_name, name, password, phone) values ('1', true, 'Novi Sad', 'andreja2092@gmail.com', 'Petrovic', 'Andreja', '123', '123');
+insert into user (user_id, activated, city, email, last_name, name, password, phone) values ('2', true, 'Novi Sad', 'kovac@gmail.com', 'Kovac', 'Nikola', '123', '123');
+insert into user (user_id, activated, city, email, last_name, name, password, phone) values ('3', true, 'Novi Sad', 'radovanovic@gmail.com', 'Radovanovic', 'Aleksandar', '123', '123');
+insert into user_roles (user_id, role) values (1, 'AirlineAdmin');
+insert into user_roles (user_id, role) values (1, 'RegisteredUser');
+insert into user_roles (user_id, role) values (2, 'RegisteredUser');
+insert into user_roles (user_id, role) values (2, 'HotelAdmin');
+insert into user_roles (user_id, role) values (3, 'RegisteredUser');
+insert into user_roles (user_id, role) values (3, 'RentACarAdmin');
 
 insert into friend_relation(user_id, friend_id) values ('1', '2');
 insert into friend_relation(user_id, friend_id) values ('2', '1');

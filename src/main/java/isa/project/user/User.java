@@ -1,10 +1,11 @@
 package isa.project.user;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -57,8 +58,11 @@ public class User implements Serializable {
 	@JsonIgnore
 	private Set<User> friends;
 	
+	@ElementCollection(targetClass = Role.class)
 	@Enumerated(EnumType.STRING)
-	private Role role;
+	@CollectionTable(name="user_roles", joinColumns = @JoinColumn(name = "user_id"))
+	@Column(name="role")
+	private Set<Role> roles;
 	
 	public User() {
 	}
@@ -99,11 +103,11 @@ public class User implements Serializable {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public Role getRole() {
-		return role;
+	public Set<Role> getRoles() {
+		return roles;
 	}
-	public void setRole(Role type) {
-		this.role = type;
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 	public boolean isActivated() {
 		return activated;

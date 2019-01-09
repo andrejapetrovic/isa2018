@@ -14,8 +14,29 @@ app.factory('userService', function($http) {
         });
      }
      
+     var login = function(data){
+    	 return $http.post('/user/login/', data).then(function(response){
+    		return response.data; 
+    	 });
+     }
+     
+     var reg = function(data){
+    	 return $http.post('/user/signup/', data).then(function(response){
+    		return response.data; 
+    	 });
+     }
+     
+     var activation = function(code){
+    	 return $http.post('/user/activation/' + code).then(function(response){
+    		return response.data; 
+    	 });
+     }
+     
      return {
     	 getUser: getUser,
-         updateUser: updateUser
+         updateUser: updateUser,
+         login: login,
+         reg: reg,
+         activation: activation
        };
 });

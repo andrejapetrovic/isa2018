@@ -35,6 +35,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
               templateUrl: "flight-reservation/flight-list.html",
               controller: "flightListCtrl"
           })
+          .state('registration', {
+        	  url: "/registration",
+        	  templateUrl: "user/registration.html",
+        	  controller: "regCtrl"
+          })
          .state('seatConf', {
             url: "/airline-admin/seat-config/:id",
             templateUrl: "airline-admin/seat-config.html",
@@ -44,6 +49,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: "/airline-admin/airline/:id",
             templateUrl: "airline-admin/airline-profile.html",
             controller: "airlineCtrl"
+        })
+        .state('activate-acc', {
+            url: "/activation/:code",
+            templateUrl: "user/activation-page.html",
+            controller: "activationCtrl"
         })
 	
 });

@@ -1,5 +1,5 @@
 package isa.project.user;
 
 public enum Role {
-	RegisteredUser, AirCompanyAdmin, HotelAdmin, RentACarAdmin, SystemAdmin, 
+	RegisteredUser, AirlineAdmin, HotelAdmin, RentACarAdmin, SystemAdmin, 
 }
