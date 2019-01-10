@@ -32,11 +32,18 @@ app.factory('userService', function($http) {
     	 });
      }
      
+     var getLogged = function(){
+    	 return $http.get('/user/get-logged/').then(function(response){
+     		return response.data; 
+     	 });
+     }
+     
      return {
     	 getUser: getUser,
          updateUser: updateUser,
          login: login,
          reg: reg,
-         activation: activation
+         activation: activation,
+         getLogged: getLogged
        };
 });

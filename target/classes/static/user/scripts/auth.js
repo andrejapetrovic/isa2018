@@ -1,17 +1,29 @@
 var app = angular.module('app');
 
 app.controller('rootCtrl', function($scope, $http, $window, userService) {
-  
     $scope.logFunc = function () {
     	console.log($scope.user);
-    	userService.login($scope.user).then(function(data){
+    	userService.login($scope.user).then(function(user){
     		$window.location.reload();
-    		console.log(data);
     	}, function (err) {
     		$scope.resp = err.data.msg;
-    		console.log(err)
     	});
     }
+    
+    userService.getLogged().then(function(user){
+    	console.log(user);
+    	$scope.profileLink = user.name;
+    	$('#logout').show();
+		$('#profile-link').show();
+		$('#log-btn').hide();
+		$('#reg-btn').hide();
+    }, function (err) {
+    	console.log(err);
+    	$('#logout').hide();
+		$('#profile-link').hide();
+		$('#log-btn').show();
+		$('#reg-btn').show();
+	});
       
   });
 

@@ -16,9 +16,9 @@
 <script src="routing.js"></script>
 
 <script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-<script
 	src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
 <script src="https://use.fontawesome.com/c560c025cf.js"></script>
 
 <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -70,7 +70,7 @@
 				<li>
 					<!-- login dropdown -->
 					<div class="dropdown col-sm-2">
-						<a class="btn btn-sm btn-link login-btn" data-toggle="dropdown" role="button" aria-expanded="false">Login</a>
+						<a class="btn btn-sm btn-link login-btn" data-toggle="dropdown" role="button" aria-expanded="false" id="log-btn">Login</a>
 						<div class="dropdown-menu form-passengers stop-propagation"
 							role="menu">
 							<div class="col-sm-12">
@@ -117,7 +117,10 @@
 						</div>
 					</div>
 				</li>
-				<li><a ui-sref="registration">Sign up</a></li>
+				<li><a ui-sref="registration" id="reg-btn">Sign up</a></li>
+				
+					<li><a class="btn btn-sm btn-link" ui-sref="user" id="profile-link">{{profileLink}}</a></li>
+					<li><a class="btn btn-sm btn-link" id="logout" href="logout">Logout</a></li>
 			</ul>
 		</div>
 	</nav>

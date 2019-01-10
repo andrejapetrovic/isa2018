@@ -20,33 +20,37 @@
 						<div class="clearfix"></div>
 						<hr style="margin: 5px 0 5px 0;">
 
-						<div class="col-sm-5 col-xs-6 tital ">Name:</div>
-						<div class="col-sm-7 col-xs-6 ">{{user.name}}</div>
+						<div class="col-sm-5 title">Name:</div>
+						<div class="col-sm-5 user-details name">{{user.name}}</div>
+						<div class="col-sm-2"><a class="btn btn-sm btn-link" ng-click="edit('name', $event)">edit</a></div>
 						<div class="clearfix"></div>
 						<div class="bot-border"></div>
 
-						<div class="col-sm-5 col-xs-6 tital ">Last Name:</div>
-						<div class="col-sm-7">{{user.lastName}}</div>
+						<div class="col-sm-5 title">Last Name:</div>
+						<div class="col-sm-5 user-details lastName">{{user.lastName}}</div>
+						<div class="col-sm-2"><a class="btn btn-sm btn-link" ng-click="edit('lastName', $event)">edit</a></div>
 						<div class="clearfix"></div>
 						<div class="bot-border"></div>
 
-						<div class="col-sm-5 col-xs-6 tital ">Email:</div>
-						<div class="col-sm-7">{{user.email}}</div>
+						<div class="col-sm-5 col-xs-6 title">Email:</div>
+						<div class="col-sm-5 user-details email">{{user.email}}</div>
+						<div class="col-sm-2"><a class="btn btn-sm btn-link" ng-click="edit('email', $event)">edit</a></div>
 						<div class="clearfix"></div>
 						<div class="bot-border"></div>
 
-						<div class="col-sm-5 col-xs-6 tital ">City:</div>
-						<div class="col-sm-7">{{user.city}}</div>
+						<div class="col-sm-5 col-xs-6 title">City:</div>
+						<div class="col-sm-5 user-details city">{{user.city}}</div>
+						<div class="col-sm-2"><a class="btn btn-sm btn-link" ng-click="edit('city', $event)">edit</a></div>
 						<div class="clearfix"></div>
 						<div class="bot-border"></div>
 
-						<div class="col-sm-5 col-xs-6 tital ">Phone number:</div>
-						<div class="col-sm-7">{{user.phone}}</div>
+						<div class="col-sm-5 col-xs-6 title">Phone number:</div>
+						<div class="col-sm-5 user-details phone">{{user.phone}}</div>
+						<div class="col-sm-2"><a class="btn btn-sm btn-link" ng-click="edit('phone', $event)">edit</a></div>
 						<div class="clearfix"></div>
 						<div class="bot-border"></div>
 
-						<a href="#!update-user/{{user.id}}" type="button"
-							class="btn btn-primary btn-md">Update</a> <a type="button"
+						<a type="button"
 							class="btn btn-primary btn-md">Change Password</a>
 						<!-- /.box-body -->
 					</div>
@@ -57,7 +61,6 @@
 			</div>
 		</div>
 	</div>
-
 	<!-- Friends -->
 	<div class="col-md-5">
 

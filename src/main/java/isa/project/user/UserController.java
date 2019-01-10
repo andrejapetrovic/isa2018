@@ -34,14 +34,8 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
-	@Autowired 
-	private HttpSession httpSession;
-	
 	@Autowired
 	private TokenVerificationService tokenVerificationService;
-	
-	@Autowired
-	private AuthenticationManager authenticationManager;
 	
 	@Autowired
 	private CustomUserDetailsService userDetailsService;
@@ -140,6 +134,17 @@ public class UserController {
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 	
+	@RequestMapping(
+			value = "get-logged",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<User> getLoggedUser() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = userService.findByEmail(auth.getPrincipal().toString());
+		if(user == null)
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<User>(user, HttpStatus.OK);
+	}
 	
 	@RequestMapping(
 			value = "activation/{id}",

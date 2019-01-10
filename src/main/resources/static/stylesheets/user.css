@@ -3,7 +3,7 @@ input.hidden {
 	left: -9999px;
 }
 
-.tital {
+.title {
 	font-size: 16px;
 	font-weight: 500;
 }
@@ -11,4 +11,9 @@ input.hidden {
 .bot-border {
 	border-bottom: 1px #f8f8f8 solid;
 	margin: 5px 0 5px 0
+}
+
+.user-details{
+	font-size: 12px;
+	margin-top: 5px;
 }
