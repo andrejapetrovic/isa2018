@@ -16,7 +16,7 @@
 <script src="routing.js"></script>
 
 <script
-	src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
 <script src="https://use.fontawesome.com/c560c025cf.js"></script>
@@ -26,6 +26,10 @@
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+<script src="http://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.js"></script>
+<link href="http://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.css" rel="stylesheet"/>
+
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js"
 	charset="utf-8"></script>
@@ -43,14 +47,18 @@
 <script src="services/airplaneService.js"></script>
 <script src="services/flightService.js"></script>
 <script src="services/cabinService.js"></script>
+<script src="services/seatService.js"></script>
+<script src="services/reservationService.js"></script>
 
 <script src="user/scripts/auth.js"></script>
 <script src="user/scripts/user.js"></script>
-<script src="airline-admin/scripts/segment-view.js"></script>
 <script src="airline-admin/scripts/seat-config.js"></script>
 <script src="airline-admin/scripts/airline.js"></script>
+<script src="airline-admin/scripts/airline-list.js"></script>
 <script src="flight-reservation/scripts/search-flight.js"></script>
 <script src="flight-reservation/scripts/flight-list.js"></script>
+<script src="flight-reservation/scripts/res.js"></script>
+<script src="flight-reservation/scripts/seats.js"></script>
 
 <link rel="stylesheet" type="text/css" href="stylesheets/page.css">
 <link rel="stylesheet" type="text/css" href="stylesheets/user.css">
@@ -59,6 +67,7 @@
 	href="stylesheets/flight-list.css">
 <link rel="stylesheet" type="text/css" href="stylesheets/canvas.css">
 <link rel="stylesheet" type="text/css" href="stylesheets/tabs.css">
+<link rel="stylesheet" type="text/css" href="stylesheets/loader.css">
 </head>
 <body ng-app="app" ng-controller="rootCtrl">
 	<nav class="navbar navbar-default">
@@ -70,13 +79,13 @@
 				<li>
 					<!-- login dropdown -->
 					<div class="dropdown col-sm-2">
-						<a class="btn btn-sm btn-link login-btn" data-toggle="dropdown" role="button" aria-expanded="false" id="log-btn">Login</a>
+						<a class="btn btn-sm btn-link login-btn hidden" data-toggle="dropdown" role="button" aria-expanded="false" id="log-btn">Login</a>
 						<div class="dropdown-menu form-passengers stop-propagation"
 							role="menu">
 							<div class="col-sm-12">
 								<div class="main-login main-center">
 									<form ng-submit="logFunc()" class="form-horizontal"
-										name="regForm">
+										name="logForm">
 
 										<div class="form-group">
 											<label for="email" class="cols-sm-2 control-label">Your
@@ -85,11 +94,11 @@
 												<div class="input-group">
 													<span class="input-group-addon"><i
 														class="fa fa-envelope fa" aria-hidden="true"></i></span> <input
-														ng-model="user.email" type="email" class="form-control"
+														ng-model="login.email" type="email" class="form-control"
 														name="email" placeholder="Enter your Email" required>
 												</div>
 												<span style="color: red"
-													ng-show="regForm.email.$invalid && regForm.email.$touched">Please
+													ng-show="logForm.email.$invalid && logForm.email.$touched">Please
 													enter valid email</span>
 											</div>
 										</div>
@@ -100,7 +109,7 @@
 												<div class="input-group">
 													<span class="input-group-addon"><i
 														class="fa fa-lock fa-lg" aria-hidden="true"></i></span> <input
-														ng-model="user.password" type="password"
+														ng-model="login.password" type="password"
 														class="form-control" name="password"
 														placeholder="Enter your Password" required>
 												</div>
@@ -117,10 +126,11 @@
 						</div>
 					</div>
 				</li>
-				<li><a ui-sref="registration" id="reg-btn">Sign up</a></li>
+				<li><a class="btn btn-sm btn-link hidden" id="reg-btn" data-toggle="modal" data-target="#regModal">Sign up</a></li>
 				
-					<li><a class="btn btn-sm btn-link" ui-sref="user" id="profile-link">{{profileLink}}</a></li>
-					<li><a class="btn btn-sm btn-link" id="logout" href="logout">Logout</a></li>
+					<li><a class="btn btn-sm btn-link hidden" id="user-link" ui-sref="user">{{profileLink}}</a></li>
+					<li><a class="btn btn-sm btn-link hidden" id="logout" href="logout">Logout</a></li>
+					<li><a class="btn btn-sm btn-link hidden" id="airline-admin-link" ui-sref="airline-admin">Airline administration</a></li>
 			</ul>
 		</div>
 	</nav>
@@ -128,6 +138,139 @@
 	<div class="container">
 
 		<div ui-view></div>
+
+  <!-- Registration Modal -->
+  <div class="modal fade" id="regModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+       <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" align="center">Sign Up</h4>
+      </div>
+        <div class="col-sm-12">
+        <div class="modal-body">
+          	<div class="main-login main-center reg-form">
+	<form ng-submit="regFunc()" class="form-horizontal" name="regForm">
+		
+		<div class="clearfix"></div>
+		<div class="bot-border"></div>
+
+		<div class="form-group">
+			<label for="name" class="cols-sm-2 control-label">Your Name</label>
+			<div class="cols-sm-10">
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-user fa"
+						aria-hidden="true"></i></span> <input ng-model="reg.name" type="text"
+						class="form-control" name="name" placeholder="Enter your Name"
+						required>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="lastName" class="cols-sm-2 control-label">Your
+				Last Name</label>
+			<div class="cols-sm-10">
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-user fa"
+						aria-hidden="true"></i></span> <input ng-model="reg.lastName"
+						type="text" class="form-control" name="lastName"
+						placeholder="Enter your Last Name" required>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="email" class="cols-sm-2 control-label">Your Email</label>
+			<div class="cols-sm-10">
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-envelope fa"
+						aria-hidden="true"></i></span> <input ng-model="reg.email" type="email"
+						class="form-control" name="email" placeholder="Enter your Email"
+						required>
+				</div>
+				<span style="color: red"
+					ng-show="regForm.email.$invalid && regForm.email.$touched">Please
+					enter valid email</span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="password" class="cols-sm-2 control-label">Password</label>
+			<div class="cols-sm-10">
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-lock fa-lg"
+						aria-hidden="true"></i></span> <input ng-model="reg.password"
+						type="password" class="form-control" name="password"
+						placeholder="Enter your Password" required>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="confirm" class="cols-sm-2 control-label">Confirm
+				Password</label>
+			<div class="cols-sm-10">
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-lock fa-lg"
+						aria-hidden="true"></i></span> <input ng-model="reg.password2"
+						type="password" class="form-control" name="password2"
+						placeholder="Confirm your Password" required>
+				</div>
+				<span style="color: red"
+					ng-show="invalidPassword() && regForm.password2.$touched">Passwords
+					don't match</span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="city" class="cols-sm-2 control-label">City</label>
+			<div class="cols-sm-10">
+				<div class="input-group">
+					<span class="input-group-addon"><i
+						class="fa fa-map-marker fa" aria-hidden="true"></i></span> <input
+						ng-model="reg.city" type="text" class="form-control" name="city"
+						placeholder="Enter your City">
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="phone" class="cols-sm-2 control-label">Phone
+				Number</label>
+			<div class="cols-sm-10">
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-phone fa"
+						aria-hidden="true"></i></span> <input ng-model="reg.phone" type="number"
+						class="form-control" name="phone"
+						placeholder="Enter your Phone Number">
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group ">
+			<input type="submit"
+				class="btn btn-primary btn-lg btn-block login-button"
+				value="Sign up" />
+		</div>
+		<br>
+		<p>{{resp}}</p>
+	</form>
+</div>
+</div>
+{{success}}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+
 
 	</div>
 

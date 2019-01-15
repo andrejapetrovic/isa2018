@@ -21,7 +21,6 @@ public class Config extends WebSecurityConfigurerAdapter{
 		.antMatchers("/").permitAll()	
 		.antMatchers("/airline-admin/**").hasRole("AirlineAdmin")
 		.anyRequest().permitAll()
-		.and().exceptionHandling().accessDeniedPage("/error/403")
 		.and()
 		.logout().logoutSuccessUrl("/")
 		/*.antMatchers("").authenticated()

@@ -20,10 +20,17 @@ app.factory('airlineService', function($http) {
         });
      }
      
+    var getAll = function() {
+    	return $http.get('/airline/get-all').then(function(response){
+    		return response.data;
+    	});
+    }
+    
      return {
     	 getAirline: getAirline,
     	 getAirlineProfile: getAirlineProfile,
-         updateAirline: updateAirline
+         updateAirline: updateAirline,
+         getAll: getAll
        };
     
 });

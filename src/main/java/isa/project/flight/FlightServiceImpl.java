@@ -90,12 +90,13 @@ public class FlightServiceImpl implements FlightService {
 			List<String> codes = new ArrayList<String>(Arrays.asList(filterDto.getStopDests().split("-")));
 			ids = flightRepo.findByStops(ids, codes);
 		}
-		if (filterDto.getPriceRange() != null && !ids.isEmpty()) {
-			String prices[] = filterDto.getPriceRange().split("-");
+		if (filterDto.getPrice() != null && !ids.isEmpty()) {
+			String prices[] = filterDto.getPrice().split("-");
 			if (filterDto.getFtype() == FlightType.Round_trip) {
 				ids = flightRepo.findByReturnPriceRange(ids, prices[0], prices[1]);
 			}
 			else if (filterDto.getFtype() == FlightType.One_way) {
+				logger.info(prices[0] + " " + prices[1]);
 				ids = flightRepo.findByOneWayPriceRange(ids, prices[0], prices[1]);
 			}
 		}

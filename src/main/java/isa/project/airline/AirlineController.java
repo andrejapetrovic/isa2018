@@ -81,5 +81,16 @@ public class AirlineController {
 		airline.setAddress(airlineDto.getAddress());
 		return new ResponseEntity<>(airlineRepo.save(airline), HttpStatus.OK);
 	}
+
+	@RequestMapping(
+			value = "get-all",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Airline>> getAll() {
+		List<Airline> airlines = airlineRepo.findAll();
+		if(airlines != null)
+			return new ResponseEntity<List<Airline>>(airlines, HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
 	
 }

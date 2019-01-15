@@ -73,7 +73,21 @@ app.controller('flightListCtrl', function($scope, $http, $window, destService, f
 			var params = Object.assign({}, $stateParams);
 			params[key] = val;
 			console.log(params);
-			$state.go($state.current, params);
+			flightService.search(params).then(function(data){
+			});
+			//$state.go($state.current, params);
 		}
+		
+		$scope.makeRes = function(flightId, retFlightId) {
+			$state.go('reservation', {
+				fl: flightId, 
+				retFl: retFlightId, 
+				fclass: $stateParams.fclass,
+				adults: $stateParams.adults,
+				children: $stateParams.children,
+				infants: $stateParams.infants
+				});
+		};
+		
 	});
 });

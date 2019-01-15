@@ -16,7 +16,7 @@ public class FlightFilterDto {
 	
 	private int infants;
 	
-	private String priceRange;
+	private String price;
 	
 	private int stops = -1;
 	
@@ -74,12 +74,12 @@ public class FlightFilterDto {
 		this.infants = infants;
 	}
 
-	public String getPriceRange() {
-		return priceRange;
+	public String getPrice() {
+		return price;
 	}
 
-	public void setPriceRange(String priceRange) {
-		this.priceRange = priceRange;
+	public void setPrice(String price) {
+		this.price = price;
 	}
 
 	public int getStops() {

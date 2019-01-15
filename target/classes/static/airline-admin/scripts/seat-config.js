@@ -5,8 +5,8 @@ app.controller('seatConfigCtrl', function($scope, $http, $window, $stateParams, 
 		airplaneService.getAirplane($stateParams.id).then(function(data){
 			$scope.data = data;
 			$scope.aircraft = data.aircraft;
-			console.log($scope.data);
 			var selectedCanvasId;
+			var cabinClass; 
 			var	cabins = {
 						economy: {configured: false},
 						business: {configured: false},
@@ -46,7 +46,6 @@ app.controller('seatConfigCtrl', function($scope, $http, $window, $stateParams, 
 					else {
 						sepAtCols.push(sep[a]+sepAtCols[a-1])
 					}
-					console.log(sepAtCols[a]);
 				}
 				var sepSize = $scope.sepSize;
 				var d = $scope.d; // stranica kvadrata
@@ -57,13 +56,11 @@ app.controller('seatConfigCtrl', function($scope, $http, $window, $stateParams, 
 				canvas.height = (d+dy)*cols+dy + sepAtCols.length*sepSize;
 				ctx.fillStyle = "#FFFFFF";
 				ctx.strokeStyle = "#000000";
-				className = canvas.id.split('-')[0];
 				var seats = [];
 				for (i=0; i<rows; i++) {
 					s = 0;
 					for (j=0; j<cols; j++) {
 						if(sepAtCols.includes(j)){
-							//console.log(j);
 							s += sepSize;
 						}
 						//parametri x,y,duzina po x, duzina po y
@@ -77,15 +74,15 @@ app.controller('seatConfigCtrl', function($scope, $http, $window, $stateParams, 
 						});
 					}
 				}
-				cabins[className] = {
-					flightClass: className,
+				cabins[cabinClass] = {
+					flightClass: cabinClass,
 					row: rows,
 					col: cols,
 					dx: dx,
 					dy: dy,
 					d: d,
 					separations: $scope.sep,
-					separationsSize: $scope.sepSize,
+					separationSize: $scope.sepSize,
 					seats: seats,
 					aircraftId: $scope.aircraft.id
 				}
@@ -95,9 +92,10 @@ app.controller('seatConfigCtrl', function($scope, $http, $window, $stateParams, 
 			    .click(function () {
 			    	$(this).next().remove();
 			    	$(this).remove();
-			    	cabins[className].configured = true;
-			    	cabinService.addCabin(cabins[className]).then(function(data){
-			    		$("#" + className).prop('disabled', true);
+			    	cabins[cabinClass].configured = true;
+			    	console.log("klasa " + cabinClass);
+			    	cabinService.addCabin(cabins[cabinClass]).then(function(data){
+			    		$("#" + cabinClass).prop('disabled', true);
 			    		$("#create-seats").prop('disabled', true);
 			    	});
 			    })
@@ -128,12 +126,11 @@ app.controller('seatConfigCtrl', function($scope, $http, $window, $stateParams, 
 			}
 			
 			$(".nav-tabs").on("click", "a", function (e) {
-				var cabinClass = $(this).attr('id').split('-')[0];
+				cabinClass = $(this).attr('id').split('-')[0];
 				$("#create-seats").prop("disabled", cabins[cabinClass].configured);
 				e.preventDefault();
 				$(this).tab('show');
 				selectedCanvasId = $(this).attr('id').replace("-tab", "-canvas");
-				console.log(selectedCanvasId);
 			});
 		});
 		
@@ -152,12 +149,10 @@ app.controller('seatConfigCtrl', function($scope, $http, $window, $stateParams, 
 		//nakon sto se stranica loaduje
 		$scope.$on('$stateChangeSuccess', function () {
 			$("#economy").click().trigger();
-			console.log($scope.data);
 			if($scope.data.cabins.length > 0) {
 			$scope.data.cabins.forEach(function(cabin){
 				var fclass = $scope.data.cabin.flightClass;
 				var id = fclass.replace(fclass[0], fclass[0].toLowerCase()) + "-cabin";
-				console.log(id);
 				//createTab(id);
 				//drawSeats((seats.filter(seat => seat.cabin.id != cabin.id)), cabin.d);
 			});

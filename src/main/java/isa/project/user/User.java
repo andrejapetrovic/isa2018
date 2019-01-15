@@ -1,5 +1,6 @@
 package isa.project.user;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -62,7 +63,7 @@ public class User implements Serializable {
 	@Enumerated(EnumType.STRING)
 	@CollectionTable(name="user_roles", joinColumns = @JoinColumn(name = "user_id"))
 	@Column(name="role")
-	private Set<Role> roles;
+	private Set<Role> roles = new HashSet<>();
 	
 	public User() {
 	}

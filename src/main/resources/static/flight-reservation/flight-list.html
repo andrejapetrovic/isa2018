@@ -62,7 +62,7 @@ ng-options="sortOption for sortOption in sortOptions" required>
 		<div class="col-sm-2">
 			<div class="row flight-label" ng-if="ftype == 1">{{flight.oneWayPrice}}$</div>
 			<div class="row flight-label" ng-if="ftype == 2">{{flight.returnPrice}}$</div><br><br>
-			<div class="row flight-label2 make-res-btn"><button class="btn btn-warning btn-sm">Make reservation</button></div>
+			<div class="row flight-label2 make-res-btn"><button class="btn btn-warning btn-sm" ng-click="makeRes(flight.id, retFlights[idx].id)">Make reservation</button></div>
 		</div>
 </div>
 </div>

@@ -3,7 +3,6 @@ package isa.project.flight;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,9 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import isa.project.aircraft.Aircraft;
 import isa.project.aircraft.AircraftRepository;
 import isa.project.airline.Airline;
 import isa.project.airline.AirlineRepository;
+import isa.project.cabin.Cabin;
 import isa.project.cabin.CabinRepository;
 import isa.project.destination.Destination;
 import isa.project.destination.DestinationRepository;
@@ -31,6 +32,9 @@ import isa.project.flight.dto.FlightDto;
 import isa.project.flight.dto.FlightFilterDto;
 import isa.project.flight.dto.FlightReturnDto;
 import isa.project.flight.dto.FlightSearchDto;
+import isa.project.flight.seat.FlightSeat;
+import isa.project.flight.seat.FlightSeatRepository;
+import isa.project.seat.Seat;
 
 @RestController
 @RequestMapping(value="flight")
@@ -47,6 +51,9 @@ public class FlightController {
 	
 	@Autowired 
 	FlightRepository flightRepo;
+	
+	@Autowired 
+	FlightSeatRepository flightSeatRepo;
 	
 	@Autowired 
 	CabinRepository fclassRepo;
@@ -73,6 +80,7 @@ public class FlightController {
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Flight> add(@RequestBody FlightDto flightDto) throws Exception {
 		Airline airline = airlineRepo.getOne(flightDto.getAirlineId());
+		Aircraft plane = airplaneRepo.findOne(flightDto.getAircraftId());
 		Flight flight = new Flight();
 		
 		SimpleDateFormat ft = new SimpleDateFormat ("dd-MMM-yyyy HH:mm");
@@ -89,12 +97,24 @@ public class FlightController {
 		flight.setTo(destRepo.findByAirportCode(flightDto.getTo()));
 		if(flightDto.getStopCount() > 0) 
 			flight.setStops(destRepo.findAllByCodes(flightDto.getStopDestCodes()));
-		flight.setAirplane(airplaneRepo.findOne(flightDto.getAircraftId()));
+		flight.setAirplane(plane);
 		flight.setAirline(airline);
 		flight.setOneWayPrice(flightDto.getOneWayPrice());
 		flight.setReturnPrice(flightDto.getReturnPrice());
 		airline.getFlights().add(flight);
-		return new ResponseEntity<Flight>(flightRepo.save(flight), HttpStatus.CREATED);
+		flight = flightRepo.save(flight);
+		List<FlightSeat> flightSeats = new ArrayList<>();
+		for (Cabin cabin : plane.getCabins()) {
+			for (Seat seat : cabin.getSeats()) {
+				FlightSeat flightSeat = new FlightSeat();
+				flightSeat.setFlight(flight);
+				flightSeat.setSeat(seat);
+				flightSeats.add(flightSeat);
+				flightSeat.setFlightClass(cabin.getFlightClass());
+			}
+		}
+		flightSeatRepo.save(flightSeats);
+		return new ResponseEntity<Flight>(flight, HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(

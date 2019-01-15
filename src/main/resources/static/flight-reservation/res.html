@@ -1,0 +1,100 @@
+<div class="col-sm-8">
+	<form ng-repeat="passenger in passengers">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div class="col-sm-4">
+					<h4>{{passenger.passId}}</h4>
+				</div>
+
+			</div>
+			<div class="panel-body">
+				<div class="col-sm-6">
+					<label>Name</label>
+					<input type="text" class="form-control" ng-model="passenger.name">
+				</div>
+				<div class="col-sm-6">
+					<label>Last Name</label>
+					<input type="text" class="form-control" ng-model="passenger.lastName">
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="col-sm-6">
+					<label>Email</label>
+					<input type="text" class="form-control" ng-model="passenger.email">
+				</div>
+				<div class="col-sm-6">
+					<label>Phone</label>
+					<input type="text" class="form-control" ng-model="passenger.phone">
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="col-sm-2">
+					<label>Date of birth</label>
+					<input type="text" class="form-control" ng-model="passenger.day" placeholder="Day">
+				</div>
+				<div class="col-sm-2">
+					<label style="color:white">-</label>
+					<input type="text" class="form-control" ng-model="passenger.month" placeholder="Month">
+				</div>
+				<div class="col-sm-2">
+					<label style="color:white">-</label>
+					<input type="text" class="form-control" ng-model="passenger.year" placeholder="Year">
+				</div>
+				<div class="col-sm-6">
+					<label>Passport number</label>
+					<input type="text" class="form-control numbers-only" ng-model="passenger.passportId">
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="col-sm-2">
+					<label>Seat</label>
+				</div>
+				<div class="col-sm-2">
+					<label>Row:</label>
+					<span>{{passenger.flightSeat.seat.row}}</span>
+				</div>
+				<div class="col-sm-2">
+					<label>Column:</label>
+					<span>{{passenger.flightSeat.seat.col}}</span>
+				</div>
+				<div class="col-sm-3">
+					<label>Flight class:</label>
+					<span>{{passenger.flightSeat.flightClass}}</span>
+				</div>
+			</div>	
+			<div class="panel-body">
+				<div class="col-sm-2">
+					<button class="btn btn-xs user-data-btn"" ng-click="fillUserData(passenger)">Fill with user data</button>
+				</div>
+			</div>			
+		</div>
+	</form>
+</div>
+<div class="col-sm-4">
+	<div class="panel panel-default font14">
+		<div ng-repeat="flight in flightInfo">
+			<div class="panel-body">
+				<div class="col-sm-12">
+					<h4>{{flight.type}} info</h4>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="col-sm-12">
+					<label>Airline:</label>
+					<span>{{flight.airline.name}}</span>
+				</div>
+				<div class="col-sm-12">
+					<label>Destinations</label>
+					<span>{{flight.to.airportCode}} - {{flight.from.airportCode}}</span>
+				</div>
+				<div class="col-sm-12">
+					<label>Date: </label>
+					<span>{{parseDate(flight.departureDate, flight.landingDate)}}</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="col-sm-12">
+	<input type="submit" class="btn btn-md btn-primary" value="Make reservation" ng-click="makeRes()">
+</div>

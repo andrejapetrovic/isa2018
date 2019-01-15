@@ -11,12 +11,14 @@ app.controller('airlineCtrl', function($scope, $http, $window, $stateParams, air
 		$scope.potentialDests = [];
 		$scope.toDests = [];
 		$scope.fromDests = [];
+		$scope.stopDests = [];
 		$scope.dests = data["destinations"];
 		$scope.planes = data["aircrafts"];
 		$scope.aircraftTypes = ['Wide body jet', 'Narrow body jet', 'Turbo prop plane', 'Regional jet'];
 		$scope.aircraftType = $scope.aircraftTypes[0];
 		$scope.flights = data["flights"];
 		$scope.flightAircraft = $scope.planes[0];		
+		$scope.loading = false;
 		
 		$(".nav-tabs").on("click", "a", function (e) {
 			e.preventDefault();
@@ -59,6 +61,7 @@ app.controller('airlineCtrl', function($scope, $http, $window, $stateParams, air
 		});
 		
 		$("#stop").on('keyup paste click', function (e) {
+			console.log($scope.newFlight.stop);
 			if($("#stop").val() == "") return;
 		    destService.filterByAirline(id, $scope.newFlight.stop).then(function(data){
 		    	$scope.stopDests = filterData(data, $scope.stopDests);
@@ -126,6 +129,7 @@ app.controller('airlineCtrl', function($scope, $http, $window, $stateParams, air
 		}
 		
 		$scope.addFlight = function() {
+			$scope.loading = true;
 			$scope.newFlight.airlineId = id;
 			$scope.newFlight.from = $scope.newFlight.from.substring(1,4);
 			$scope.newFlight.to = $scope.newFlight.to.substring(1,4);
@@ -143,8 +147,9 @@ app.controller('airlineCtrl', function($scope, $http, $window, $stateParams, air
 				console.log(data);
 				$scope.flights.push(data);
 				delete $scope.newFlight;
-				stopDests.empty();
-				$('.stopDests').empty();
+				stopDests = [];
+				$('.stops').empty();
+				$scope.loading = false;
 			});
 		}
 		

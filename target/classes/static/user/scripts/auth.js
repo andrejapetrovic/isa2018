@@ -2,33 +2,13 @@ var app = angular.module('app');
 
 app.controller('rootCtrl', function($scope, $http, $window, userService) {
     $scope.logFunc = function () {
-    	console.log($scope.user);
-    	userService.login($scope.user).then(function(user){
+    	userService.login($scope.login).then(function(user){
     		$window.location.reload();
     	}, function (err) {
     		$scope.resp = err.data.msg;
     	});
     }
     
-    userService.getLogged().then(function(user){
-    	console.log(user);
-    	$scope.profileLink = user.name;
-    	$('#logout').show();
-		$('#profile-link').show();
-		$('#log-btn').hide();
-		$('#reg-btn').hide();
-    }, function (err) {
-    	console.log(err);
-    	$('#logout').hide();
-		$('#profile-link').hide();
-		$('#log-btn').show();
-		$('#reg-btn').show();
-	});
-      
-  });
-
-app.controller('regCtrl', function($scope, $http, $window, $state, userService) {
-	  
     $scope.regFunc = function () {
     	console.log($scope.reg);
     	userService.reg($scope.reg).then(function(data){
@@ -40,7 +20,22 @@ app.controller('regCtrl', function($scope, $http, $window, $state, userService) 
     		console.log(err)
     	});
     }
-});
+    
+    userService.getLogged().then(function(user){
+    	$scope.loggedUser = user;
+    	console.log(user);
+    	$scope.profileLink = user.name;
+    	$("#logout").removeClass("hidden");
+    	$("#user-link").removeClass("hidden");
+    	if (user.roles.includes('AirlineAdmin')) 
+    		$("#airline-admin-link").removeClass("hidden");
+    }, function (err) {
+    	console.log(err);
+    	$("#log-btn").removeClass("hidden");
+    	$("#reg-btn").removeClass("hidden");
+	});
+      
+  });
 
 app.controller('activationCtrl', function($scope, $stateParams, $http, userService) {
 	var token = $stateParams.code;

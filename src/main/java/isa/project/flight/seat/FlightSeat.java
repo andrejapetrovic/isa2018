@@ -3,12 +3,15 @@ package isa.project.flight.seat;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import isa.project.cabin.FlightClass;
 import isa.project.flight.Flight;
 import isa.project.seat.Seat;
 
@@ -23,7 +26,12 @@ public class FlightSeat {
 	@JoinColumn(name = "seat_id")
 	private Seat seat;
 	
+	@Enumerated(EnumType.STRING)
+	private FlightClass flightClass;
+	
 	private boolean reserved = false;
+	
+	private boolean fastReservation = false;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -61,6 +69,23 @@ public class FlightSeat {
 	public void setId(Long id) {
 		this.id = id;
 	}
+
+	public FlightClass getFlightClass() {
+		return flightClass;
+	}
+
+	public void setFlightClass(FlightClass flightClass) {
+		this.flightClass = flightClass;
+	}
+
+	public boolean isFastReservation() {
+		return fastReservation;
+	}
+
+	public void setFastReservation(boolean fastReservation) {
+		this.fastReservation = fastReservation;
+	}
+	
 	
 	
 }

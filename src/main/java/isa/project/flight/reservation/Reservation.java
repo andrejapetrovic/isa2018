@@ -1,7 +1,9 @@
 package isa.project.flight.reservation;
 
+import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,8 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import isa.project.flight.dto.FlightType;
 import isa.project.flight.seat.FlightSeat;
@@ -26,7 +29,7 @@ public class Reservation {
 	private Long id;
 	
 	@NotNull
-	private String firstName;
+	private String name;
 	
 	@NotNull
 	private String lastName;
@@ -35,15 +38,19 @@ public class Reservation {
 	private String email;
 	
 	@NotNull
-	private int phoneNum;
+	private int phone;
+	
+	@Basic
+	@Column(columnDefinition="DATETIME")
+	@Temporal(TemporalType.TIMESTAMP)
+	private java.util.Date dateOfBirth;
 	
 	@NotNull
-	@Size(min=7, message="Passport should have atleast 7 characters")
 	private int passportId;
 	
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "flight_reservation", joinColumns = @JoinColumn(name = "res_id"), inverseJoinColumns = @JoinColumn(name = "flight_id"))
-	private Set<FlightSeat> flightSeat;
+	private Set<FlightSeat> flightSeat = new HashSet<>();
 	
 	private FlightType flightType;
 	
@@ -55,12 +62,12 @@ public class Reservation {
 		this.passportId = passportId;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getName() {
+		return name;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getLastName() {
@@ -79,12 +86,12 @@ public class Reservation {
 		this.email = email;
 	}
 
-	public int getPhoneNum() {
-		return phoneNum;
+	public int getPhone() {
+		return phone;
 	}
 
-	public void setPhoneNum(int phoneNum) {
-		this.phoneNum = phoneNum;
+	public void setPhone(int phone) {
+		this.phone = phone;
 	}
 
 	public Set<FlightSeat> getFlightSeat() {
@@ -93,6 +100,14 @@ public class Reservation {
 
 	public void setFlightSeat(Set<FlightSeat> flightSeat) {
 		this.flightSeat = flightSeat;
+	}
+
+	public java.util.Date getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(java.util.Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
 	}
 
 	public Long getId() {

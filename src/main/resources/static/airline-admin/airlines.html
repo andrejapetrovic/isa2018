@@ -1,0 +1,12 @@
+	<h3 style="margin-left:15px">Airlines</h3>
+<div class="col-sm-6">
+	<table class="table table-striped airline-table">
+		<tbody>
+			<tr ng-repeat="airline in airlines">
+				<td>
+					<a class="btn btn-md btn-link" href="#!/airline-admin/airline/{{airline.id}}">{{airline.name}}</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

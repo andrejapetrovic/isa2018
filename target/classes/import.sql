@@ -1,4 +1,4 @@
-insert into user (user_id, activated, city, email, last_name, name, password, phone) values ('1', true, 'Novi Sad', 'andreja2092@gmail.com', 'Petrovic', 'Andreja', '123', '123');
+insert into user (user_id, activated, city, email, last_name, name, password, phone) values ('1', true, 'Novi Sad', 'aki@gmail.com', 'Petrovic', 'Andreja', '123', '123');
 insert into user (user_id, activated, city, email, last_name, name, password, phone) values ('2', true, 'Novi Sad', 'kovac@gmail.com', 'Kovac', 'Nikola', '123', '123');
 insert into user (user_id, activated, city, email, last_name, name, password, phone) values ('3', true, 'Novi Sad', 'radovanovic@gmail.com', 'Radovanovic', 'Aleksandar', '123', '123');
 insert into user_roles (user_id, role) values (1, 'AirlineAdmin');
@@ -38,18 +38,3 @@ insert into flight(flight_id, from_id, to_id, departure_date, landing_date, airl
 
 insert into flight_stops values(1, 3);
 insert into flight_stops values(1, 4);	
-/*insert into cabin(cabin_id, flight_class, aircraft_id) values (1, 'Economy', 1);
-insert into cabin(cabin_id, flight_class, aircraft_id) values (2, 'Premium_economy)', 1);
-insert into cabin(cabin_id, flight_class, aircraft_id) values (3, 'Bussines', 1);
-insert into cabin(cabin_id, flight_class, aircraft_id) values (4, 'First', 1);
-insert into cabin(cabin_id, flight_class, aircraft_id) values (5, 'Economy', 2);
-insert into seat(seat_id, cabin_id, x, y) values (1, 1, 0, 0);
-insert into seat(seat_id, cabin_id, x, y) values (2, 1, 0, 0);
-insert into seat(seat_id, cabin_id, x, y) values (3, 1, 0, 0);
-insert into seat(seat_id, cabin_id, x, y) values (4, 1, 0, 0);
-insert into seat(seat_id, cabin_id, x, y) values (5, 3, 0, 0);
-insert into flight_seat(id, flight_id, seat_id, reserved) values (1, 1, 1, true);
-insert into flight_seat(id, flight_id, seat_id, reserved) values (2, 1, 2, false);
-insert into flight_seat(id, flight_id, seat_id, reserved) values (3, 1, 3, false);
-insert into flight_seat(id, flight_id, seat_id, reserved) values (4, 1, 4, false);
-insert into flight_seat(id, flight_id, seat_id, reserved) values (5, 2, 5, false);*/
