@@ -49,7 +49,7 @@ public class Reservation {
 	private int passportId;
 	
 	@ManyToMany(cascade=CascadeType.ALL)
-	@JoinTable(name = "flight_reservation", joinColumns = @JoinColumn(name = "res_id"), inverseJoinColumns = @JoinColumn(name = "flight_id"))
+	@JoinTable(name = "flight_reservation", joinColumns = @JoinColumn(name = "res_id"), inverseJoinColumns = @JoinColumn(name = "flight_seat_id"))
 	private Set<FlightSeat> flightSeat = new HashSet<>();
 	
 	private FlightType flightType;
