@@ -61,10 +61,36 @@
 					<label>Flight class:</label>
 					<span>{{passenger.flightSeat.flightClass}}</span>
 				</div>
-			</div>	
+			</div>
+			<div class="panel-body" ng-if="passenger.returnTicket">
+				<div class="col-sm-2">
+					<label>Return seat</label>
+				</div>
+				<div class="col-sm-2">
+					<label>Row:</label>
+					<span>{{passenger.retFl.seat.row}}</span>
+				</div>
+				<div class="col-sm-2">
+					<label>Column:</label>
+					<span>{{passenger.retFl.seat.col}}</span>
+				</div>
+				<div class="col-sm-3">
+					<label>Flight class:</label>
+					<span>{{passenger.retFl.flightClass}}</span>
+				</div>
+			</div>
+			<div class="panel-body" ng-if="roundTrip == true">
+			</div>		
 			<div class="panel-body">
 				<div class="col-sm-2">
 					<button class="btn btn-xs user-data-btn"" ng-click="fillUserData(passenger)">Fill with user data</button>
+				</div>
+				<div class="col-sm-4">
+					<label>Choose seat for return</label>
+					<select class="btn btn-outline" ng-model="selected" 
+					ng-options="'row: ' + flight.seat.row + ' column: ' + flight.seat.col for flight in retFlights"
+					ng-change="selectRetSeat($index, selected)">
+					</select>
 				</div>
 			</div>			
 		</div>

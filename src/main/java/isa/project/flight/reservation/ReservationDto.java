@@ -6,6 +6,8 @@ public class ReservationDto {
 
 	private Long flightSeatId;
 	
+	private Long retFlightSeatId = new Long(-1);
+	
 	private String name;
 	
 	private String lastName;
@@ -73,6 +75,13 @@ public class ReservationDto {
 	public void setPassportId(int passportId) {
 		this.passportId = passportId;
 	}
-	
+
+	public Long getRetFlightSeatId() {
+		return retFlightSeatId;
+	}
+
+	public void setRetFlightSeatId(Long retFlightSeatId) {
+		this.retFlightSeatId = retFlightSeatId;
+	}
 	
 }

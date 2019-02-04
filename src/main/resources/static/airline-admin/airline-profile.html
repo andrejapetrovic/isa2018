@@ -4,7 +4,7 @@
 	<li><a data-toggle="tab" href="#dest">Destinations</a></li>
 	<li><a data-toggle="tab" href="#planes">Airplanes</a></li>
 	<li><a data-toggle="tab" href="#flights">Flights</a></li>
-	<li><a data-toggle="tab" href="#rep">Reports</a></li>
+	<li><a data-toggle="tab" href="#baggage">Baggage fees</a></li>
 </ul>
 
 <div class="tab-content">
@@ -23,6 +23,8 @@
 						<br>
 						<button class="btn btn-sm btn-primary" ng-click=saveChanges()>Save
 							changes</button>
+				<span class="font14">{{updInfoSucces}}</span>
+    		  <button class="btn btn-link btn-xs hidden" id="x-info">x</button>	
 					</div>
 				</div>
 			</form>
@@ -260,6 +262,51 @@
 				</table>
 			</div>
 		</div>
+	</div>
+	<div id="baggage" class="tab-pane">
+		<div class="row" style="padding-top:20px;">
+      <div class="col-md-6">
+          <form class="form-horizontal">
+          <fieldset>
+            <legend>Baggage fees</legend>
+    
+            <div class="form-group">
+              <label class="col-md-3 control-label">Carry on bag</label>
+              <div class="col-md-3">
+                <input ng-model="bag.carryOnBagFee" type="text" class="form-control">
+              </div>
+            </div>
+    
+    		<div class="form-group">
+              <label class="col-md-3 control-label">First checked bag</label>
+              <div class="col-md-3">
+                <input ng-model="bag.firstCheckedBagFee" type="text" class="form-control">
+              </div>
+            </div>
+    
+    		<div class="form-group">
+              <label class="col-md-3 control-label">Second checked bag</label>
+              <div class="col-md-3">
+                <input ng-model="bag.secondCheckedBagFee" type="text" class="form-control">
+              </div>
+            </div>
+            
+			<div class="form-group">
+              <label class="col-md-3 control-label">Additional bag</label>
+              <div class="col-md-3">
+                <input ng-model="bag.additionalBagFee" type="text" class="form-control">
+              </div>
+	          <div class="col-md-3">
+                <button type="submit" class="btn btn-md btn-primary" ng-click="baggageFees()">Submit</button>
+              </div>
+    		  <span class="font14">{{priceListSucces}}</span>
+    		  <button class="btn btn-link btn-xs hidden" id="x-pl">x</button>
+            </div>
+          </fieldset>
+          
+          </form>
+      </div>
+	</div>
 	</div>
 </div>
 

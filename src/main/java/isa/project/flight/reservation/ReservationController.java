@@ -41,6 +41,9 @@ public class ReservationController {
 			newRes.setPhone(resDto.getPhone());
 			newRes.setPassportId(resDto.getPassportId());
 			newRes.getFlightSeat().add(flightSeatRepository.findOne(resDto.getFlightSeatId()));
+			if(resDto.getRetFlightSeatId() != -1) {
+				newRes.getFlightSeat().add(flightSeatRepository.findOne(resDto.getRetFlightSeatId()));
+			}
 			resList.add(newRes);
 		});
 		
