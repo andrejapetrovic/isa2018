@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import isa.project.branchOffice.BranchOffice;
 import isa.project.branchOffice.BranchOfficeRepo;
+import isa.project.rentACar.RentACar;
 
 
 
@@ -61,7 +63,15 @@ public class CarController {
 		
 	}
 	
-	
-	
+	@RequestMapping(
+			value = "{id}",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Car>> get(@PathVariable("id") Long id) {
+		
+		BranchOffice b = branchOfficeRepo.findOne(id);
+		List<Car> cars = carRepo.findBybranchOffice(b);
+		return new ResponseEntity<List<Car>>(cars, HttpStatus.OK);
+	} 
 	
 }

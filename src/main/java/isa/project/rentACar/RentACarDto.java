@@ -6,7 +6,7 @@ public class RentACarDto {
 	
 	private Long id;
 	
-	private String name;
+	private String nameOfRentACar;
 	
 	private String address;
 	
@@ -18,10 +18,10 @@ public class RentACarDto {
 		
 	}
 
-	public RentACarDto(Long id, String name, String address, String description, int rating) {
+	public RentACarDto(Long id, String nameOfRentACar, String address, String description, int rating) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.nameOfRentACar = nameOfRentACar;
 		this.address = address;
 		this.description = description;
 		this.rating = rating;
@@ -35,12 +35,12 @@ public class RentACarDto {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getNameOfRentACar() {
+		return nameOfRentACar;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setNameOfRentACar(String nameOfRentACar) {
+		this.nameOfRentACar = nameOfRentACar;
 	}
 
 	public String getAddress() {
@@ -66,5 +66,7 @@ public class RentACarDto {
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
+
+	
 
 }

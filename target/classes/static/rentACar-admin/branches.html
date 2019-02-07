@@ -1,0 +1,55 @@
+
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 10px;
+  font-size: 15px;
+}
+
+tr:nth-child(even) {
+  background-color: #fdfddd;
+}
+</style>
+
+<h3 style="margin-left:15px">Branches</h3>
+
+
+		
+<div class="col-sm-6">
+	<table>
+		  <tr>
+		    <th>City</th>
+		    <th>Address</th>
+		  
+		    <label>Search: <input ng-model="searchText"></label>
+		  </tr>
+		  <tr ng-repeat="branchOffice in branches | filter:searchText">
+				<th>
+					<a class="btn btn-md btn-link" href="#!/carList/{{branchOffice.id}}" >{{branchOffice.city}}</a>
+				</th>
+				<th>
+					{{branchOffice.address}}
+				</th>
+				
+				<th style="background-color:white;">
+					<a type="button" class="btn btn-primary"  href="#!/changeBranchOffice/{{branchOffice.id}}">Change</a>
+				</th>
+				
+				<th style="background-color:white;">
+					<a type="button" class="btn btn-primary"  href="#!/branches/{{branchOffice.servis.id}}" ng-click="deleteBranchOffice(branchOffice.id,branchOffice.servis.id)">Delete</a>
+				</th>
+			</tr>
+	 </table>
+</div>	
+
+
+
+
+

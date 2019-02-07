@@ -32,14 +32,14 @@ insert into airline_destinations(airline_id, dest_id) values ('1', '2');
 insert into airline_destinations(airline_id, dest_id) values ('1', '3');
 
 
-INSERT INTO rentacar(id,address,description,name,rating) VALUES('1','1Mileve Maric','dsafs','1NS Rent','2');
-INSERT INTO rentacar(id,address,description,name,rating) VALUES('2','2Jovana Ducica','dsafs','2NS Rent','2');
-INSERT INTO rentacar(id,address,description,name,rating) VALUES('3','3Mileve Maric','dsafs','3NS Rent','2');
+INSERT INTO rentacar(id,address,description,name_Of_RentACar,rating) VALUES('1','1Mileve Maric','dsafs','1NS Rent','2');
+INSERT INTO rentacar(id,address,description,name_Of_RentACar,rating) VALUES('2','2Jovana Ducica','dsafs','2NS Rent','2');
+INSERT INTO rentacar(id,address,description,name_Of_RentACar,rating) VALUES('3','3Mileve Maric','dsafs','3NS Rent','2');
 
 INSERT INTO branch_office(id,address,city,servis_id) VALUES('1','1Mileve Maric','1Novi Sad','1');
 INSERT INTO branch_office(id,address,city,servis_id) VALUES('2','2Mileve Maric','2Novi Sad','2');
 INSERT INTO branch_office(id,address,city,servis_id) VALUES('3','3Mileve Maric','3Novi Sad','3');
 
-INSERT INTO car(car_type, id, description, model_name,model_number,number_of_cases,number_of_doors,number_of_seats,price_per_day,branch_office_id) values('Prestige_Cars','1','','Porsche911','1','1','2','2','15','1');
-INSERT INTO car(car_type,id,description,model_name,model_number,number_of_cases,number_of_doors,number_of_seats,price_per_day,branch_office_id) values('Prestige_Cars','2','','Porsche911','2','1','2','2','15','2');
-INSERT INTO car(car_type,id,description,model_name,model_number,number_of_cases,number_of_doors,number_of_seats,price_per_day,branch_office_id) values('Prestige_Cars','3','','Porsche911','3','1','2','2','15','3');
+INSERT INTO car(car_type, id, description, model_name,model_number,number_of_cases,number_of_doors,number_of_seats,price_per_day,branch_office_id) values('Prestige_Cars','1','','Porsche911','1','1','2','2','80','1');
+INSERT INTO car(car_type,id,description,model_name,model_number,number_of_cases,number_of_doors,number_of_seats,price_per_day,branch_office_id) values('Full_Size','2','','Ford Taurus','4','4','2','2','30','2');
+INSERT INTO car(car_type,id,description,model_name,model_number,number_of_cases,number_of_doors,number_of_seats,price_per_day,branch_office_id) values('SUV_Convertible','3','','Audi q7','3','4','2','2','50','3');
