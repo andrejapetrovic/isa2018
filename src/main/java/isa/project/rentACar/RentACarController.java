@@ -21,7 +21,7 @@ public class RentACarController {
 	RentACarRepository rentACarRepo;
 	
 	@RequestMapping(
-			value = "all",
+			value = "get-all",
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<RentACar>> getAll() {
@@ -37,12 +37,11 @@ public class RentACarController {
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<RentACar> add(@RequestBody RentACarDto rentACarDto) throws Exception {
 		RentACar service = new RentACar();
-		service.setName(rentACarDto.getName());
+		service.setNameOfRentACar(rentACarDto.getNameOfRentACar());
 		service.setAddress(rentACarDto.getAddress());
 		service.setDescription(rentACarDto.getDescription());
 		service.setRating(rentACarDto.getRating());
-		
-		System.out.println(rentACarDto.getId());
+	
 		
 		return new ResponseEntity<>(rentACarRepo.save(service), HttpStatus.CREATED);
 		

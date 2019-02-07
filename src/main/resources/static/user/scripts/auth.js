@@ -29,6 +29,14 @@ app.controller('rootCtrl', function($scope, $http, $window, userService) {
     	$("#user-link").removeClass("hidden");
     	if (user.roles.includes('AirlineAdmin')) 
     		$("#airline-admin-link").removeClass("hidden");
+    	else if( user.roles.includes('RentACarAdmin'))
+    	{
+    		//
+    		$("#rentACar-add-link").removeClass("hidden");
+    		$("#rentACar-list-link").removeClass("hidden");
+    		
+    		
+    	}
     }, function (err) {
     	console.log(err);
     	$("#log-btn").removeClass("hidden");

@@ -50,6 +50,9 @@
 <script src="services/seatService.js"></script>
 <script src="services/reservationService.js"></script>
 
+<script src="services/rentACarService.js"></script>
+<script src="services/carService.js"></script>
+
 <script src="user/scripts/auth.js"></script>
 <script src="user/scripts/user.js"></script>
 <script src="airline-admin/scripts/seat-config.js"></script>
@@ -59,6 +62,14 @@
 <script src="flight-reservation/scripts/flight-list.js"></script>
 <script src="flight-reservation/scripts/res.js"></script>
 <script src="flight-reservation/scripts/seats.js"></script>
+
+<script src="rentACar-admin/scripts/rentACar-admin.js"></script>
+<script src="rentACar-admin/scripts/changeBranchOffice.js"></script>
+<script src="rentACar-admin/scripts/branchOffice-list.js"> </script>
+<script src="rentACar-admin/scripts/car-list.js"> </script>
+<script src="rentACar-admin/scripts/branchOfficeCarList.js"> </script>
+
+
 
 <link rel="stylesheet" type="text/css" href="stylesheets/page.css">
 <link rel="stylesheet" type="text/css" href="stylesheets/user.css">
@@ -131,6 +142,14 @@
 					<li><a class="btn btn-sm btn-link hidden" id="user-link" ui-sref="user">{{profileLink}}</a></li>
 					<li><a class="btn btn-sm btn-link hidden" id="logout" href="logout">Logout</a></li>
 					<li><a class="btn btn-sm btn-link hidden" id="airline-admin-link" ui-sref="airline-admin">Airline administration</a></li>
+					
+					<!--Admin profile Rent a car -->
+					<li><a class="btn btn-sm btn-link hidden" id="rentACar-add-link" ui-sref="addRentACar-admin">Add RentACar</a></li>
+					<li><a class="btn btn-sm btn-link hidden" id="rentACar-list-link" ui-sref="rentACarList">List of RentACar</a></li>
+					<li><a class="btn btn-sm btn-link hidden" id="rentACar-branchOffice-link" >Add BranchOffice</a></li>
+					<li><a class="btn btn-sm btn-link hidden" id="rentACar-cars-link" ui-sref="carList">List all cars</a></li>
+					
+					
 			</ul>
 		</div>
 	</nav>

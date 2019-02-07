@@ -31,7 +31,7 @@ public class RentACar implements Serializable {
 	private Long id;
 	
 	@Column(unique = true, nullable = false)
-	private String name;
+	private String nameOfRentACar;
 	
 	@Column(unique = true, nullable = false)
 	private String address;
@@ -47,18 +47,17 @@ public class RentACar implements Serializable {
 	public RentACar() {
 		
 	}
-	
 
-	public RentACar(Long id, String name, String address, String description, int rating, List<BranchOffice> branches) {
+	public RentACar(Long id, String nameOfRentACar, String address, String description, int rating,
+			List<BranchOffice> branches) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.nameOfRentACar = nameOfRentACar;
 		this.address = address;
 		this.description = description;
 		this.rating = rating;
 		this.branches = branches;
 	}
-
 
 	public Long getId() {
 		return id;
@@ -68,12 +67,12 @@ public class RentACar implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getNameOfRentACar() {
+		return nameOfRentACar;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setNameOfRentACar(String nameOfRentACar) {
+		this.nameOfRentACar = nameOfRentACar;
 	}
 
 	public String getAddress() {
@@ -111,5 +110,8 @@ public class RentACar implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
+
+	
 
 }

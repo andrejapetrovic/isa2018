@@ -1,0 +1,65 @@
+
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 10px;
+  font-size: 15px;
+}
+
+tr:nth-child(even) {
+  background-color: #fdfddd;
+}
+</style>
+
+<h3 style="margin-left:15px">Services</h3>
+		
+<div class="col-sm-6">
+	<table>
+		  <tr>
+		    <th>Name</th>
+		    <th>Address</th>
+		    <th>Description</th>
+		    <th>Rating</th>
+		    
+		  </tr>
+		  <label>Search: <input ng-model="searchText"></label>
+		  <tr ng-repeat="service in services | orderBy : data.selectedOption.value | filter:searchText">
+				<th>
+					<a class="btn btn-md btn-link" href="#!/branches/{{service.id}}" >{{service.nameOfRentACar}}</a>
+				</th>                                                                        
+				<th>
+					{{service.address}}
+				</th>
+				<th>
+					{{service.description}}
+				</th>
+				<th>
+					{{service.rating}}	
+				</th>
+				
+				
+			</tr>
+	 </table>
+</div>	
+
+
+
+<div class="col-sm-3">
+			<div class="form-group">
+						<span class="form-label">Sort by</span>
+						<div class="input-group">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-sort"></i></span>
+									<select class="form-control"name="mySelect" id="mySelect" ng-options="option.name for option in data.availableOptions track by option.id" ng-model="data.selectedOption">
+				      				
+				      				</select>
+						</div>
+			</div>
+</div>	
+

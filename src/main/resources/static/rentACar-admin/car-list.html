@@ -1,0 +1,82 @@
+
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 10px;
+  font-size: 15px;
+}
+
+tr:nth-child(even) {
+  background-color: #fdfddd;
+}
+</style>
+
+<h3 style="margin-left:15px">Cars</h3>
+
+
+
+		
+<div class="col-sm-12">
+	<table>
+		  <tr>
+		    <th>modelNumber</th>
+		    <th>modelName</th>
+		    <th>numberOfSeats</th>
+		    <th>numberOfCases</th>
+		    <th>numberOfDoors</th>
+		    <th>pricePerDay in euro</th>
+		    <th>description</th>
+		    <th>carType</th>
+		  
+		    
+		  </tr>
+		  <label>Search: <input ng-model="searchText"></label>
+		  <tr ng-repeat="car in cars | filter:searchText">
+				<th>
+					{{car.modelNumber}}
+				</th>
+				<th>
+					{{car.modelName}}
+				</th>
+				<th>
+					{{car.numberOfSeats}}
+				</th>
+				<th>
+					{{car.numberOfCases}}
+				</th>
+				<th>
+					{{car.numberOfDoors}}
+				</th>
+				<th>
+					{{car.pricePerDay}}
+				</th>
+				<th>
+					{{car.branchOffice.branchOffice.servis.id}}
+				</th>
+				<th>
+					{{car.carType}}
+				</th>
+				<th style="background-color:white;">
+					<a type="button" class="btn btn-primary" >Change</a>
+				</th>
+				
+				<th style="background-color:white;">
+					<a type="button" class="btn btn-primary" >Delete</a>
+				</th>
+			</tr>
+	 </table>
+	
+</div>	
+
+
+
+
+
+

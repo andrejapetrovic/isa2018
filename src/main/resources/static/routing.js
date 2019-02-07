@@ -47,6 +47,43 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: "flight-reservation/seats.html",
             controller: "seatCtrl"
         })
+        .state('addRentACar-admin', {
+            url: "/addRentACar-admin",
+            templateUrl: "rentACar-admin/addRentACar.html",
+            controller: "rentACarCtrl"
+        })
+        .state('rentACarList', {
+            url: "/rentACarList",
+            templateUrl: "rentACar-admin/services.html",
+            controller: "rentACarCtrl"
+        })
+        .state('branches', {
+            url: "/branches/:id",
+            templateUrl: "rentACar-admin/branches.html",
+            controller: "branchOfficeListCtrl"
+        })
+        .state('addBranchOffice', {
+            url: "/addBranchOffice/:id",
+            templateUrl: "rentACar-admin/addBranchOffice.html",
+            controller: "rentACarCtrl"
+        })
+        .state('changeBranchOffice', {
+            url: "/changeBranchOffice/:id",
+            templateUrl: "rentACar-admin/changeBranchOffice.html",
+            controller: "changeBranchOfficeCtrl"
+        })
+         .state('carList', {
+            url: "/carList",
+            templateUrl: "rentACar-admin/car-list.html",
+            controller: "carListCtrl"
+        })
+        .state('branchOfficeCarList', {
+            url: "/carList/:id",
+            templateUrl: "rentACar-admin/car-list.html",
+            controller: "branchOfficeCarList"
+        })
+        
+        
         $urlRouterProvider.when('', '/home');
 });
 
