@@ -22,7 +22,6 @@ public class FlightDto {
 	
 	private int returnPrice, oneWayPrice;
 	
-
 	public String getFrom() {
 		return from;
 	}

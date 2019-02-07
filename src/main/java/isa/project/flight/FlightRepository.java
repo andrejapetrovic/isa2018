@@ -95,6 +95,12 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
 			@Param("ids") List<BigInteger> ids,
 			@Param("stops") int stops);
 	
+	@Query(value = "SELECT flight_id FROM flight WHERE flight_id in :ids and stop_count >= 2"
+	,nativeQuery = true)
+	List<BigInteger> findByStopsGreaterThan1(
+			@Param("ids") List<BigInteger> ids
+			);
+	
 	@Query(value = "SELECT flight_id FROM flight "
 			+"NATURAL JOIN flight_stops " 
 			+"INNER JOIN destination dest on flight_stops.dest_id = dest.dest_id " 
@@ -127,6 +133,15 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
 	@Query(value = "SELECT flight_id FROM flight WHERE flight_id IN :ids and return_price BETWEEN :lowest AND :highest"   
 			,nativeQuery = true)
 	List<BigInteger> findByReturnPriceRange(
+			@Param("ids") List<BigInteger> ids,
+			@Param("lowest") String lowest,
+			@Param("highest") String highest
+			);
+	
+	@Query(value = "SELECT flight_id FROM flight WHERE flight_id IN :ids and HOUR(TIMEDIFF(landing_date, departure_date)) >= :lowest "
+			+ "and HOUR(TIMEDIFF(landing_date, departure_date)) <= :highest"   
+			,nativeQuery = true)
+	List<BigInteger> findByDuration(
 			@Param("ids") List<BigInteger> ids,
 			@Param("lowest") String lowest,
 			@Param("highest") String highest

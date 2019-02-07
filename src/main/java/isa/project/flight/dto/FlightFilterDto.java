@@ -34,6 +34,26 @@ public class FlightFilterDto {
 	
 	private String stopDests;
 	
+	private String duration1;
+	
+	private String duration2;
+	
+	public String getDuration1() {
+		return duration1;
+	}
+
+	public void setDuration1(String duration1) {
+		this.duration1 = duration1;
+	}
+
+	public String getDuration2() {
+		return duration2;
+	}
+
+	public void setDuration2(String duration2) {
+		this.duration2 = duration2;
+	}
+	
 	public FlightClass getFclass() {
 		return fclass;
 	}

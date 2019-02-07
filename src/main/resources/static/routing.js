@@ -6,7 +6,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: "flight-reservation/search-flight.html",
             controller: "searchFlightCtrl"
         })
-          .state('home.searchFlight', {
+          .state('searchFlight', {
               url: "/search?fromDest&toDest&departDate&returnDate&fclass&ftype&adults&children&infants" +
               		"&sort&airlines&stopDests&price",
               templateUrl: "flight-reservation/flight-list.html",

@@ -87,7 +87,7 @@ app.controller('searchFlightCtrl', function($scope, $http, $window, $state, dest
 			}
 		console.log(searchParams);
 		//$window.location.href = '#!/flights/' + searchParams;
-		$state.go(".searchFlight", searchParams); 
+		$state.go("searchFlight", searchParams); 
 	}
 	
 	$('.search-ft').on('change', function (e) {

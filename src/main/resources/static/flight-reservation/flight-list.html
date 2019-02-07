@@ -7,13 +7,30 @@
             <label class="flight-label2" id="priceOutputMax">
             </label>
         </div>
-	</div>
+		<div class="col-xs-12"><br>
+        	<label class="flight-label">Trip duration</label>
+            <input type="range" class="slider" id="tripDurrationSlider">
+            <label class="flight-label2" id=tripDurrationMin></label>
+            <label class="flight-label2" id="tripDurrationMax">
+            </label>
+        </div>
+			<label class="font14">Airlines</label><br>
+		<div class="col-xs-12" ng-repeat="airline in airlines">
+			<input type="checkbox" name="airline" id="arl-{{airline.id}}" ng-model="airline.selected"  ng-change="toggleAirline($index)">
+          	<label for="arl-{{airline.id}}">{{airline.name}}</label>
+		</div>
+		<label class="font14">Number of stops</label><br>
+		<div class="col-xs-12" ng-repeat="stop in stops">
+			<input type="radio" name="stop" id="arl-{{stop.id}}" ng-model="selectedStop" value="stop.selected" ng-change="toggleStop($index)">
+          	<label for="stop-{{stop.id}}">{{stop.name}}</label>
+		</div>
+</div>
 </div>
 
 <div class="col-sm-9">
 
 <select name="sortOption" class="btn btn-outline search-fc cols-sm-12" ng-model="sortOption" 
-ng-options="sortOption for sortOption in sortOptions" required>
+ng-options="sortOption.val for sortOption in sortOptions" ng-change="selectSort()" required>
 <option value="" disabled selected>Sort by</option>
 </select>
 <br><br><br>
