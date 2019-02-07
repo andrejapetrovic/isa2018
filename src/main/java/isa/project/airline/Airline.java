@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -55,9 +56,8 @@ public class Airline implements Serializable {
 	@JsonIgnore
 	private List<Aircraft> planes; 
 	
-	@OneToMany(mappedBy="airline")
-	@JsonIgnore
-	private List<PriceList> pricelist;
+	@OneToOne
+	private PriceList pricelist;
 	
 	public Airline() {
 	}
@@ -109,12 +109,12 @@ public class Airline implements Serializable {
 	public void setPlanes(List<Aircraft> planes) {
 		this.planes = planes;
 	}
-
-	public List<PriceList> getPricelist() {
+	
+	public PriceList getPricelist() {
 		return pricelist;
 	}
 
-	public void setPricelist(List<PriceList> pricelist) {
+	public void setPricelist(PriceList pricelist) {
 		this.pricelist = pricelist;
 	}
 

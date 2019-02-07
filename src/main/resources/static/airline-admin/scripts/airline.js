@@ -19,6 +19,7 @@ app.controller('airlineCtrl', function($scope, $http, $window, $stateParams, air
 		$scope.flights = data["flights"];
 		$scope.flightAircraft = $scope.planes[0];		
 		$scope.loading = false;
+		$scope.bag = data['airline'].pricelist;
 		
 		$(".nav-tabs").on("click", "a", function (e) {
 			e.preventDefault();
@@ -31,10 +32,12 @@ app.controller('airlineCtrl', function($scope, $http, $window, $stateParams, air
 		
 		$scope.saveChanges = function() {
 			$scope.airline.id = id
-			var airline = angular.toJson($scope.airline);
-			console.log(airline);
-			airlineService.updateAirline(airline).then(function(data){
+			$("#x-info").addClass("hidden");
+			$scope.updInfoSucces = "request sent";
+			airlineService.updateAirline($scope.airline).then(function(data){
 				console.log(data);
+				$("#x-info").removeClass("hidden");
+				$scope.updInfoSucces = data.name + " info successfully changed";
 			});
 		}
 		
@@ -191,6 +194,26 @@ app.controller('airlineCtrl', function($scope, $http, $window, $stateParams, air
 			delete $scope.newFlight.stop;
 			$(".stops").append(txt).append(xBtn).append('<br>');
 			stopDests.push(txt.text());
+		}
+		
+		$("#x-pl").click(function(e){
+			$scope.priceListSucces = "";
+			$(this).addClass("hidden");
+		});
+		
+		$("#x-info").click(function(e){
+			$scope.updInfoSucces = "";
+			$(this).addClass("hidden");
+		});
+		
+		$scope.baggageFees = function() {
+			$scope.bag['airlineId'] = id;
+			$("#x-pl").addClass("hidden");
+			$scope.priceListSucces = "request sent";
+			airlineService.addPrices($scope.bag).then(function(data){
+				$scope.priceListSucces = "prices changed successfully";
+				$("#x-pl").removeClass("hidden");
+			});
 		}
 		
 		var selectedTab = localStorage.getItem('selectedTab');

@@ -4,22 +4,20 @@ app.controller('resCtrl', function($scope, $http, $window, $location,
 	var params = $location.url().split('?')[1];
 	var infantNum = params.includes('infants') ? $stateParams.infants : 0;
 	console.log(params);
+	$scope.roundTrip = false;
+	if(params.includes("retFl=")) $scope.roundTrip = true;
 	seatService.getFlightSeatsByIds(params).then(function(data){
 		console.log(data);
 		var flightSeats = data[0];
-		var retFlightSeats = data[1];
+		if($scope.roundTrip) $scope.retFlights = data[1];
 		var passNum = flightSeats.length;
 		$scope.passengers = [];
 		for (var i = 0; i < passNum; i++) {
 			$scope.passengers.push({
 				passId : 'Passenger ' + (i+1),
 				flightSeat : flightSeats[i],
-				flightType : "One_way"
-			});
-		}
-		for (var i = 0; i < infantNum; i++) {
-			$scope.passengers.push({
-				type : 'Infant'
+				flightType : "One_way",
+				returnTicket: false,
 			});
 		}
 		$scope.flightInfo = [];
@@ -58,7 +56,11 @@ app.controller('resCtrl', function($scope, $http, $window, $location,
 		angular.forEach($scope.passengers, function(passenger){
 				passenger['dateOfBirth'] = passenger.year + "-" + passenger.month + "-" + passenger.day;
 				passenger['flightSeatId'] = passenger.flightSeat.id;
+				if(passenger.retFl != null) {
+					passenger['retFlightSeatId'] = passenger.retFl.id;
+				}
 				delete passenger['flightSeat'];
+				delete passenger['retFl'];
 				
 		});
 		console.log($scope.passengers);
@@ -66,5 +68,11 @@ app.controller('resCtrl', function($scope, $http, $window, $location,
 			console.log(data);
 		});
 	}
+	
+	$scope.selectRetSeat = function(index, selected) {
+		$scope.passengers[index].returnTicket = true;
+		$scope.passengers[index]['retFl'] = selected;
+	}
+	
 });
 

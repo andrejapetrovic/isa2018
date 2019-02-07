@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Implementation-Title: rezervacija-karata
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: Sasa
+Built-By: Aki1
 Implementation-Vendor-Id: isa.projekat
-Build-Jdk: 1.8.0_201
+Build-Jdk: 1.8.0_181
 Implementation-URL: http://projects.spring.io/spring-boot/rezervacija-
  karata/
 Created-By: Maven Integration for Eclipse
