@@ -15,7 +15,6 @@ app.controller('rentACarCtrl', function($scope, $http, $window, $stateParams, re
 		    selectedOption: {id: '3', name: 'Sort by Adress [A - Z]', value :'nameOfRentACar'} //This sets the default value of the select in the ui
 	};
 
-	
 	$scope.SaveRentACar = function() {
 		rentACarService.addRentACar($scope.addRentACar).then(function(data){
 			console.log(data);
@@ -23,20 +22,13 @@ app.controller('rentACarCtrl', function($scope, $http, $window, $stateParams, re
 	}
 	
 	rentACarService.getAll().then(function(data){
+		$("#rentACar-addCar-link").addClass("hidden");
+		$("#rentACar-branchOffice-link").addClass("hidden");
+		$("#rentACar-cars-link").addClass("hidden");
 		$scope.services = data;
 	});
 
 	
-	$scope.saveBranchOffice = function() {
-		$scope.addBranchOffice.id = $stateParams.id;
-		
-		$("#addBranchOffice").prop('href', '#!/branches/'+$stateParams.id);
-		
-		console.log($scope.addBranchOffice);
-		rentACarService.addBranchOffice($scope.addBranchOffice).then(function(data){
-			console.log(data);
-		});
-	}	
 });
 
 

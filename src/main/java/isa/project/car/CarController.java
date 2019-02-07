@@ -18,6 +18,7 @@ import isa.project.rentACar.RentACar;
 
 
 
+
 @RestController
 @RequestMapping(value="car")
 public class CarController {
@@ -73,5 +74,61 @@ public class CarController {
 		List<Car> cars = carRepo.findBybranchOffice(b);
 		return new ResponseEntity<List<Car>>(cars, HttpStatus.OK);
 	} 
+	
+	@RequestMapping(
+			value = "getOne/{id}",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Car> getOneCar(@PathVariable("id") Long id) {
+		
+		
+		Car car = carRepo.getOne(id);
+		System.out.println(car);
+		if(car == null)
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		
+		return new ResponseEntity<Car>(car, HttpStatus.OK);
+	} 
+	
+	@RequestMapping(
+			value = "update",
+			method = RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> update(@RequestBody CarDto carDto) throws Exception {
+		Car car = carRepo.getOne(carDto.getId());
+		
+		car.setModelNumber(carDto.getModelNumber());
+		car.setModelName(carDto.getModelName());
+		car.setNumberOfSeats(carDto.getNumberOfSeats());
+		car.setNumberOfCases(carDto.getNumberOfCases());
+		car.setNumberOfDoors(carDto.getNumberOfDoors());
+		car.setPricePerDay(carDto.getPricePerDay());
+		car.setDescription(carDto.getDescription());
+		car.setCarType(CarType.valueOf(carDto.getCarType()));
+		
+		
+		return new ResponseEntity<>(carRepo.save(car), HttpStatus.OK);
+	}
+	
+	@RequestMapping(
+			value = "delete/{carId}/{branchOfficeId}",
+			method = RequestMethod.DELETE,
+			produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	public ResponseEntity<Car> delete(@PathVariable("carId") Long carId,
+			@PathVariable("branchOfficeId") Long branchOfficeId) throws Exception {
+		
+		
+		BranchOffice branchOffice = branchOfficeRepo.findOne(branchOfficeId);
+		Car car = carRepo.findOne(carId);
+		
+		branchOffice.getCars().remove(car);
+		branchOfficeRepo.save(branchOffice);
+		
+		carRepo.delete(car.getId());
+		return new ResponseEntity<Car>(car, HttpStatus.OK);
+	}
+	
 	
 }

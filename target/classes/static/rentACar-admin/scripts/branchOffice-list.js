@@ -9,6 +9,8 @@ app.controller('branchOfficeListCtrl', function($scope, $http, $window, $statePa
 		$("#rentACar-branchOffice-link").removeClass("hidden");
 		$("#rentACar-branchOffice-link").prop('href', '#!/addBranchOffice/'+id)
 		$("#rentACar-cars-link").removeClass("hidden");
+		
+		
 	});
 	
 	
