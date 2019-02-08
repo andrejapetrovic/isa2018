@@ -92,7 +92,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: "rentACar-admin/addCar.html",
             controller: "carListCtrl"
         })
-        
+        .state('findRentACar', {
+            url: "/findRentACar",
+            templateUrl: "reservationRent/findRentACar.html",
+            controller: "findRentCtrl"
+        })
         
         $urlRouterProvider.when('', '/home');
 });

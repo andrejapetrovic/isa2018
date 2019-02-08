@@ -1,0 +1,91 @@
+
+
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 10px;
+  font-size: 15px;
+}
+
+tr:nth-child(even) {
+  background-color: #fdfddd;
+}
+</style>
+
+<div class="form-header">
+	<h1>Find rent-a-car service</h1>
+</div>
+<form>
+	<div class="form-group">
+				<div class="input-group">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-edit"></i></span>
+							<input id = "nameRent"  class="form-control" type="text" required="required"  placeholder="Enter name of rent-a-car">
+							<span id="errorName"></span>
+				</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+							<input class="form-control" id="pocetak" type="date" data-toggle="tooltip" data-placement="top" title="Date when you want to pick up vehicle" data-placeholder="Choose pick-up date" required>
+							<span id="errorPocetak"></span>
+						</div>
+					</div>
+		</div>
+		<div class="col-md-6">
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+							<input class="form-control" type="date" id="kraj" data-placeholder="Choose drop-off date" data-toggle="tooltip" data-placement="top" title="Date when you want to return vehicle" required>
+							<span id="errorKraj"></span>
+						</div>
+					</div>
+		</div>
+	</div>
+	<button type="button" id="searchRent" onclick="findRent()" class="btn  btn-lg">Search cars</button>
+</form>
+
+
+
+
+<h3 style="margin-left:15px">Services</h3>
+		
+<div class="col-sm-6">
+	<table>
+		  <tr>
+		    <th>Name</th>
+		    <th>Address</th>
+		    <th>Description</th>
+		    <th>Rating</th>
+		    
+		  </tr>
+		  
+		  <tr ng-repeat="service in services">
+				<th>
+					<a class="btn btn-md btn-link" href="" >{{service.nameOfRentACar}}</a>
+				</th>                                                                        
+				<th>
+					{{service.address}}
+				</th>
+				<th>
+					{{service.description}}
+				</th>
+				<th>
+					{{service.rating}}	
+				</th>	
+			</tr>
+	 </table>
+</div>	
+
+
+
+
+

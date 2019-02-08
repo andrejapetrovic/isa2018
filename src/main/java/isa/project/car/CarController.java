@@ -54,6 +54,7 @@ public class CarController {
 		car.setPricePerDay(carDto.getPricePerDay());
 		car.setDescription(carDto.getDescription());
 		car.setCarType(CarType.valueOf(carDto.getCarType()));
+		car.setReserved(false);
 		
 		BranchOffice b = branchOfficeRepo.getOne(carDto.getId()); 
 		b.getCars().add(car);
@@ -106,7 +107,7 @@ public class CarController {
 		car.setPricePerDay(carDto.getPricePerDay());
 		car.setDescription(carDto.getDescription());
 		car.setCarType(CarType.valueOf(carDto.getCarType()));
-		
+		car.setReserved(false);
 		
 		return new ResponseEntity<>(carRepo.save(car), HttpStatus.OK);
 	}

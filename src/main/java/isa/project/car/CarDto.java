@@ -22,12 +22,14 @@ public class CarDto {
 	
 	private String carType;
 	
+	private boolean reserved;
+	
 	public CarDto() {
 		
 	}
 
 	public CarDto(Long id, int modelNumber, String modelName, int numberOfSeats, int numberOfCases, int numberOfDoors,
-			double pricePerDay, String description, String carType) {
+			double pricePerDay, String description, String carType, boolean reserved) {
 		super();
 		this.id = id;
 		this.modelNumber = modelNumber;
@@ -38,6 +40,7 @@ public class CarDto {
 		this.pricePerDay = pricePerDay;
 		this.description = description;
 		this.carType = carType;
+		this.reserved = reserved;
 	}
 
 	public Long getId() {
@@ -112,4 +115,11 @@ public class CarDto {
 		this.carType = carType;
 	}
 
+	public boolean isReserved() {
+		return reserved;
+	}
+
+	public void setReserved(boolean reserved) {
+		this.reserved = reserved;
+	}
 }

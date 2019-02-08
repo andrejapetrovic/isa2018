@@ -43,15 +43,16 @@ public class Car {
 	@ManyToOne( fetch = FetchType.EAGER)
     @JoinColumn(name = "branchOffice_id")
 	private BranchOffice branchOffice;
+	
+	private boolean reserved;
 	 
 	public Car() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	
 	public Car(Long id, int modelNumber, String modelName, int numberOfSeats, int numberOfCases, int numberOfDoors,
-			double pricePerDay, String description, CarType carType, BranchOffice branchOffice) {
+			double pricePerDay, String description, CarType carType, BranchOffice branchOffice, boolean reserved) {
 		super();
 		this.id = id;
 		this.modelNumber = modelNumber;
@@ -63,8 +64,8 @@ public class Car {
 		this.description = description;
 		this.carType = carType;
 		this.branchOffice = branchOffice;
+		this.reserved = reserved;
 	}
-
 
 	public Long getId() {
 		return id;
@@ -114,6 +115,14 @@ public class Car {
 		this.numberOfDoors = numberOfDoors;
 	}
 
+	public double getPricePerDay() {
+		return pricePerDay;
+	}
+
+	public void setPricePerDay(double pricePerDay) {
+		this.pricePerDay = pricePerDay;
+	}
+
 	public String getDescription() {
 		return description;
 	}
@@ -130,24 +139,21 @@ public class Car {
 		this.carType = carType;
 	}
 
-
-	public double getPricePerDay() {
-		return pricePerDay;
-	}
-
-
-	public void setPricePerDay(double pricePerDay) {
-		this.pricePerDay = pricePerDay;
-	}
-
-
 	public BranchOffice getBranchOffice() {
 		return branchOffice;
 	}
 
-
 	public void setBranchOffice(BranchOffice branchOffice) {
 		this.branchOffice = branchOffice;
 	}
+
+	public boolean isReserved() {
+		return reserved;
+	}
+
+	public void setReserved(boolean reserved) {
+		this.reserved = reserved;
+	}
+
 
 }
