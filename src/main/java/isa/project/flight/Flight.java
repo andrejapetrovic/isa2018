@@ -1,5 +1,6 @@
 package isa.project.flight;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Basic;
@@ -14,7 +15,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -25,6 +25,7 @@ import isa.project.aircraft.Aircraft;
 import isa.project.airline.Airline;
 import isa.project.cabin.Cabin;
 import isa.project.destination.Destination;
+import isa.project.flight.price.FlightPrice;
 
 @Entity
 public class Flight {
@@ -64,6 +65,11 @@ public class Flight {
 	@JoinTable(name = "flight_cabins", joinColumns = @JoinColumn(name = "flight_id"), inverseJoinColumns = @JoinColumn(name = "cabin_id"))
 	@JsonIgnore
 	private Set<Cabin> cabin;
+	
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name = "price_id")
+	@JsonIgnore
+	private Set<FlightPrice> price = new HashSet<>();
 	
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="aircraft_id")
@@ -202,6 +208,14 @@ public class Flight {
 
 	public void setTerminal2(String terminal2) {
 		this.terminal2 = terminal2;
+	}
+
+	public Set<FlightPrice> getPrice() {
+		return price;
+	}
+
+	public void setPrice(Set<FlightPrice> price) {
+		this.price = price;
 	}
 
 	

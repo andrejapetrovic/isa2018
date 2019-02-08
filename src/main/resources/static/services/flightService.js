@@ -26,11 +26,24 @@ app.factory('flightService', function($http) {
 		});
 	}
 	
+    var addPrice = function(data) {    
+     	return $http.post('/flight/add-price/', data).then(function(response) {
+             return response.data;
+         });
+     }
+    
+    var prices = function(flightId, fclass) {
+		return $http.get('/flight/price/' + flightId + "/" + fclass).then(function(response){
+			return response.data;
+		});
+    }
+	
      return {
     	 getFlightsByAirline: getFlightsByAirline,
     	 addFlight: addFlight,
     	 deleteFlight: deleteFlight,
-    	 search: search
+    	 search: search,
+    	 prices: prices
      };
     
 });

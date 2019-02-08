@@ -27,12 +27,16 @@ import isa.project.airline.Airline;
 import isa.project.airline.AirlineRepository;
 import isa.project.cabin.Cabin;
 import isa.project.cabin.CabinRepository;
+import isa.project.cabin.FlightClass;
 import isa.project.destination.Destination;
 import isa.project.destination.DestinationRepository;
 import isa.project.flight.dto.FlightDto;
 import isa.project.flight.dto.FlightFilterDto;
 import isa.project.flight.dto.FlightReturnDto;
 import isa.project.flight.dto.FlightSearchDto;
+import isa.project.flight.dto.PriceDto;
+import isa.project.flight.price.FlightPrice;
+import isa.project.flight.price.FlightPriceRepository;
 import isa.project.flight.seat.FlightSeat;
 import isa.project.flight.seat.FlightSeatRepository;
 import isa.project.seat.Seat;
@@ -62,6 +66,9 @@ public class FlightController {
 	
 	@Autowired
 	FlightService flightService;
+	
+	@Autowired
+	FlightPriceRepository priceRepo;
 	
 	@RequestMapping(
 			value = "{id}",
@@ -174,6 +181,32 @@ public class FlightController {
 		retVal.setFlights(foundFlights);
 		retVal.setStops(stops);
 		return new ResponseEntity<FlightReturnDto>(retVal, HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_AirlineAdmin')")
+	@RequestMapping(
+			value = "add-price/",
+			method = RequestMethod.POST,
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> update(@RequestBody PriceDto dto) throws Exception {
+		Flight flight = flightRepo.getOne(dto.getFlightId());
+		FlightPrice fp = new FlightPrice();
+		fp.setFlightClass(FlightClass.valueOf(dto.getfClass()));
+		fp.setOneWayPrice(dto.getOneWayPrice());
+		fp.setReturnPrice(dto.getReturnPrice());
+		fp.setFlight(flight);
+		priceRepo.save(fp);
+		flight.getPrice().add(fp);
+		return new ResponseEntity<>(flightRepo.save(flight), HttpStatus.OK);
+	}
+	
+	@RequestMapping(
+			value = "prices/{flightId}/{fclass}",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> getPrices(@PathVariable("flightId") Long id, @PathVariable("fclass") FlightClass fclass) {
+		return new ResponseEntity<>(priceRepo.findOneByFlightClassAndFlightId(fclass, id), HttpStatus.OK);
 	}
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());

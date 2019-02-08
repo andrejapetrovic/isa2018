@@ -15,6 +15,15 @@ app.controller('flightSeatCtrl', function($scope, $http, $window, $location,
 		console.log(data);
 		getFclasses(Object.keys(seats), "flight");
 		drawSeats(seats, "flight");
+		
+		$scope.flight = data[0].flight;
+		console.log($scope.flight);
+		
+		
+		
+		$scope.selectedTab = "flight-economy";
+		var fclass = $scope.selectedTab.charAt(0).toUpperCase();
+		console.log(fclass);
 	});
 	
 	function getFclasses(fclasses, flight) {
@@ -134,6 +143,12 @@ app.controller('flightSeatCtrl', function($scope, $http, $window, $location,
 					  }
 				  });
 			});
+			
+			$(".nav-tabs").on("click", "a", function (e) {
+				console.log($(this).attr('href'));
+				$scope.selectedTab = $(this).attr('href');
+			});
 		});
 	}
+	
 });

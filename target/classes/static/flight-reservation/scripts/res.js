@@ -86,7 +86,7 @@ app.controller('resCtrl', function($scope, $http, $window, $location,
 			$state.go('user');
 		}, function(err){
 			console.log(err.data.msg);
-			$scope.err = "Unale to make reservation, " + err.data.msg;
+			$scope.err = "Unable to make reservation, " + err.data.msg;
 		});
 	}
 	

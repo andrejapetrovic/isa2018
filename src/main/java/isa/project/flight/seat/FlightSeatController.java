@@ -50,7 +50,6 @@ public class FlightSeatController {
 		return new ResponseEntity<List<List<FlightSeat>>>(ret, HttpStatus.OK);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_AirlineAdmin')")
 	@RequestMapping(
 			value = "/ids",
 			method = RequestMethod.GET,

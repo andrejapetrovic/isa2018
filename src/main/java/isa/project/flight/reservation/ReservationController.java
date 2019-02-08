@@ -94,9 +94,9 @@ public class ReservationController {
 				newRes.getFlightSeat().add(fs);
 			}
 			resList.add(newRes);
+			emailService.sendEmail(newRes);
 		});
 		
-		//emailService.sendEmail(res);
 		return new ResponseEntity<>(resRepo.save(resList), HttpStatus.CREATED);
 	}
 	

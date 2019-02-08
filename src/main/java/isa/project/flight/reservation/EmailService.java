@@ -1,5 +1,6 @@
 package isa.project.flight.reservation;
 
+import java.util.Iterator;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,6 +12,10 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.stereotype.Service;
+
+import isa.project.destination.Destination;
+import isa.project.flight.Flight;
+import isa.project.flight.seat.FlightSeat;
 
 
 @Service
@@ -50,12 +55,26 @@ public class EmailService {
 	
 	private String createMsg(Reservation res) {
 		StringBuilder sb = new StringBuilder("<p>You have succesfully made a flight reservation.<br>");
-		/*sb.append("From: ").append(res.getFlight().getFrom()).append("<br>")
-		.append("To:").append(res.getFlight().getTo()).append("<br>")
-		.append("Departure date and time: ").append(res.getFlight().getDepartureDate()).append("<br>")
-		.append("<p>");
-		//dodati jos informacija na kraju*/
+		
+		Iterator<FlightSeat> fsIterator = res.getFlightSeat().iterator();
+		while(fsIterator.hasNext()) {
+		    FlightSeat fs = fsIterator.next();
+		    Flight f = fs.getFlight();
+		    sb.append("From: ").append(parseDestination(f.getFrom(), f.getTerminal1())).append("<br>")
+		    .append("To:").append(parseDestination(f.getTo(), f.getTerminal2())).append("<br>")
+		    .append("Departure date and time: ").append(f.getDepartureDate()).append("<br>")
+		    .append("Landing date and time").append(f.getLandingDate()).append("<br>")
+		    .append("Seat row and column").append(fs.getSeat().getRow()).append(" ").append(fs.getSeat().getCol())
+		    .append(" Cabin").append(fs.getFlightClass()).append("<br>")
+		    .append("Price: ").append(f.getOneWayPrice())
+		    .append("<p>");
+		}
+		
 		return sb.toString();
+	}
+	
+	private String parseDestination(Destination dest, String terminal) {
+		return dest.getCity() + " " + dest.getAirportCode() + ", airport " + dest.getAirport() + " Terminal: " + terminal + ", " + dest.getCountry();
 	}
 	
 }
