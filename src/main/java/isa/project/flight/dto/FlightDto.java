@@ -22,6 +22,10 @@ public class FlightDto {
 	
 	private int returnPrice, oneWayPrice;
 	
+	private String terminal1;
+	
+	private String terminal2;
+	
 	public String getFrom() {
 		return from;
 	}
@@ -100,6 +104,22 @@ public class FlightDto {
 
 	public void setOneWayPrice(int oneWayPrice) {
 		this.oneWayPrice = oneWayPrice;
+	}
+
+	public String getTerminal1() {
+		return terminal1;
+	}
+
+	public void setTerminal1(String terminal1) {
+		this.terminal1 = terminal1;
+	}
+
+	public String getTerminal2() {
+		return terminal2;
+	}
+
+	public void setTerminal2(String terminal2) {
+		this.terminal2 = terminal2;
 	}
 
 

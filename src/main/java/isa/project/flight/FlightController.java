@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +36,7 @@ import isa.project.flight.dto.FlightSearchDto;
 import isa.project.flight.seat.FlightSeat;
 import isa.project.flight.seat.FlightSeatRepository;
 import isa.project.seat.Seat;
+import isa.project.user.Message;
 
 @RestController
 @RequestMapping(value="flight")
@@ -72,13 +74,13 @@ public class FlightController {
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 	
-	
+	@PreAuthorize("hasRole('ROLE_AirlineAdmin')")
 	@RequestMapping(
 			value = "add",
 			method = RequestMethod.POST,
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Flight> add(@RequestBody FlightDto flightDto) throws Exception {
+	public ResponseEntity<?> add(@RequestBody FlightDto flightDto) throws Exception {
 		Airline airline = airlineRepo.getOne(flightDto.getAirlineId());
 		Aircraft plane = airplaneRepo.findOne(flightDto.getAircraftId());
 		Flight flight = new Flight();
@@ -88,19 +90,41 @@ public class FlightController {
 			flight.setDepartureDate(ft.parse(flightDto.getDepartureDate()));
 			flight.setLandingDate(ft.parse(flightDto.getLandingDate()));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return new ResponseEntity<>(new Message("Invalid date input"), HttpStatus.BAD_REQUEST);
+		}
+		
+		Destination from = destRepo.findByAirportCode(flightDto.getFrom());
+		Destination to = destRepo.findByAirportCode(flightDto.getTo());
+		
+		if (to.getId() == from.getId()) {
+			return new ResponseEntity<>(new Message("You cannot have same departing and landing destination"), HttpStatus.BAD_REQUEST);
+		}
+		
+		//validacija stop destinacija
+		if(flightDto.getStopCount() > 0)  {
+			for (String code : flightDto.getStopDestCodes()) {
+				Destination stop = destRepo.findByAirportCode(code);
+				if (stop == null) {
+					return new ResponseEntity<>(new Message("Invalid stop destination input"), HttpStatus.BAD_REQUEST);
+				}
+				if (stop.getId() == to.getId() || stop.getId() == from.getId()) {
+					return new ResponseEntity<>(new Message("You cannot have equal stop and departing or landing destination"), HttpStatus.BAD_REQUEST);
+				}
+			}
 		}
 		
 		flight.setStopCount(flightDto.getStopCount());
-		flight.setFrom(destRepo.findByAirportCode(flightDto.getFrom()));
-		flight.setTo(destRepo.findByAirportCode(flightDto.getTo()));
+		flight.setFrom(from);
+		flight.setTo(to);
 		if(flightDto.getStopCount() > 0) 
 			flight.setStops(destRepo.findAllByCodes(flightDto.getStopDestCodes()));
 		flight.setAirplane(plane);
 		flight.setAirline(airline);
 		flight.setOneWayPrice(flightDto.getOneWayPrice());
 		flight.setReturnPrice(flightDto.getReturnPrice());
+		flight.setTerminal1(flightDto.getTerminal1());
+		flight.setTerminal2(flightDto.getTerminal2());
 		airline.getFlights().add(flight);
 		flight = flightRepo.save(flight);
 		List<FlightSeat> flightSeats = new ArrayList<>();

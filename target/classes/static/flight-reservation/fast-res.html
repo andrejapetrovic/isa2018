@@ -1,0 +1,14 @@
+<div class="col-sm-12">
+<h1>Tickets for fast reservation</h1>
+<div class="col-sm-6 wrap font14" ng-repeat="fs in fasts">
+		<label>{{fs.flight.from.city}} {{fs.flight.from.airportCode}} - {{fs.flight.to.city}} {{fs.flight.to.airportCode}}</label>
+		<br>Departing at <label>terminal {{fs.flight.terminal1}}</label> on <label>{{formatDate(fs.flight.departureDate)}}</label>
+		<br>Arriving at <label>terminal {{fs.flight.terminal2}}</label> on <label>{{formatDate(fs.flight.landingDate)}}</label>
+		<br>Seat: <label>row {{fs.seat.row}}</label> <label>column {{fs.seat.col}} {{fs.flightClass}} cabin</label>
+		<br>Aircraft: <label>{{fs.flight.airplane.modelName}}</label> type: <label>{{parseType(fs.flight.airplane.type)}}</label>
+		<br>Airline: <label>{{fs.flight.airline.name}}</label>
+		<br>
+		<button class="btn btn-warning btn-sm" ng-click="makeRes(fs)">Make reservation</button>
+		<label>{{fs.flight.oneWayPrice}}$</label>
+</div>
+</div>

@@ -7,9 +7,21 @@ app.factory('reservationService', function($http) {
              return response.data;
          });
      }
+    var getReservations = function(email) {    
+     	return $http.get('/reservation/get/'+email).then(function(response) {
+             return response.data;
+         });
+     }
     
+    var getFast = function() {    
+     	return $http.get('/reservation/get/fast').then(function(response) {
+             return response.data;
+         });
+     }
      return {
-    	 submitReservation : submitReservation 
+    	 submitReservation : submitReservation,
+    	 getReservations : getReservations,
+    	 getFast: getFast
        };
     
 });

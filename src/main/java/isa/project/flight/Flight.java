@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -44,11 +45,13 @@ public class Flight {
 	@Basic
 	@Column(columnDefinition="DATETIME")
 	@Temporal(TemporalType.TIMESTAMP)
+	@NotNull
 	private java.util.Date departureDate;
 	 
 	@Basic
 	@Column(columnDefinition="DATETIME")
 	@Temporal(TemporalType.TIMESTAMP)
+	@NotNull
 	private java.util.Date landingDate;
 	
 	private int stopCount;
@@ -64,15 +67,22 @@ public class Flight {
 	
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="aircraft_id")
+	@NotNull
 	private Aircraft airplane;
 	
 	@ManyToOne
 	@JoinColumn(name = "airline_id")
+	@NotNull
 	private Airline airline;
 	
 	private double oneWayPrice;
 	
 	private double returnPrice;
+	
+	@NotNull
+	private String terminal1;
+	@NotNull
+	private String terminal2;
 	
 	public Long getId() {
 		return id;
@@ -178,4 +188,21 @@ public class Flight {
 		this.cabin = cabin;
 	}
 
+	public String getTerminal1() {
+		return terminal1;
+	}
+
+	public void setTerminal1(String terminal1) {
+		this.terminal1 = terminal1;
+	}
+
+	public String getTerminal2() {
+		return terminal2;
+	}
+
+	public void setTerminal2(String terminal2) {
+		this.terminal2 = terminal2;
+	}
+
+	
 }

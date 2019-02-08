@@ -72,11 +72,11 @@ public class FlightServiceImpl implements FlightService {
 	}
 
 	@Override
-	public List<BigInteger> filter(List<BigInteger> ids, FlightFilterDto filterDto) {
-		/*if	(!ids.isEmpty()) {
+	public List<BigInteger> filter(List<BigInteger> ids, FlightFilterDto filterDto, boolean isReturn) {
+		if (!ids.isEmpty()) {
 			ids = flightRepo.findByClassAndRemainingSeats(ids, filterDto.getFclass().toString(),
 					filterDto.getAdults() + filterDto.getChildren());
-		}*/
+		}
 		if (filterDto.getStops() != -1 && !ids.isEmpty()) {
 			if (filterDto.getStops()>1) {
 				ids = flightRepo.findByStopsGreaterThan1(ids);
@@ -89,11 +89,23 @@ public class FlightServiceImpl implements FlightService {
 					.collect(Collectors.toList());
 			ids = flightRepo.findByAirlines(ids, airlineIds);
 		}
+		if (filterDto.getPrice() != null && !ids.isEmpty() && filterDto.getFtype() == FlightType.One_way) {
+			String p[] = filterDto.getPrice().split("-");
+			ids = flightRepo.findByOneWayPriceRange(ids, p[0], p[1]);
+		}
+		if (filterDto.getPrice() != null && !ids.isEmpty() && !isReturn && filterDto.getFtype() == FlightType.Round_trip) {
+			String p[] = filterDto.getPrice().split("-");
+			ids = flightRepo.findByRoundTripPriceFlight(ids, p[0], p[1]);
+		}
+		if (filterDto.getPrice() != null && !ids.isEmpty() && isReturn && filterDto.getFtype() == FlightType.Round_trip) {
+			String p[] = filterDto.getPrice().split("-");
+			ids = flightRepo.findByRoundTripPriceReturnFlight(ids, p[0], p[1]);
+		}
 		if (filterDto.getStopDests() != null && !ids.isEmpty()) {
 			List<String> codes = new ArrayList<String>(Arrays.asList(filterDto.getStopDests().split("-")));
 			ids = flightRepo.findByStops(ids, codes);
 		}
-		if (filterDto.getDuration1() != null && !ids.isEmpty()) {
+		if (filterDto.getDuration1() != null && !ids.isEmpty() && !isReturn) {
 			String d[] = filterDto.getDuration1().split("-");
 			ids = flightRepo.findByDuration(ids, d[0], d[1]);
 		}
@@ -109,7 +121,7 @@ public class FlightServiceImpl implements FlightService {
 		List<Flight> flightsFrom = searchOneWays(searchDto, filterDto);
 		List<BigInteger> ids = flightRepo.findIds(
 				searchDto.getToDest(), searchDto.getFromDest(), searchDto.getReturnDate());
-		ids = filter(ids, filterDto);
+		ids = filter(ids, filterDto, true);
 		List<Flight> flightsTo = sort(filterDto, ids);
 		logger.info("letovi 1: " + flightsFrom.size());
 		logger.info("letovi 2: " + flightsTo.size());
@@ -128,7 +140,7 @@ public class FlightServiceImpl implements FlightService {
 		List<BigInteger> ids = flightRepo.findIds(
 				searchDto.getFromDest(), searchDto.getToDest(), searchDto.getDepartDate());
 		List<Flight> flights = null;
-		ids = filter(ids, filterDto);
+		ids = filter(ids, filterDto, false);
 		flights = sort(filterDto, ids);
 			
 		return flights;

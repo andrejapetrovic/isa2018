@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +37,7 @@ public class AircraftController {
 	@Autowired
 	SeatRepository seatRepo;
 	
+	@PreAuthorize("hasRole('ROLE_AirlineAdmin')")
 	@RequestMapping(
 			value = "add",
 			method = RequestMethod.POST,
@@ -53,6 +55,7 @@ public class AircraftController {
 		return new ResponseEntity<>(airplaneRepo.save(plane), HttpStatus.CREATED);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_AirlineAdmin')")
 	@RequestMapping(
 			value = "delete/{aircraftId}/{airlineId}",
 			method = RequestMethod.DELETE,

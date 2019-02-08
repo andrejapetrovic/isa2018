@@ -74,6 +74,9 @@ input::-webkit-calendar-picker-indicator {
 	font-size: 14px;
 }
 
+.font12 {
+	font-size: 12px;
+}
 .x-btn {
 	margin-top: -2px;
 }

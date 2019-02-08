@@ -45,7 +45,7 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
 	List<Flight> findByCheapestReturn(
 			@Param("ids") List<BigInteger> ids);
 	
-	@Query(value = "SELECT * flight_id FROM flight WHERE flight_id IN :ids order by return_price desc"   
+	@Query(value = "SELECT * FROM flight WHERE flight_id IN :ids order by return_price desc"   
 			,nativeQuery = true)
 	List<Flight> findByHighestPriceReturn(
 			@Param("ids") List<BigInteger> ids);
@@ -110,12 +110,9 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
 			@Param("ids") List<BigInteger> ids, 
 			@Param("codes") List<String> codes);
 	
-	@Query(value = "SELECT flight_id FROM flight "
-			+"NATURAL JOIN flight_seat " 
-			+"NATURAL JOIN seat "
-			+"NATURAL JOIN cabin "
-			+"WHERE flight_id in :ids and flight_class = :flightClass and reserved = false "
-			+"GROUP BY flight_id HAVING COUNT(reserved) >= :passNum"
+	@Query(value = "select flight_id from flight NATURAL JOIN flight_seat " + 
+			"WHERE flight_id in :ids and flight_class = :flightClass and reserved = false " + 
+			"group by flight_id having count(reserved) >= :passNum"
 	,nativeQuery = true)
 	List<BigInteger> findByClassAndRemainingSeats(
 			@Param("ids") List<BigInteger> ids, 
@@ -130,9 +127,16 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
 			@Param("highest") String highest
 			);
 	
-	@Query(value = "SELECT flight_id FROM flight WHERE flight_id IN :ids and return_price BETWEEN :lowest AND :highest"   
+	@Query(value = "SELECT f1.flight_id from flight f1 cross join flight f2 where f1.flight_id IN :ids and f1.from_id=f2.to_id and f2.from_id=f1.to_id and f1.airline_id = f2.airline_id and (f1.one_way_price + f2.return_price) BETWEEN :lowest AND :highest"   
 			,nativeQuery = true)
-	List<BigInteger> findByReturnPriceRange(
+	List<BigInteger> findByRoundTripPriceFlight(
+			@Param("ids") List<BigInteger> ids,
+			@Param("lowest") String lowest,
+			@Param("highest") String highest
+			);
+	@Query(value = "SELECT f1.flight_id from flight f1 cross join flight f2 where f1.flight_id IN :ids and f1.from_id=f2.to_id and f2.from_id=f1.to_id and f1.airline_id = f2.airline_id and (f1.return_price + f2.one_way_price) BETWEEN :lowest AND :highest"   
+			,nativeQuery = true)
+	List<BigInteger> findByRoundTripPriceReturnFlight(
 			@Param("ids") List<BigInteger> ids,
 			@Param("lowest") String lowest,
 			@Param("highest") String highest
@@ -146,4 +150,6 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
 			@Param("lowest") String lowest,
 			@Param("highest") String highest
 			);
+	
+	List<Flight> findByAirplaneId(Long id);
 }

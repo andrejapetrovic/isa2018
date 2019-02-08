@@ -1,4 +1,4 @@
- <form class="form-horizontal" name="searchFlightForm" novalidate>
+ <form class="form-horizontal" name="searchFlightForm">
   	<div class="col-sm-12">
   		<div class="col-sm-12">
 			<select name="ftype" class="form controll btn btn-outline search-ft" id="ftype" ng-model="ftype" 
@@ -24,7 +24,7 @@
  	<div class="col-sm-12">
  		<div class= "col-sm-5" id="fromDiv"><br>
  		<label>From</label>
- 		   	<input type="text" class="form-control" id="from" ng-model="from" list="fromList">
+ 		   	<input type="text" class="form-control" id="from" ng-model="from" list="fromList" required>
  		   	<datalist id="fromList">
 				<option ng-repeat="dest in fromDests" value="({{dest.airportCode}}) {{dest.city}}, {{dest.country}}, {{dest.airport}}"></option>
 			</datalist>
@@ -35,7 +35,7 @@
     	</div>
     	<div class= "col-sm-5" id="toDiv"><br>
     	<label>To</label>
-    		<input type="text" class="form-control" id="to" ng-model="to" list="toList">
+    		<input type="text" class="form-control" id="to" ng-model="to" list="toList" required>
     		<datalist id="toList">
 				<option ng-repeat="dest in toDests" value="({{dest.airportCode}}) {{dest.city}}, {{dest.country}}, {{dest.airport}}"></option>
 			</datalist>
@@ -47,7 +47,7 @@
 	 		<label>Departure</label>
  			<div class="right-inner-addon">
  		   		<i class="glyphicon glyphicon-calendar"></i>
- 		   		<input type="text" class="form-control startDate" id="depart" ng-model="departDate" autocomplete="off">
+ 		   		<input type="text" class="form-control startDate" id="depart" ng-model="departDate" autocomplete="off" required>
     		</div>
     	</div>
     	<div class= "col-sm-1"></div>
@@ -55,7 +55,7 @@
     	 	<label>Return</label>
     		<div class="right-inner-addon">
     			<i class="glyphicon glyphicon-calendar"></i>
-    			<input type="text" class="form-control endDate" id="return" ng-model="returnDate" autocomplete="off">
+    			<input type="text" class="form-control endDate" id="return" ng-model="returnDate" autocomplete="off" required>
     		</div>
     	</div>
     	

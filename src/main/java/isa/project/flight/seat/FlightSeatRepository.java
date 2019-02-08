@@ -10,5 +10,6 @@ import isa.project.cabin.FlightClass;
 public interface FlightSeatRepository extends JpaRepository<FlightSeat, Long> {
 
 	List<FlightSeat> findByFlightId(Long id);
-	
+
+	List<FlightSeat> findByFastReservationAndReserved(boolean fastRes, boolean res);
 }

@@ -1,11 +1,7 @@
 var app = angular.module('app');
-app.controller('seatCtrl', function($scope, $http, $window, $location,
+app.controller('flightSeatCtrl', function($scope, $http, $window, $location,
 		 $state, $window, $stateParams, seatService) {
-	var selectedSeats = [];
-	if($scope.loggedUser == null){
-		alert("You have to be logged in to make a reservation");
-		return;
-	}
+	
 	$(".nav-tabs").on("click", "a", function (e) {
 		e.preventDefault();
 		$(this).tab('show');
@@ -14,25 +10,20 @@ app.controller('seatCtrl', function($scope, $http, $window, $location,
 		$('.nav-tabs').find('a[href="'+id+'"]').parent().addClass('active');
 	});
 	
-	var params = $location.url().split('?')[1];
-	seatService.getFlightSeats(params).then(function(data){
-		var seats = _.groupBy(data[0], "flightClass");
+	seatService.getByFlight($stateParams.id).then(function(data){
+		var seats = _.groupBy(data, "flightClass");
 		console.log(data);
 		getFclasses(Object.keys(seats), "flight");
 		drawSeats(seats, "flight");
-		if(params.includes("ret=")){
-			var retSeats = _.groupBy(data[1], "flightClass");
-			getFclasses(Object.keys(retSeats), "ret-flight");
-			drawSeats(retSeats, "ret-flight");
-		}
 	});
 	
 	function getFclasses(fclasses, flight) {
 		fclasses.forEach(function(fclass){
 			var id = "#" + flight + "-" + fclass.toLowerCase();
+			console.log(id);
 			$('.nav-tabs').find('a[href="'+id+'"]').parent().removeClass('hidden');
 		});
-		var selectId = "#" + flight + "-" + $stateParams.fclass.toLowerCase();
+		var selectId = "#" + flight + "-economy";
 		$('.nav-tabs').find('a[href="' + selectId + '"]').parent().addClass('active');
 		$(selectId).addClass('fade in active');
 		$("." + flight + "-title").removeClass("hidden");
@@ -56,22 +47,23 @@ app.controller('seatCtrl', function($scope, $http, $window, $location,
 			canvas.height = first.y + last.y + 20;
 			ctx.strokeStyle = "#000000";
 			seats[key].forEach(function(el){
-				if (!el.deleted) {
-					if(el.reserved){
-						ctx.fillStyle = "#e6e6fa";
-					} else {
-						ctx.fillStyle = "#FFFFFF";
-					}
-					ctx.strokeRect(el.seat.x, el.seat.y, 20, 20);
-					ctx.fillRect(el.seat.x, el.seat.y, 20, 20);	
-				}
+				if(el.deleted) {
+					ctx.fillStyle = "#ff0000";
+				} else if (el.reserved) {
+					ctx.fillStyle = "#e6e6fa";
+				} else if (el.fastReservation) {
+					ctx.fillStyle = "#00ff00";
+				} else 
+					ctx.fillStyle = "#FFFFFF";
+				ctx.strokeRect(el.seat.x, el.seat.y, 20, 20);
+				ctx.fillRect(el.seat.x, el.seat.y, 20, 20);	
 			});
 			canvas.addEventListener("mousemove", function(e) {
 				  var r = this.getBoundingClientRect(),
 			      x = e.clientX - r.left, //kursor,x
 			      y = e.clientY - r.top;  // y
 				  seats[key].forEach(function(el){
-					  if (x >= el.seat.x && x <= el.seat.x + 20 && y >= el.seat.y && y <= el.seat.y + 20 && !el.deleted){
+					  if (x >= el.seat.x && x <= el.seat.x + 20 && y >= el.seat.y && y <= el.seat.y + 20 ){
 						  $(id).find("#row").text(" " + el.seat.row);
 						  $(id).find("#col").text(" " + el.seat.col);
 						  if(el.reserved){
@@ -80,10 +72,14 @@ app.controller('seatCtrl', function($scope, $http, $window, $location,
 						  else {
 							  var p = ctx.getImageData(el.seat.x, el.seat.y ,20, 20).data;
 							  var hex = "#" + ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6);
-							  if (hex == "#a6ea79"){
-								  $(id).find("#status").text(" Selected").css("color", "green"); 
-							  } else {
+							  if (hex == "#ff0000"){
+								  $(id).find("#status").text(" Deleted").css("color", "red"); 
+							  } else if (hex == "#ffffff") {
 								  $(id).find("#status").text(" Open").css("color", "green"); 
+							  } else if (hex == "#e6e6fa") {
+								  $(id).find("#status").text(" Reserved").css("color", "grey"); 
+							  } else if (hex == "#00ff00") {
+								  $(id).find("#status").text(" Fast reservation").css("color", "green"); 
 							  }
 						  }
 					  }
@@ -103,60 +99,41 @@ app.controller('seatCtrl', function($scope, $http, $window, $location,
 					  if (x >= el.seat.x && x <= el.seat.x + 20 && y >= el.seat.y && y <= el.seat.y + 20 ){
 						  var p = ctx.getImageData(el.seat.x, el.seat.y ,20, 20).data;
 						  var hex = "#" + ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6);
-						  if (hex == "#ffffff"){
-							  if (retCountCheck(el.flight.id)) {
-								  $("#ret-err")
-								  	.text("You can not reserve more return flight seats than departing flight seats")
-								  	.css("color", "red");
-								  return;
-							  }
-							  ctx.fillStyle = "#a6ea79";
-							  ctx.fillRect(el.seat.x, el.seat.y, 20, 20);
-							  selectedSeats.push(el);
+						  if (hex == "#ffffff" && $scope.mode == "del"){
+							  seatService.deleteSeat(el).then(function(data){
+								  console.log(data);
+								  ctx.fillStyle = "#ff0000";
+								  el.deleted = data.deleted
+								  ctx.fillRect(data.seat.x, data.seat.y, 20, 20);
+							  }, function(err){
+								  console.log(err.data.msg);
+								  $scope.err = err.data.msg
+							  });
 						  }
-						  else if (hex == "#a6ea79"){
-							  ctx.fillStyle = "#ffffff";
-							  ctx.fillRect(el.seat.x, el.seat.y, 20, 20);
-							  selectedSeats = selectedSeats.filter(ss => ss != el);
+						  else if (hex == "#ff0000" && $scope.mode == "add"){
+							  seatService.addSeat(el).then(function(data){
+								  ctx.fillStyle = "#ffffff";
+								  el.deleted = data.deleted;
+								  ctx.fillRect(data.seat.x, data.seat.y, 20, 20);
+							  });
 						  }
-						  
-						  selectedSeats.length == 0 ? $(".next").prop("disabled", true) : $(".next").prop("disabled", false);
-						  console.log($scope.disableNextBtn);
-						  console.log(selectedSeats);
+						  else if (hex == "#ffffff" && $scope.mode == "res"){
+							  seatService.resSeat(el).then(function(data){
+								  ctx.fillStyle = "#E6E6FA";
+								  el.reserved = data.reserved;
+								  ctx.fillRect(data.seat.x, data.seat.y, 20, 20);
+							  });
+						  }
+						  else if (hex == "#ffffff" && $scope.mode == "fastRes"){
+							  seatService.fastResSeat(el).then(function(data){
+								  ctx.fillStyle = "#00ff00";
+								  el.fastReservation = data.fastReservation;
+								  ctx.fillRect(data.seat.x, data.seat.y, 20, 20);
+							  });
+						  }
 					  }
 				  });
 			});
-			
-			function retCountCheck(elId) {
-				var seats = selectedSeats.filter(ss => ss.flight.id == $stateParams.fl);
-				var retSeats = selectedSeats.filter(ss => ss.flight.id == $stateParams.ret);
-				var sNum = seats.length;
-				var rsNum = retSeats.length;
-				elId == $stateParams.fl ? ++sNum: ++rsNum;
-				if(sNum < rsNum){
-					return true;
-				}
-				return false;
-			}
-			
-			$scope.next = function() {
-				var seats = selectedSeats
-					.filter(ss => ss.flight.id == $stateParams.fl);
-				var seatIds = seats
-					.map(ss => ss.id);
-				var retIds = selectedSeats
-					.filter(ss => ss.flight.id == $stateParams.ret)
-					.map(ss => ss.id);
-				var queryParams = {
-						fl: $stateParams.fl,
-						retFl: $stateParams.ret,
-						seats: seatIds.join("-"),
-						retSeats: retIds.join("-"),
-						infants: $stateParams.infants
-				}
-				console.log(queryParams);
-				$state.go("reservation", queryParams);
-			}
 		});
 	}
 });

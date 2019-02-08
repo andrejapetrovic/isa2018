@@ -17,7 +17,8 @@ public interface FlightService {
 	
 	public List<BigInteger> filter(
 			List<BigInteger> ids, 
-			FlightFilterDto filterDto
+			FlightFilterDto filterDto,
+			boolean isReturn
 			);
 	
 	public List<Flight> searchOneWays(

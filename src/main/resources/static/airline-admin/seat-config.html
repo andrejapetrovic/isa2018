@@ -1,12 +1,13 @@
  <h3>{{aircraft.owner.name}} - {{aircraft.modelName}} [{{aircraft.modelNumber}}]</h3>
  
  <br>
+ <!--
  <h5>Choose cabins</h5>
  <input type="checkbox" name="economy" id="economy" class="cabin-cbox"><span class="checkboxtext">Economy</span> 
 <input type="checkbox" name="premium" id="premium" class="cabin-cbox"><span class="checkboxtext">Premium Economy</span> 
 <input type="checkbox" name="bussines" id="business" class="cabin-cbox"><span class="checkboxtext">Business</span> 
 <input type="checkbox" name="first" id="first" class="cabin-cbox"><span class="checkboxtext">First</span>
-
+-->
 <br><br><br><br>
 <form>
 Rows <input ng-model="rows" size="1" maxlength="2" ng-required="true">
@@ -16,11 +17,25 @@ Separation size <input ng-model="sepSize" size="1" maxlength="2" ng-required="tr
  <button id="create-seats" type="submit" class="btn btn-xs" ng-click="addSeats()">Create seats</button>
 </form>
  
-<div class="container">
+<!--  <div class="container">
     <ul class="nav nav-tabs" role="tablist">
         <li><span class="anchor"></span>
         </li>
     </ul>
     <div class="tab-content">
     </div>
+</div> -->
+
+
+<ul class="nav nav-tabs">
+	<li class=""><a data-toggle="tab" href="#flight-economy">Economy</a></li>
+	<li class=""><a data-toggle="tab" href="#flight-premium">Premium Economy</a></li>
+	<li class=""><a data-toggle="tab" href="#flight-business">Business</a></li>
+	<li class=""><a data-toggle="tab" href="#flight-first">First</a></li>
+</ul>
+<div class="tab-content">
+	<div id="flight-economy" class="tab-pane font14"><h3>Economy class cabin</h3></div>
+	<div id="flight-premium" class="tab-pane font14"><h3>Premium Economy class cabin</h3></div>
+	<div id="flight-business" class="tab-pane font14"><h3>Business class cabin</h3></div>
+	<div id="flight-first" class="tab-pane font14"><h3>First class cabin</h3></div>
 </div>
