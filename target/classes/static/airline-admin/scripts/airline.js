@@ -1,6 +1,6 @@
 var app = angular.module('app');
 
-app.controller('airlineCtrl', function($scope, $http, $window, $stateParams, airlineService, destService, airplaneService, flightService) {
+app.controller('airlineCtrl', function($scope, $http, $window, $stateParams,$state, airlineService, destService, airplaneService, flightService) {
 	
 	var id = $stateParams.id;
 	var stopDests = [];
@@ -20,6 +20,7 @@ app.controller('airlineCtrl', function($scope, $http, $window, $stateParams, air
 		$scope.flightAircraft = $scope.planes[0];		
 		$scope.loading = false;
 		$scope.bag = data['airline'].pricelist;
+		console.log($scope.bag);
 		
 		$(".nav-tabs").on("click", "a", function (e) {
 			e.preventDefault();
@@ -153,6 +154,12 @@ app.controller('airlineCtrl', function($scope, $http, $window, $stateParams, air
 				stopDests = [];
 				$('.stops').empty();
 				$scope.loading = false;
+				$scope.err = "";
+			}, function(err){
+				console.log(err.data.msg);
+				$scope.addFlErr = err.data.msg
+				delete $scope.newFlight;
+				$scope.loading = false;
 			});
 		}
 		
@@ -227,6 +234,11 @@ app.controller('airlineCtrl', function($scope, $http, $window, $stateParams, air
 		function parseDateTime(date, time) {
 			date = date.split(' ').join('-');
 			return date += ' ' + time;
+		}
+		
+		$scope.cabinConfig = function(flId){
+			$state.go('flight-seats', {id: flId});
+			//$window.location.href = '#!/airline-admin/flight-seats?id='+id;
 		}
 	});
   });

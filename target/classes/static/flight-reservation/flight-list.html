@@ -59,7 +59,7 @@ ng-options="sortOption.val for sortOption in sortOptions" ng-change="selectSort(
 <option value="" disabled selected>Sort by</option>
 </select>
 <br><br><br>
-
+<span class="font14">{{err}}</span>
 <div class="col-sm-12 wrap" ng-repeat="flight in flights" ng-init="idx = $index">
 	<div class="col-sm-10 mbr-col-md-10">
 		<div class="col-sm-12 flight-details">

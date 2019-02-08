@@ -185,6 +185,10 @@ app.controller('flightListCtrl', function($scope, $http, $window, destService, f
 		
 		$scope.makeRes = function(flightId, retFlightId) {
 			console.log(retFlightId);
+			if($scope.loggedUser == null){
+				alert("You have to be logged in to make a reservation");
+				return;
+			}
 			$state.go('seats', {
 				fl: flightId, 
 				ret: retFlightId, 
@@ -195,6 +199,8 @@ app.controller('flightListCtrl', function($scope, $http, $window, destService, f
 				});
 		};
 		
+	}, function(err){
+		$scope.err = "There are no flights for your search criteria";
 	});
 	
 	function dateDiff(date1, date2) {

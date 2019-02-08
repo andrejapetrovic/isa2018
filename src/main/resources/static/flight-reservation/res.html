@@ -88,7 +88,7 @@
 				<div class="col-sm-2">
 					<button class="btn btn-xs user-data-btn" ng-click="fillUserData(passenger)">Fill with user data</button>
 				</div>
-				<div class="col-sm-4">
+				<div ng-if="roundTrip==true" class="col-sm-4">
 					<button class="btn btn-xs user-data-btn" ng-click="selectSeat($index)" data-toggle="modal" data-target="#seatsModal">Choose seat for return</button>
 				</div>
 			</div>			
@@ -153,8 +153,8 @@
 </div>
 <div class="col-sm-12">
 	<input type="submit" class="btn btn-md btn-primary" value="Make reservation" ng-click="makeRes()">
+&nbsp;<font class="font14" color="red">{{err}}</font>
 </div>
-
 
 
 <!-- Modal -->
@@ -197,7 +197,6 @@
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
-
   </div>
 </div>
 </div>

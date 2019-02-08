@@ -12,9 +12,16 @@ app.factory('reservationService', function($http) {
              return response.data;
          });
      }
+    
+    var getFast = function() {    
+     	return $http.get('/reservation/get/fast').then(function(response) {
+             return response.data;
+         });
+     }
      return {
     	 submitReservation : submitReservation,
-    	 getReservations : getReservations
+    	 getReservations : getReservations,
+    	 getFast: getFast
        };
     
 });

@@ -92,7 +92,16 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: "rentACar-admin/addCar.html",
             controller: "carListCtrl"
         })
-        
+        .state('flight-seats', {
+            url: "/flight-seats/:id",
+            templateUrl: "airline-admin/flight-seats.html",
+            controller: "flightSeatCtrl"
+        })
+        .state('fast-res', {
+            url: "/fast-res",
+            templateUrl: "flight-reservation/fast-res.html",
+            controller: "fastResCtrl"
+        })
         
         $urlRouterProvider.when('', '/home');
 });

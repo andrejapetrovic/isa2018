@@ -62,8 +62,8 @@
 		</div>
 	</div>
 
-<div class="col-sm-12">
-<div class="col-sm-12 well" ng-repeat="res in reservations">
+<div class="col-sm-12 well">
+<div class="col-sm-12" ng-repeat="res in reservations">
 	<div class="font14 col-sm-6 well" style="background-color:white" ng-repeat="fs in res.flightSeat | orderBy:'+fs.flight.departDate'" ng-init="idx = $index">
 		<h2 ng-if="idx==0"><span>Ticket</h2>
 		<h2 ng-if="idx==1"><span>Return ticket</h2>

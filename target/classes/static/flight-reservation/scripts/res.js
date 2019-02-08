@@ -1,6 +1,11 @@
 var app = angular.module('app');
 app.controller('resCtrl', function($scope, $http, $window, $location,
 		 $state, $window, $stateParams, seatService, reservationService) {
+	if($scope.loggedUser == null){
+		alert("You have to be logged in to make a reservation");
+		return;
+	}
+	
 	var params = $location.url().split('?')[1];
 	var infantNum = params.includes('infants') ? $stateParams.infants : 0;
 	console.log(params);
@@ -73,13 +78,15 @@ app.controller('resCtrl', function($scope, $http, $window, $location,
 				if(passenger.retFl != null) {
 					passenger['retFlightSeatId'] = passenger.retFl.id;
 				}
-				delete passenger['flightSeat'];
-				delete passenger['retFl'];
 				
 		});
 		console.log($scope.passengers);
 		reservationService.submitReservation($scope.passengers).then(function(data){
 			console.log(data);
+			$state.go('user');
+		}, function(err){
+			console.log(err.data.msg);
+			$scope.err = "Unale to make reservation, " + err.data.msg;
 		});
 	}
 	

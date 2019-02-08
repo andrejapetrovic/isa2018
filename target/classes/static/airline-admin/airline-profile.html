@@ -223,6 +223,7 @@
 			</div>
     	</div>
 	    <button type="submit" class="btn btn-sm btn-success col-sm-2 add-flight-btn" ng-click="addFlight()">Add flight</button>
+	    &nbsp;<font class="font14" color="red">{{addFlErr}}</font>
  		<div>
  			<div class="loader" ng-show="loading"></div>
 	    </div>
@@ -266,8 +267,7 @@
 							<td>{{flight.oneWayPrice}}$</td>
 							<td>{{flight.returnPrice}}$</td>
 							<td>
-								<a class="btn btn-sm btn-primary x-btn"
-									href="#!/airline-admin/seat-config/{{plane.id}}">Configure cabins</a>
+								<a class="btn btn-sm btn-primary x-btn" ng-click="cabinConfig(flight.id)">Configure cabins</a>
 							</td>
 						</tr>
 					</tbody>

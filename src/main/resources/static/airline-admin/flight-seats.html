@@ -1,0 +1,24 @@
+<h2 class="flight-title hidden">Flight seats</h2>
+<ul class="nav nav-tabs">
+	<li class="hidden"><a data-toggle="tab" href="#flight-economy">Economy</a></li>
+	<li class="hidden"><a data-toggle="tab" href="#flight-premium">Premium Economy</a></li>
+	<li class="hidden"><a data-toggle="tab" href="#flight-business">Business</a></li>
+	<li class="hidden"><a data-toggle="tab" href="#flight-first">First</a></li>
+</ul>
+
+<div class="tab-content">
+	<div id="flight-economy" class="tab-pane fade in active font14"><h3>Economy class cabin</h3></div>
+	<div id="flight-premium" class="tab-pane font14"><h3>Premium Economy class cabin</h3></div>
+	<div id="flight-business" class="tab-pane font14"><h3>Business class cabin</h3></div>
+	<div id="flight-first" class="tab-pane font14"><h3>First class cabin</h3></div>
+</div>
+
+<br/>
+<div class="font12 col-xs-12 well">
+	<label class="font14">Mode
+	</label><br/> <label> <input type="radio" ng-model="mode" value="del">Delete
+	</label> <label> <input type="radio" ng-model="mode" value="add"> Add
+	</label> <label> <input type="radio" ng-model="mode" value="fastRes"> Add for fast reservation
+	</label> <label> <input type="radio" ng-model="mode" value="res"> Reserve seat
+	</label>&nbsp;<font class="font14" color="red">{{err}}</font><br />
+</div>

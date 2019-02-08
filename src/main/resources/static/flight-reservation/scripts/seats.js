@@ -2,7 +2,10 @@ var app = angular.module('app');
 app.controller('seatCtrl', function($scope, $http, $window, $location,
 		 $state, $window, $stateParams, seatService) {
 	var selectedSeats = [];
-	
+	if($scope.loggedUser == null){
+		alert("You have to be logged in to make a reservation");
+		return;
+	}
 	$(".nav-tabs").on("click", "a", function (e) {
 		e.preventDefault();
 		$(this).tab('show');
@@ -51,18 +54,24 @@ app.controller('seatCtrl', function($scope, $http, $window, $location,
 			var last = seats[key][seats[key].length-1].seat;
 			canvas.width = first.x + last.x + 20;
 			canvas.height = first.y + last.y + 20;
-			ctx.fillStyle = "#FFFFFF";
 			ctx.strokeStyle = "#000000";
 			seats[key].forEach(function(el){
-				ctx.strokeRect(el.seat.x, el.seat.y, 20, 20);
-				ctx.fillRect(el.seat.x, el.seat.y, 20, 20);	
+				if (!el.deleted) {
+					if(el.reserved){
+						ctx.fillStyle = "#e6e6fa";
+					} else {
+						ctx.fillStyle = "#FFFFFF";
+					}
+					ctx.strokeRect(el.seat.x, el.seat.y, 20, 20);
+					ctx.fillRect(el.seat.x, el.seat.y, 20, 20);	
+				}
 			});
 			canvas.addEventListener("mousemove", function(e) {
 				  var r = this.getBoundingClientRect(),
 			      x = e.clientX - r.left, //kursor,x
 			      y = e.clientY - r.top;  // y
 				  seats[key].forEach(function(el){
-					  if (x >= el.seat.x && x <= el.seat.x + 20 && y >= el.seat.y && y <= el.seat.y + 20 ){
+					  if (x >= el.seat.x && x <= el.seat.x + 20 && y >= el.seat.y && y <= el.seat.y + 20 && !el.deleted){
 						  $(id).find("#row").text(" " + el.seat.row);
 						  $(id).find("#col").text(" " + el.seat.col);
 						  if(el.reserved){
@@ -73,8 +82,9 @@ app.controller('seatCtrl', function($scope, $http, $window, $location,
 							  var hex = "#" + ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6);
 							  if (hex == "#a6ea79"){
 								  $(id).find("#status").text(" Selected").css("color", "green"); 
-							  } else 
+							  } else {
 								  $(id).find("#status").text(" Open").css("color", "green"); 
+							  }
 						  }
 					  }
 				  });

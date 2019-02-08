@@ -150,4 +150,6 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
 			@Param("lowest") String lowest,
 			@Param("highest") String highest
 			);
+	
+	List<Flight> findByAirplaneId(Long id);
 }

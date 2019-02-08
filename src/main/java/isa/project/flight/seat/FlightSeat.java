@@ -33,6 +33,8 @@ public class FlightSeat {
 	
 	private boolean fastReservation = false;
 	
+	private boolean deleted = false;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
@@ -84,6 +86,14 @@ public class FlightSeat {
 
 	public void setFastReservation(boolean fastReservation) {
 		this.fastReservation = fastReservation;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 	
 	
