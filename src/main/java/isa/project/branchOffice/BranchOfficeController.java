@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import isa.project.aircraft.Aircraft;
 import isa.project.rentACar.RentACar;
 import isa.project.rentACar.RentACarRepository;
 

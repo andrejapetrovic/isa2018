@@ -40,6 +40,7 @@ INSERT INTO branch_office(id,address,city,servis_id) VALUES('1','1Mileve Maric',
 INSERT INTO branch_office(id,address,city,servis_id) VALUES('2','2Mileve Maric','2Novi Sad','2');
 INSERT INTO branch_office(id,address,city,servis_id) VALUES('3','3Mileve Maric','3Novi Sad','3');
 
-INSERT INTO car(car_type, id, description, model_name,model_number,number_of_cases,number_of_doors,number_of_seats,price_per_day,branch_office_id) values('Prestige_Cars','1','','Porsche911','1','1','2','2','80','1');
-INSERT INTO car(car_type,id,description,model_name,model_number,number_of_cases,number_of_doors,number_of_seats,price_per_day,branch_office_id) values('Full_Size','2','','Ford Taurus','4','4','2','2','30','2');
-INSERT INTO car(car_type,id,description,model_name,model_number,number_of_cases,number_of_doors,number_of_seats,price_per_day,branch_office_id) values('SUV_Convertible','3','','Audi q7','3','4','2','2','50','3');
+INSERT INTO car(car_type, id, description, model_name,model_number,number_of_cases,number_of_doors,number_of_seats,price_per_day,branch_office_id,reserved) values('Prestige_Cars','1','','Porsche911','1','1','2','2','80','1',false);
+INSERT INTO car(car_type,id,description,model_name,model_number,number_of_cases,number_of_doors,number_of_seats,price_per_day,branch_office_id,reserved) values('Full_Size','2','','Ford Taurus','4','4','2','2','30','2',true);
+INSERT INTO car(car_type,id,description,model_name,model_number,number_of_cases,number_of_doors,number_of_seats,price_per_day,branch_office_id,reserved) values('SUV_Convertible','3','','Audi q7','3','4','2','2','50','3',false);
+INSERT INTO reservation_rentacar(reservation_id, car_type, drop_of_date, drop_of_loc, passengers, pick_up_date, pick_up_loc, car_id, servis_id) VALUES('1','Prestige_Cars','2019-02-12','1Mileve Maric','1','2019-02-08','1Mileve Maric','1','1');

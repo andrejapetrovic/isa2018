@@ -92,6 +92,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: "rentACar-admin/addCar.html",
             controller: "carListCtrl"
         })
+        .state('findRentACar', {
+            url: "/findRentACar",
+            templateUrl: "reservationRent/findRentACar.html",
+            controller: "findRentCtrl"
+        })
         .state('flight-seats', {
             url: "/flight-seats/:id",
             templateUrl: "airline-admin/flight-seats.html",

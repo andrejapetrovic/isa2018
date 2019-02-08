@@ -63,13 +63,14 @@ tr:nth-child(even) {
 				<th>
 					{{car.carType}}
 				</th>
-				<th style="background-color:white;">
+
+				<th style="background-color:white;"  ng-if="car.reserved == false">
 					<a type="button" class="btn btn-primary" href="#!/changeCar/{{car.branchOffice.id}}" >Change</a>
 				</th>
 				
-				<th style="background-color:white;">
+				<th style="background-color:white;" ng-if="car.reserved == false">
 					<a type="button" class="btn btn-primary" ng-click="deleteCar(car.id,car.branchOffice.id)">Delete</a>
-				</th>
+				</th>				
 			</tr>
 	 </table>
 	
