@@ -2,27 +2,52 @@
 	<div class="row">
         <div class="col-xs-12">
         	<label class="flight-label">Price</label>
-            <input type="range" class="slider" id="priceSlider">
+            <input type="range" class="slider" id="priceSlider">&nbsp;
             <label class="flight-label2" id=priceOutputMin></label>
             <label class="flight-label2" id="priceOutputMax">
             </label>
         </div>
-		<div class="col-xs-12"><br>
+		<div class="col-xs-12">
         	<label class="flight-label">Trip duration</label>
-            <input type="range" class="slider" id="tripDurrationSlider">
+            <input type="range" class="slider" id="tripDurrationSlider">&nbsp;
             <label class="flight-label2" id=tripDurrationMin></label>
             <label class="flight-label2" id="tripDurrationMax">
             </label>
         </div>
+		<div class="font12 col-xs-12 well"">
 			<label class="font14">Airlines</label><br>
-		<div class="col-xs-12" ng-repeat="airline in airlines">
+			<div ng-repeat="airline in airlines">
 			<input type="checkbox" name="airline" id="arl-{{airline.id}}" ng-model="airline.selected"  ng-change="toggleAirline($index)">
           	<label for="arl-{{airline.id}}">{{airline.name}}</label>
+			</div>
 		</div>
-		<label class="font14">Number of stops</label><br>
-		<div class="col-xs-12" ng-repeat="stop in stops">
-			<input type="radio" name="stop" id="arl-{{stop.id}}" ng-model="selectedStop" value="stop.selected" ng-change="toggleStop($index)">
-          	<label for="stop-{{stop.id}}">{{stop.name}}</label>
+		<div class="font12 col-xs-12 well">
+			<label class="font14">Number of stops</label><br/>
+			  <label>
+			    <input type="radio" ng-model="stopNum" value="-1" ng-checked=true>
+			    Any
+			  </label><br/>
+			  <label>
+			    <input type="radio" ng-model="stopNum" ng-value="0">
+			    Nonstop
+			  </label><br/>
+			  <label>
+			    <input type="radio" ng-model="stopNum" value="1">
+			    1
+			  </label><br/>
+			  <label>
+			    <input type="radio" ng-model="stopNum" value="2">
+			    2+
+			  </label><br/>
+		  </div>
+		  <div class="font12 col-xs-12 well">
+			<label class="font14">Stop destinations</label><br>
+			<input type="checkbox" name="stop" id="any" ng-model="anyDest"  ng-change="toggleAnyDest()">
+          	<label for="any">Any</label>
+			<div ng-repeat="dest in stops">
+			<input type="checkbox" name="stop" id="stop-{{dest.id}}" ng-model="dest.selected"  ng-change="toggleStopDest()">
+          	<label for="stop-{{dest.id}}">{{dest.city}} ({{dest.airportCode}})</label>
+			</div>
 		</div>
 </div>
 </div>
@@ -78,7 +103,7 @@ ng-options="sortOption.val for sortOption in sortOptions" ng-change="selectSort(
 	</div>
 		<div class="col-sm-2">
 			<div class="row flight-label" ng-if="ftype == 1">{{flight.oneWayPrice}}$</div>
-			<div class="row flight-label" ng-if="ftype == 2">{{flight.returnPrice}}$</div><br><br>
+			<div class="row flight-label" ng-if="ftype == 2">{{flight.oneWayPrice+retFlights[idx].returnPrice}}$</div><br><br>
 			<div class="row flight-label2 make-res-btn"><button class="btn btn-warning btn-sm" ng-click="makeRes(flight.id, retFlights[idx].id)">Make reservation</button></div>
 		</div>
 </div>

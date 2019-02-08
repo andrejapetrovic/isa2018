@@ -14,6 +14,7 @@ app.controller('seatCtrl', function($scope, $http, $window, $location,
 	var params = $location.url().split('?')[1];
 	seatService.getFlightSeats(params).then(function(data){
 		var seats = _.groupBy(data[0], "flightClass");
+		console.log(data);
 		getFclasses(Object.keys(seats), "flight");
 		drawSeats(seats, "flight");
 		if(params.includes("ret=")){

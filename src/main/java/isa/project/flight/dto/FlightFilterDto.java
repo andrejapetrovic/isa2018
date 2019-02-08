@@ -12,9 +12,9 @@ public class FlightFilterDto {
 	
 	private int adults = 1;
 
-	private int children;
+	private int children = 0;
 	
-	private int infants;
+	private int infants = 0;
 	
 	private String price;
 	

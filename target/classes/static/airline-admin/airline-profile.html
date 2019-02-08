@@ -162,23 +162,23 @@
 	 		<label>Departure date</label>
  			<div class="right-inner-addon">
  		   		<i class="glyphicon glyphicon-calendar"></i>
- 		   		<input type="text" class="form-control startDate" id="depart" ng-model="newFlight.departureDate" autocomplete="off">
+ 		   		<input type="text" class="form-control startDate" id="depart" ng-model="newFlight.departureDate" autocomplete="off" placeholder="dd MMM yyyy">
     		</div>
     	</div>
     	<div class="col-sm-2"><br>
     		<label>time</label>
-			<input type="text" class="form-control" id="time-departure">
+			<input type="text" class="form-control" id="time-departure" autocomplete="off" placeholder="hh:mm">
     	</div>
     	<div class= "col-sm-4 ret-date-div"><br>
     	 	<label>Landing date</label>
     		<div class="right-inner-addon">
     			<i class="glyphicon glyphicon-calendar"></i>
-    			<input type="text" class="form-control endDate" id="landing" ng-model="newFlight.landingDate" autocomplete="off">
+    			<input type="text" class="form-control endDate" id="landing" ng-model="newFlight.landingDate" autocomplete="off" placeholder="dd MMM yyyy">
     		</div>
     	</div>
     	<div class="col-sm-2"><br>
     		<label>time</label>
-			<input type="text" class="form-control" id="time-landing" ng-model="landingTime">
+			<input type="text" class="form-control" id="time-landing" ng-model="landingTime" autocomplete="off" placeholder="hh:mm">
     	</div>
     	</div>
     	<div>
@@ -189,15 +189,23 @@
  				<input type="text" class="form-control" ng-model="newFlight.oneWayPrice">
            	</div>	 	 
            	<div class= "col-sm-2"><br>
- 				<label>Round trip price</label><br>
+ 				<label>Return price</label><br>
  				<input type="text" class="form-control" ng-model="newFlight.returnPrice">
            	</div>	 
-    		<div class= "col-sm-4"><br>
+    		<div class= "col-sm-2"><br>
  				<label>Aircraft</label><br>
 				<select name="aircraft" class="btn btn-outline" ng-model="flightAircraft" 
 					ng-options="plane.modelNumber + ' ' + plane.modelName for plane in planes" required>
            		 </select>
            	</div>
+           <div class= "col-sm-3"><br>
+ 				<label>Terminal  1</label><br>
+ 				<input type="text" class="form-control" ng-model="newFlight.terminal1">
+           	</div>	 
+           <div class= "col-sm-3"><br>
+ 				<label>Terminal  2</label><br>
+ 				<input type="text" class="form-control" ng-model="newFlight.terminal2">
+           	</div>	
     	</div>
     	
     	<div class="col-sm-12"><br>
@@ -235,9 +243,11 @@
 							<th>Departure date</th>
 							<th>Landing date</th>
 							<th>Airplane</th>
+							<th>Terminal 1</th>
+							<th>Terminal 2</th>
 							<th>Stops</th>
 							<th>One way price</th>
-							<th>Round trip price</th>
+							<th>Return price</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -247,6 +257,8 @@
 							<td>{{formatDate(flight.departureDate)}}</td>
 							<td>{{formatDate(flight.landingDate)}}</td>
 							<td>[{{flight.airplane.modelNumber}}] {{flight.airplane.modelName}}</td>
+							<td>{{flight.terminal1}}</td>
+							<td>{{flight.terminal2}}</td>
 							<td>
 								<span ng-if="flight.stopCount>0" ng-repeat="dest in flight.stops">{{dest.airportCode}} </span>
 								<span ng-if="flight.stopCount==0">Nonstop</span>

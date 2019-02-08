@@ -101,6 +101,8 @@ public class FlightController {
 		flight.setAirline(airline);
 		flight.setOneWayPrice(flightDto.getOneWayPrice());
 		flight.setReturnPrice(flightDto.getReturnPrice());
+		flight.setTerminal1(flightDto.getTerminal1());
+		flight.setTerminal2(flightDto.getTerminal2());
 		airline.getFlights().add(flight);
 		flight = flightRepo.save(flight);
 		List<FlightSeat> flightSeats = new ArrayList<>();

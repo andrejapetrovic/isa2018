@@ -78,19 +78,18 @@
 					<label>Flight class:</label>
 					<span>{{passenger.retFl.flightClass}}</span>
 				</div>
+				<div class="col-sm-1">
+					<button class="btn btn-xs user-data-btn x-btn" ng-click="removeSeat(passenger)">x</button>
+				</div>
 			</div>
 			<div class="panel-body" ng-if="roundTrip == true">
 			</div>		
 			<div class="panel-body">
 				<div class="col-sm-2">
-					<button class="btn btn-xs user-data-btn"" ng-click="fillUserData(passenger)">Fill with user data</button>
+					<button class="btn btn-xs user-data-btn" ng-click="fillUserData(passenger)">Fill with user data</button>
 				</div>
 				<div class="col-sm-4">
-					<label>Choose seat for return</label>
-					<select class="btn btn-outline" ng-model="selected" 
-					ng-options="'row: ' + flight.seat.row + ' column: ' + flight.seat.col for flight in retFlights"
-					ng-change="selectRetSeat($index, selected)">
-					</select>
+					<button class="btn btn-xs user-data-btn" ng-click="selectSeat($index)" data-toggle="modal" data-target="#seatsModal">Choose seat for return</button>
 				</div>
 			</div>			
 		</div>
@@ -111,16 +110,94 @@
 				</div>
 				<div class="col-sm-12">
 					<label>Destinations</label>
-					<span>{{flight.to.airportCode}} - {{flight.from.airportCode}}</span>
+					<span>{{flight.from.city}} - {{flight.to.city}}</span>
 				</div>
 				<div class="col-sm-12">
 					<label>Date: </label>
 					<span>{{parseDate(flight.departureDate, flight.landingDate)}}</span>
 				</div>
+				<div class="col-sm-12"><br>
+					<label>Total price: </label>
+					<span>{{totalPrice}}$</span>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
+<div class="col-sm-4">
+	<div class="panel panel-default font14">
+			<div class="panel-body">
+				<div class="col-sm-12">
+					<h4>Pricing</h4>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="col-sm-12">
+					<label>Carry on bag fee:</label>
+					<span>{{pricing.carryOnBagFee}}$</span>
+				</div>
+				<div class="col-sm-12">
+					<label>First checked bag fee:</label>
+					<span>{{pricing.firstCheckedBagFee}}$</span>
+				</div>
+				<div class="col-sm-12">
+					<label>Second checked bag fee:</label>
+					<span>{{pricing.secondCheckedBagFee}}$</span>
+				</div>
+				<div class="col-sm-12">
+					<label>Additional bag fee:</label>
+					<span>{{pricing.additionalBagFee}}$</span>
+				</div>
+	</div>
+</div>
+</div>
 <div class="col-sm-12">
 	<input type="submit" class="btn btn-md btn-primary" value="Make reservation" ng-click="makeRes()">
+</div>
+
+
+
+<!-- Modal -->
+<div ng-if="roundTrip == true">
+<div id="seatsModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">{{selectSeatModal.flight.from.city}} - {{selectSeatModal.flight.to.city}}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="col-sm-12"><br>
+				<table class="table table-striped airline-table">
+					<thead>
+						<tr>
+							<th>Row</th>
+							<th>Column</th>
+							<th>Cabin</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="fs in selectSeatModal.nonSelectedSeats">
+							<td>{{fs.seat.row}}</td>
+							<td>{{fs.seat.col}}</td>
+							<td>{{fs.flightClass}}</td>
+							<td>
+								<button class="btn btn-xs btn-success"
+									ng-click="addRetSeat(fs, selectSeatModal.user)">+</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 </div>

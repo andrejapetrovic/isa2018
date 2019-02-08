@@ -74,6 +74,10 @@ public class Flight {
 	
 	private double returnPrice;
 	
+	private String terminal1;
+	
+	private String terminal2;
+	
 	public Long getId() {
 		return id;
 	}
@@ -178,4 +182,21 @@ public class Flight {
 		this.cabin = cabin;
 	}
 
+	public String getTerminal1() {
+		return terminal1;
+	}
+
+	public void setTerminal1(String terminal1) {
+		this.terminal1 = terminal1;
+	}
+
+	public String getTerminal2() {
+		return terminal2;
+	}
+
+	public void setTerminal2(String terminal2) {
+		this.terminal2 = terminal2;
+	}
+
+	
 }

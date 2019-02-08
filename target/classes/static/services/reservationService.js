@@ -7,9 +7,14 @@ app.factory('reservationService', function($http) {
              return response.data;
          });
      }
-    
+    var getReservations = function(email) {    
+     	return $http.get('/reservation/get/'+email).then(function(response) {
+             return response.data;
+         });
+     }
      return {
-    	 submitReservation : submitReservation 
+    	 submitReservation : submitReservation,
+    	 getReservations : getReservations
        };
     
 });

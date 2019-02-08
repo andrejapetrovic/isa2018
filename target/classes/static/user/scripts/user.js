@@ -1,6 +1,6 @@
 var app = angular.module('app');
 
-app.controller('uCtrl', function($scope, $http, $window, friendService, userService) {
+app.controller('uCtrl', function($scope, $http, $window, friendService, userService, reservationService) {
   
 	var id;
 	
@@ -8,6 +8,12 @@ app.controller('uCtrl', function($scope, $http, $window, friendService, userServ
 		console.log(data);
 		$scope.user = data;
 		id = data.id;
+		console.log(data.email);
+		reservationService.getReservations(data.email).then(function(ress){
+			$scope.reservations = ress;
+			console.log($scope.reservations);
+		});
+		
 	});
 	
       $scope.edit = function (attr, $event) {
@@ -45,43 +51,13 @@ app.controller('uCtrl', function($scope, $http, $window, friendService, userServ
     	  $('#exampleModal').modal('show');
       });
       
-	/*friendService.getNonFriends(id).then(function(data) { 
-		console.log(data);
-		$scope.nonFriends = data;
-	  });
-	
-	friendService.getFriends(id).then(function(data) { 
-		console.log('friends');
-		console.log(data);
-		$scope.friends = data;
-	  });
-	
-	friendService.getPendingRequests(id).then(function(data) { 
-		console.log(data);
-		$scope.pending = data;
-	  });
-	
-	$scope.sendReq = function(friendId) {
-		friendService.sendRequest(id, friendId).then(function(data) { 
-			console.log(data);
-		  });
-	}
-	
-	$scope.acceptFriendReq = function(reqId) {
-		friendService.acceptReq(reqId).then(function(data) { 
-			console.log(data);
-			$scope.friends.push(data);
-			$scope.pending = $scope.pending.filter( req => req.sender.id == reqId );
-			$scope.friends = $scope.friends.filter(f => $scope.pending.filter( req => req.sender.id == f.id));
-		  });
-	}
-
-	$scope.declineFriendReq = function(reqId) {
-		friendService.declineReq(reqId).then(function(data) { 
-			console.log(data);
-			//$scope.nonFriends.push(data.sender);
-			$scope.pending = $scope.pending.filter( req => req.sender.id === reqId );
-		  });
-	}*/
-      
+		$scope.formatDate = function(date) {
+			var d = new Date(date);
+			var retVal = d.toString();
+			retVal = retVal.substring(0, retVal.indexOf(':')+3);
+			return retVal;
+		}
+		$scope.parseType = function(aircraftType) {
+			return aircraftType.split('_').join(' ');
+		}
   });
