@@ -1,0 +1,101 @@
+ <div class="container">
+    <h2>Change Car </h2>
+		 
+			
+			 <div class="form-group row">	
+		    	 <div class="col-xs-6">
+				   	<i class="glyphicon glyphicon-comment"></i> 		
+				  	<label>modelNumber:</label>
+				   
+				   <input class="form-control" type="text" ng-model="changeCar.modelNumber" >
+				  
+
+		   		</div>
+		    </div>
+		    
+		    <div class="form-group row">
+		        <div class="col-xs-6">
+			    	<i class="glyphicon glyphicon-map-marker"></i>
+			      	<label>modelName:</label>
+			        
+			        <input class="form-control" type="text" ng-model="changeCar.modelName">
+			        
+		   	    </div>
+		    </div>
+		    
+		    <div class="form-group row">
+		        <div class="col-xs-6">
+			    	<i class="glyphicon glyphicon-map-marker"></i>
+			      	<label>numberOfSeats:</label>
+			        
+			        <input class="form-control" type="text" ng-model="changeCar.numberOfSeats">
+			        
+		   	    </div>
+		    </div>
+		    
+		    <div class="form-group row">
+		        <div class="col-xs-6">
+			    	<i class="glyphicon glyphicon-map-marker"></i>
+			      	<label>numberOfCases:</label>
+			        
+			        <input class="form-control" type="text" ng-model="changeCar.numberOfCases">
+			        
+		   	    </div>
+		    </div>
+		    
+		    <div class="form-group row">
+		        <div class="col-xs-6">
+			    	<i class="glyphicon glyphicon-map-marker"></i>
+			      	<label>numberOfDoors:</label>
+			        
+			        <input class="form-control" type="text" ng-model="changeCar.numberOfDoors">
+			        
+		   	    </div>
+		    </div>
+		    
+		    <div class="form-group row">
+		        <div class="col-xs-6">
+			    	<i class="glyphicon glyphicon-map-marker"></i>
+			      	<label>pricePerDay in euro:</label>
+			        
+			        <input class="form-control" type="text" ng-model="changeCar.pricePerDay">
+			        
+		   	    </div>
+		    </div>
+		    
+		    <div class="form-group row">
+		        <div class="col-xs-6">
+			    	<i class="glyphicon glyphicon-map-marker"></i>
+			      	<label>description:</label>
+			        
+			        <input class="form-control" type="text" ng-model="changeCar.description">
+			        
+		   	    </div>
+		    </div>
+		    
+		    <div class="form-group row">
+		        <div class="col-xs-6">
+			    	<i class="glyphicon glyphicon-map-marker"></i>
+			      	<label>carType:</label>
+			        
+			        <div class="input-group">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-sort"></i></span>
+									<select class="form-control" ng-options="option.name for option in data.availableOptions track by option.id" ng-model="data.selectedOption">
+				      				
+				      				</select>
+						</div>
+			        
+		   	    </div>
+		    </div>
+		    
+		    
+		    
+		    
+		    <div>
+		    	<a type="submit" class="btn btn-default" ng-click="saveChangeCar()" href="#!/carList/{{changeCar.branchOffice.id}}" >Change</a>
+		    	<button type="submit" class="btn btn-default"  ng-click="goBack() " >Cencel</button>
+		  	</div>
+		  	
+		  	
+		  	
+</div>

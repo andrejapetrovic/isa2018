@@ -65,7 +65,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .state('addBranchOffice', {
             url: "/addBranchOffice/:id",
             templateUrl: "rentACar-admin/addBranchOffice.html",
-            controller: "rentACarCtrl"
+            controller: "addBranchOfficerCtrl"
         })
         .state('changeBranchOffice', {
             url: "/changeBranchOffice/:id",
@@ -81,6 +81,16 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: "/carList/:id",
             templateUrl: "rentACar-admin/car-list.html",
             controller: "branchOfficeCarList"
+        })
+        .state('changeCar', {
+            url: "/changeCar/:id",
+            templateUrl: "rentACar-admin/changeCar.html",
+            controller: "changeCarCtrl"
+        })
+        .state('addCar', {
+            url: "/addCar/:id",
+            templateUrl: "rentACar-admin/addCar.html",
+            controller: "carListCtrl"
         })
         
         

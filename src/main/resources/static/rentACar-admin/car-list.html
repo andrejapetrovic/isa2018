@@ -58,17 +58,17 @@ tr:nth-child(even) {
 					{{car.pricePerDay}}
 				</th>
 				<th>
-					{{car.branchOffice.branchOffice.servis.id}}
+					{{car.description}}
 				</th>
 				<th>
 					{{car.carType}}
 				</th>
 				<th style="background-color:white;">
-					<a type="button" class="btn btn-primary" >Change</a>
+					<a type="button" class="btn btn-primary" href="#!/changeCar/{{car.branchOffice.id}}" >Change</a>
 				</th>
 				
 				<th style="background-color:white;">
-					<a type="button" class="btn btn-primary" >Delete</a>
+					<a type="button" class="btn btn-primary" ng-click="deleteCar(car.id,car.branchOffice.id)">Delete</a>
 				</th>
 			</tr>
 	 </table>
