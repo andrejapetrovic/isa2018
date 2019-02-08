@@ -2,17 +2,78 @@ var app = angular.module('app');
 
 app.controller('seatConfigCtrl', function($scope, $http, $window, $stateParams, airplaneService, cabinService) {
 
+	
+	$(".nav-tabs").on("click", "a", function (e) {
+		e.preventDefault();
+		$(this).tab('show');
+		var id = $(this).attr('href');
+		$('.nav-tabs').find('.active').removeClass('active');
+		$('.nav-tabs').find('a[href="'+id+'"]').parent().addClass('active');
+	});
+	
+	
 		airplaneService.getAirplane($stateParams.id).then(function(data){
 			$scope.data = data;
 			$scope.aircraft = data.aircraft;
+			
+			
+			var	cabins = {
+					economy: {configured: false},
+					business: {configured: false},
+					premium: {configured: false},
+					first: {configured: false}
+			};
+			
+			var seats = data.seats.map(function(el) {
+				  var o = Object.assign({}, el);
+				  o.flightClass = el.cabin.flightClass;
+				  return o;
+				})
+			seats = _.groupBy(seats, "flightClass");
+			console.log(seats);
+			getFclasses(Object.keys(seats), "flight");
+			drawSeats(seats, "flight");
+			$scope.selectedTab = "#flight-economy";
+			
+			function getFclasses(fclasses, flight) {
+				fclasses.forEach(function(fclass){
+					var id = "#" + flight + "-" + fclass.toLowerCase();
+					console.log(id);
+					$('.nav-tabs').find('a[href="'+id+'"]').parent().removeClass('hidden');
+					cabins[fclass.toLowerCase()].configured = true;
+				});
+				var selectId = "#" + flight + "-economy";
+				$('.nav-tabs').find('a[href="' + selectId + '"]').parent().addClass('active');
+				$(selectId).addClass('fade in active');
+			}
+			
+			function drawSeats(seats, flight) {
+				Object.keys(seats).forEach(function(key) {
+					var canvas = document.createElement('canvas');
+					var id = "#" + flight + "-" + key.toLowerCase();
+					$(id).append("<br>").append(canvas);
+					var ctx = canvas.getContext('2d');
+					var first = seats[key][0];
+					var last = seats[key][seats[key].length-1];
+					canvas.width = first.x + last.x + 20;
+					canvas.height = first.y + last.y + 20;
+					ctx.strokeStyle = "#000000";
+					ctx.fillStyle = "#ffffff";
+					seats[key].forEach(function(el){
+						ctx.strokeRect(el.x, el.y, 20, 20);
+						ctx.fillRect(el.x, el.y, 20, 20);	
+					});
+				console.log(key);
+				cabins[key.toLowerCase()].configured = true;
+				});
+			}
+			
+			
+			
+			
+			
 			var selectedCanvasId;
 			var cabinClass; 
-			var	cabins = {
-						economy: {configured: false},
-						business: {configured: false},
-						premium: {configured: false},
-						first: {configured: false}
-				};
 				
 				$scope.rows = 40;
 				$scope.cols = 10;
@@ -32,7 +93,17 @@ app.controller('seatConfigCtrl', function($scope, $http, $window, $stateParams, 
 			}
 			
 			$scope.addSeats = function() {
-				var canvas = document.getElementById(selectedCanvasId);
+				var canvasRmv = document.getElementById($scope.selectedTab-'canvas');
+				if(canvasRmv != null){
+					var parent = canvasRmv.parentNode;
+					while (parent.firstChild) {
+					    parent.removeChild(parent.firstChild);
+					}
+				}
+				var cabinClass = $scope.selectedTab.split('-')[1];
+				var canvas = document.createElement('canvas');
+				canvas.id = $scope.selectedTab-'canvas';
+				$($scope.selectedTab).append(canvas);
 				var ctx = canvas.getContext('2d');
 				var rows = $scope.rows;
 				var cols = $scope.cols;
@@ -86,21 +157,22 @@ app.controller('seatConfigCtrl', function($scope, $http, $window, $stateParams, 
 					seats: seats,
 					aircraftId: $scope.aircraft.id
 				}
-				
+				console.log(cabins);
 				var saveBtn = $('<button/>')
 			    .text('Save')
 			    .click(function () {
 			    	$(this).next().remove();
 			    	$(this).remove();
-			    	cabins[cabinClass].configured = true;
-			    	console.log("klasa " + cabinClass);
+			    	var fClass = cabinClass.charAt(0).toUpperCase() + cabinClass.slice(1);
+			    	cabins[cabinClass].flightClass = fClass;
+			    	console.log(cabins["first"]);
 			    	cabinService.addCabin(cabins[cabinClass]).then(function(data){
-			    		$("#" + cabinClass).prop('disabled', true);
-			    		$("#create-seats").prop('disabled', true);
+			    		//$("#" + cabinClass).prop('disabled', true);
+			    		//$("#create-seats").prop('disabled', true);
 			    	});
 			    })
 			    var txt = $('<span/>').text(' Once you save you will no longer be able to make changes to this cabin');
-				$("#"+selectedCanvasId).parent().prepend(txt).prepend(saveBtn).prepend('<br>');
+				$('#'+canvas.id).parent().append(saveBtn).append(txt).prepend('<br>');
 			}
 			
 			$(".cabin-cbox").on("change", function(e){
@@ -114,7 +186,7 @@ app.controller('seatConfigCtrl', function($scope, $http, $window, $stateParams, 
 				}
 			});
 			
-			function createTab(tabId) {
+			/*function createTab(tabId) {
 				var id = $(".n av-tabs").children().length;
 				var name = tabId.split('-')[0];
 				name = name.replace(name[0], name[0].toUpperCase());
@@ -123,18 +195,19 @@ app.controller('seatConfigCtrl', function($scope, $http, $window, $stateParams, 
 				$('.nav-tabs li:nth-child(' + id + ') a').click();
 				
 				var canvas = createCanvas(tabId);
-			}
+			}*/
 			
 			$(".nav-tabs").on("click", "a", function (e) {
-				cabinClass = $(this).attr('id').split('-')[0];
-				$("#create-seats").prop("disabled", cabins[cabinClass].configured);
-				e.preventDefault();
-				$(this).tab('show');
-				selectedCanvasId = $(this).attr('id').replace("-tab", "-canvas");
+				console.log($(this).attr('href'));
+				$scope.selectedTab = $(this).attr('href');
+				cabinClass = $scope.selectedTab.split('-')[1];
+				if(cabins[cabinClass].configured) {
+					$("#create-seats").prop("disabled", true);
+				}
 			});
 		});
 		
-		function drawSeats(seats, d) {
+		function drawSeats2(seats, d) {
 			var canvas = document.getElementById(selectedCanvasId);
 			var ctx = canvas.getContext('2d');
 			ctx.fillStyle = "#FFFFFF";
@@ -146,16 +219,5 @@ app.controller('seatConfigCtrl', function($scope, $http, $window, $stateParams, 
 			
 		}
 		
-		//nakon sto se stranica loaduje
-		$scope.$on('$stateChangeSuccess', function () {
-			$("#economy").click().trigger();
-			if($scope.data.cabins.length > 0) {
-			$scope.data.cabins.forEach(function(cabin){
-				var fclass = $scope.data.cabin.flightClass;
-				var id = fclass.replace(fclass[0], fclass[0].toLowerCase()) + "-cabin";
-				//createTab(id);
-				//drawSeats((seats.filter(seat => seat.cabin.id != cabin.id)), cabin.d);
-			});
-		} 
-		});
+
 });
