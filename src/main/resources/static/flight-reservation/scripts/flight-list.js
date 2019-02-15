@@ -1,6 +1,8 @@
 var app = angular.module('app');
 app.controller('flightListCtrl', function($scope, $http, $window, destService, flightService, $location, $state, $window, $stateParams) {
 	var params = $location.url().split('?')[1];
+	$scope.from = $stateParams.fromDest;
+	$scope.to = $stateParams.toDest;
 	console.log(params);
 	flightService.search(params).then(function(data){
 		console.log(data);
@@ -20,7 +22,7 @@ app.controller('flightListCtrl', function($scope, $http, $window, destService, f
 		})
 		$scope.airlines = airlines;
 		
-		tripDurrationArr = data.flights[0].map(f => dateDiff(f.landingDate, f.departureDate));
+		tripDurrationArr = data.flights[0].map(f => dateDiff(f.flight.landingDate, f.flight.departureDate));
 		
 		if (data.flights.length == 1){
 			$scope.flights = data.flights[0];
@@ -32,7 +34,7 @@ app.controller('flightListCtrl', function($scope, $http, $window, destService, f
 			//priceArr = data.flights[0].map(f => f.returnPrice);
 			data.flights[0].forEach(function(flight1){
 				data.flights[1].forEach(function(flight2){
-					if(flight1.airline.name == flight2.airline.name) {
+					if(flight1.flight.airline.name == flight2.flight.airline.name) {
 						$scope.flights.push(Object.assign({}, flight1));
 						$scope.retFlights.push(Object.assign({}, flight2));
 						priceArr.push(flight1.oneWayPrice + flight2.returnPrice);
@@ -81,7 +83,7 @@ app.controller('flightListCtrl', function($scope, $http, $window, destService, f
 		$("#tripDurrationSlider").prop('max', highestDurration);
 		
 		$("#priceSlider").val(highestPrice);
-		$("#tripDurrationSlider").val(highestPrice);
+		$("#tripDurrationSlider").val(highestDurration);
 
 		$("#priceOutputMin").text(lowestPrice + "$ - ");
 		$("#priceOutputMax").text($("#priceSlider").val()+ "$");
@@ -101,8 +103,66 @@ app.controller('flightListCtrl', function($scope, $http, $window, destService, f
 			updateParam("duration1", lowestDurration + "-" + $(this).val());
 		})
 		
+		if (data.flights.length == 2){
+			tripDurrationArr2 = data.flights[1].map(f => dateDiff(f.flight.landingDate, f.flight.departureDate));
+			var lowestDurration2 = Math.min.apply(Math, tripDurrationArr2);
+			var highestDurration2 = Math.max.apply(Math, tripDurrationArr2);
+			$("#td2").removeClass("hidden");
+			$("#tripDurrationSlider2").prop('min', lowestDurration2);
+			$("#tripDurrationSlider2").prop('max', highestDurration2);
+			$("#tripDurrationSlider2").val(highestDurration2);
+			$("#tripDurrationMin2").text(lowestDurration2 + " hours - ");
+			$("#tripDurrationMax2").text($("#tripDurrationSlider2").val()+ " hours");
+			$("#tripDurrationSlider2").on('input', function(e){
+				$("#tripDurrationMax2").text($(this).val() + " hours");
+			});
+			$("#tripDurrationSlider2").on('change', function(e){
+				updateParam("duration2", lowestDurration2 + "-" + $(this).val());
+			})
+		}
+		
 		$scope.selectSort = function() {
-			updateParam("sort", $scope.sortOption.code);
+			if(data.flights.length == 2 && ($scope.sortOption.code == 'cheapest' || $scope.sortOption.code == 'highest_price')){
+				var temp = [];
+				angular.forEach(data.flights[0], function(f1){
+					angular.forEach(data.flights[1], function(f2){
+						if(f1.flight.airline.name == f2.flight.airline.name) {
+							temp.push({f1:f1, f2:f2, price:(f1.oneWayPrice+f2.returnPrice)});
+						}
+					});
+				});
+				if($scope.sortOption.code == 'cheapest'){
+					sortCheapest(temp);
+				} else if ($scope.sortOption.code == 'highest_price'){
+					sortHighestPrice(temp);
+				}
+			} else {
+				updateParam("sort", $scope.sortOption.code);
+			}
+		}
+		
+		function sortCheapest(temp) {
+			temp.sort(function(a, b){
+				return a.price >= b.price ? 1: -1;
+			});
+			$scope.flights = [];
+			$scope.retFlights = [];
+			temp.forEach(t => {
+				$scope.flights.push(t.f1);
+				$scope.retFlights.push(t.f2);
+			});
+		}
+		
+		function sortHighestPrice(temp) {
+			temp.sort(function(a, b){
+				return a.price <= b.price ? 1: -1;
+			});
+			$scope.flights = [];
+			$scope.retFlights = [];
+			temp.forEach(t => {
+				$scope.flights.push(t.f1);
+				$scope.retFlights.push(t.f2);
+			});
 		}
 		
 		$scope.toggleAirline = function(idx) {
@@ -132,6 +192,7 @@ app.controller('flightListCtrl', function($scope, $http, $window, destService, f
 			}
 			extractStopCodes();
 		}
+		var queryObject = jQuery.extend({}, $stateParams);
 		
 		function extractStopCodes(){
 			var filtered = $scope.stops.filter(s => s.selected)
@@ -140,10 +201,12 @@ app.controller('flightListCtrl', function($scope, $http, $window, destService, f
 			console.log(codes);
 			
 			if ($scope.stops.length == filtered.length) {
+				delete queryObject['stopDests'];
 				updateParam("stops", -1);
 			} else if (codes != "") {
 				updateParam("stopDests", codes);
 			} else {
+				delete queryObject['stopDests'];
 				updateParam("stops", 0);
 			}
 		}
@@ -152,24 +215,24 @@ app.controller('flightListCtrl', function($scope, $http, $window, destService, f
 			updateParam("stops", $scope.stopNum);
 		});
 		
-		var updatedParams = params;
-		
 		function updateParam(key, val) {
-			var l1 = updatedParams.length;
-			updatedParams += ("&"+key+"="+val);
-			console.log(updatedParams);
-			var l2 = updatedParams.length;
-			flightService.search(updatedParams).then(function(data){
+			queryObject[key] = val;
+			console.log(queryObject);
+			queryParams = objToString(queryObject);
+
+			console.log(queryParams);
+			flightService.search(queryParams).then(function(data){
 				
 				if (data.flights.length == 1){
 					$scope.flights = data.flights[0];
+					console.log($scope.flights);
 				}
 				else if (data.flights.length == 2){
 					$scope.flights = [];
 					$scope.retFlights = [];
 					data.flights[0].forEach(function(flight1){
 						data.flights[1].forEach(function(flight2){
-							if(flight1.airline.name == flight2.airline.name) {
+							if(flight1.flight.airline.name == flight2.flight.airline.name) {
 								$scope.flights.push(Object.assign({}, flight1));
 								$scope.retFlights.push(Object.assign({}, flight2));
 							}
@@ -180,7 +243,6 @@ app.controller('flightListCtrl', function($scope, $http, $window, destService, f
 			}, function(err) {
 				$scope.flights = [];
 			});
-			updatedParams = updatedParams.substring(0, l1);
 		}
 		
 		$scope.makeRes = function(flightId, retFlightId) {
@@ -211,5 +273,14 @@ app.controller('flightListCtrl', function($scope, $http, $window, destService, f
 		return difference;
 	}
 	
+	function objToString(obj) {
+		var str = "";
+		for (var property in obj) {
+		    if (obj.hasOwnProperty(property) && obj[property] != undefined) {
+		        str += "&" + property + "=" + obj[property];
+		    }
+		}
+		return str.substring(1);
+	}
 
 });

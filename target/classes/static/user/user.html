@@ -73,8 +73,8 @@
 		<br>Seat: <label>row {{fs.seat.row}}</label> <label>column {{fs.seat.col}} {{fs.flightClass}} cabin</label>
 		<br>Aircraft: <label>{{fs.flight.airplane.modelName}}</label> type: <label>{{parseType(fs.flight.airplane.type)}}</label>
 		<br>Airline: <label>{{fs.flight.airline.name}}</label>
-		<br><label ng-if="idx==0"><span>{{fs.flight.oneWayPrice}}$</span></label>
-		<label ng-if="idx==1"><span>{{fs.flight.returnPrice}}$</span></label>
+		<br>Price: <label ng-if="idx==0"><span>{{res.oneWayPrice}}$</span></label>
+		<label ng-if="idx==1"><span>{{res.returnPrice}}$</span></label>
 	</div>
 </div>
 </div>

@@ -1,6 +1,6 @@
 var app = angular.module('app');
 app.controller('resCtrl', function($scope, $http, $window, $location,
-		 $state, $window, $stateParams, seatService, reservationService) {
+		 $state, $window, $stateParams, seatService, reservationService, flightService) {
 	if($scope.loggedUser == null){
 		alert("You have to be logged in to make a reservation");
 		return;
@@ -15,6 +15,7 @@ app.controller('resCtrl', function($scope, $http, $window, $location,
 	seatService.getFlightSeatsByIds(params).then(function(data){
 		console.log(data);
 		var flightSeats = data[0];
+		
 		if($scope.roundTrip) {
 			$scope.retFlight = data[1][0].flight;
 			$scope.retFlights = data[1];
@@ -22,6 +23,19 @@ app.controller('resCtrl', function($scope, $http, $window, $location,
 					user: "", flight: $scope.retFlight, nonSelectedSeats: $scope.retFlights
 			}
 			console.log($scope.selectSeatModal);
+			for (var i=0; i<$scope.retFlights.length; i++){
+				$scope.retFlights[i]['idx'] = i;
+			}
+			
+			$scope.retPrices = [];
+			
+			angular.forEach($scope.retFlights, function(rf){
+				flightService.prices(rf.flight.id, rf.flightClass).then(function(p){
+					$scope.retPrices.push(p);
+					
+				});
+			});
+			
 		}
 		var passNum = flightSeats.length;
 		$scope.passengers = [];
@@ -43,9 +57,19 @@ app.controller('resCtrl', function($scope, $http, $window, $location,
 			$scope.flightInfo.push(data[1][0].flight);
 		}
 		
-		var prices = data[0].map(fs => fs.flight.oneWayPrice);
+		$scope.prices = [];
 		$scope.totalPrice = 0;
-		prices.forEach(price => $scope.totalPrice += price);
+		var i = 0;
+		angular.forEach($scope.passengers, function(passenger){
+			flightService.prices(passenger.flightSeat.flight.id, passenger.flightSeat.flightClass).then(function(p){
+				$scope.prices.push(p);
+				$scope.passengers[i]['idx'] = i;
+				console.log($scope.passengers[i]);
+				$scope.totalPrice += p.oneWayPrice;
+				i++;
+			});
+		});
+		
 		$scope.pricing = $scope.flightInfo[0].airline.pricelist;
 		console.log($scope.pricing);
 	});
@@ -75,8 +99,10 @@ app.controller('resCtrl', function($scope, $http, $window, $location,
 		angular.forEach($scope.passengers, function(passenger){
 				passenger['dateOfBirth'] = passenger.year + "-" + passenger.month + "-" + passenger.day;
 				passenger['flightSeatId'] = passenger.flightSeat.id;
+				passenger['oneWayPrice'] = $scope.prices[passenger.idx].oneWayPrice;
 				if(passenger.retFl != null) {
 					passenger['retFlightSeatId'] = passenger.retFl.id;
+					passenger['returnPrice'] = $scope.retPrices[passenger.retFl.idx].returnPrice;
 				}
 				
 		});
@@ -97,7 +123,7 @@ app.controller('resCtrl', function($scope, $http, $window, $location,
 	$scope.addRetSeat = function(fs, index) {
 		if($scope.passengers[index].returnTicket == false) {
 			$scope.passengers[index].returnTicket = true;
-			$scope.totalPrice += $scope.retFlight.returnPrice;
+			$scope.totalPrice += $scope.retPrices[fs.idx].returnPrice;
 		} else {
 			$scope.selectSeatModal.nonSelectedSeats.push($scope.passengers[index]['retFl']);
 		}
@@ -107,7 +133,7 @@ app.controller('resCtrl', function($scope, $http, $window, $location,
 	}
 	$scope.removeSeat = function(passenger){
 		$scope.selectSeatModal.nonSelectedSeats.push(passenger['retFl']);
-		$scope.totalPrice -= $scope.retFlight.returnPrice;
+		$scope.totalPrice -= $scope.retPrices[passenger.retFl.idx].returnPrice;
 		passenger.returnTicket = false;
 		passenger['retFl'] = undefined;
 	}

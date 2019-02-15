@@ -51,9 +51,9 @@ public class FlightServiceImpl implements FlightService {
 		FlightType type = filterDto.getFtype();
 		if (sort != null ) {
 			if (sort == Sort.cheapest && type == FlightType.One_way) {
-				return flightRepo.findByCheapestOneWay(ids);
+				return flightRepo.findByCheapestOneWay(ids, filterDto.getFclass().toString());
 			} else if (sort == Sort.highest_price && type == FlightType.One_way) {
-				return flightRepo.findByHighestPriceOneWay(ids);
+				return flightRepo.findByHighestPriceOneWay(ids, filterDto.getFclass().toString());
 			}else if (sort == Sort.cheapest && type == FlightType.Round_trip) {
 				return flightRepo.findByCheapestReturn(ids);
 			} else if (sort == Sort.highest_price && type == FlightType.Round_trip) {
@@ -91,15 +91,15 @@ public class FlightServiceImpl implements FlightService {
 		}
 		if (filterDto.getPrice() != null && !ids.isEmpty() && filterDto.getFtype() == FlightType.One_way) {
 			String p[] = filterDto.getPrice().split("-");
-			ids = flightRepo.findByOneWayPriceRange(ids, p[0], p[1]);
+			ids = flightRepo.findByOneWayPriceRange(ids, p[0], p[1], filterDto.getFclass().toString());
 		}
 		if (filterDto.getPrice() != null && !ids.isEmpty() && !isReturn && filterDto.getFtype() == FlightType.Round_trip) {
 			String p[] = filterDto.getPrice().split("-");
-			ids = flightRepo.findByRoundTripPriceFlight(ids, p[0], p[1]);
+			ids = flightRepo.findByRoundTripPriceFlight(ids, p[0], p[1], filterDto.getFclass().toString());
 		}
 		if (filterDto.getPrice() != null && !ids.isEmpty() && isReturn && filterDto.getFtype() == FlightType.Round_trip) {
 			String p[] = filterDto.getPrice().split("-");
-			ids = flightRepo.findByRoundTripPriceReturnFlight(ids, p[0], p[1]);
+			ids = flightRepo.findByRoundTripPriceReturnFlight(ids, p[0], p[1], filterDto.getFclass().toString());
 		}
 		if (filterDto.getStopDests() != null && !ids.isEmpty()) {
 			List<String> codes = new ArrayList<String>(Arrays.asList(filterDto.getStopDests().split("-")));

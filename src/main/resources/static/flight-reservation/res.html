@@ -1,5 +1,5 @@
 <div class="col-sm-8">
-	<form ng-repeat="passenger in passengers">
+	<form ng-repeat="passenger in passengers" ng-init="idx = $index">
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<div class="col-sm-4">
@@ -61,6 +61,10 @@
 					<label>Flight class:</label>
 					<span>{{passenger.flightSeat.flightClass}}</span>
 				</div>
+				<div class="col-sm-2">
+					<label>Price:</label>
+					<span>{{prices[idx].oneWayPrice}}$</span>
+				</div>
 			</div>
 			<div class="panel-body" ng-if="passenger.returnTicket">
 				<div class="col-sm-2">
@@ -77,6 +81,10 @@
 				<div class="col-sm-3">
 					<label>Flight class:</label>
 					<span>{{passenger.retFl.flightClass}}</span>
+				</div>
+				<div class="col-sm-2">
+					<label>Price:</label>
+					<span>{{retPrices[passenger.retFl.idx].returnPrice}}$</span>
 				</div>
 				<div class="col-sm-1">
 					<button class="btn btn-xs user-data-btn x-btn" ng-click="removeSeat(passenger)">x</button>
@@ -116,12 +124,12 @@
 					<label>Date: </label>
 					<span>{{parseDate(flight.departureDate, flight.landingDate)}}</span>
 				</div>
-				<div class="col-sm-12"><br>
+			</div>
+		</div>
+					<div class="col-sm-12"><br>
 					<label>Total price: </label>
 					<span>{{totalPrice}}$</span>
 				</div>
-			</div>
-		</div>
 	</div>
 </div>
 <div class="col-sm-4">
@@ -176,6 +184,7 @@
 							<th>Row</th>
 							<th>Column</th>
 							<th>Cabin</th>
+							<th>Price</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -184,6 +193,7 @@
 							<td>{{fs.seat.row}}</td>
 							<td>{{fs.seat.col}}</td>
 							<td>{{fs.flightClass}}</td>
+							<td>{{retPrices[fs.idx].returnPrice}}$</td>
 							<td>
 								<button class="btn btn-xs btn-success"
 									ng-click="addRetSeat(fs, selectSeatModal.user)">+</button>

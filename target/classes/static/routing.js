@@ -107,6 +107,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: "flight-reservation/fast-res.html",
             controller: "fastResCtrl"
         })
+        .state('listInService', {
+            url: "/listInService/:id",
+            templateUrl: "reservationRent/listCarsInService.html",
+            controller: "listCarsInSerCtrl"
+        })
         
         $urlRouterProvider.when('', '/home');
 });

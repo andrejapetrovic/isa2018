@@ -7,11 +7,18 @@
             <label class="flight-label2" id="priceOutputMax">
             </label>
         </div>
-		<div class="col-xs-12">
-        	<label class="flight-label">Trip duration</label>
+		<div class="col-xs-12"><br>
+        	<label class="flight-label">Trip duration<br> {{from}} - {{to}}</label>
             <input type="range" class="slider" id="tripDurrationSlider">&nbsp;
             <label class="flight-label2" id=tripDurrationMin></label>
             <label class="flight-label2" id="tripDurrationMax">
+            </label>
+        </div>
+        <div class="col-xs-12 hidden" id="td2">
+        	<label class="flight-label">Trip duration<br> {{to}} - {{from}}</label>
+            <input type="range" class="slider" id="tripDurrationSlider2">&nbsp;
+            <label class="flight-label2" id=tripDurrationMin2></label>
+            <label class="flight-label2" id="tripDurrationMax2">
             </label>
         </div>
 		<div class="font12 col-xs-12 well"">
@@ -60,51 +67,51 @@ ng-options="sortOption.val for sortOption in sortOptions" ng-change="selectSort(
 </select>
 <br><br><br>
 <span class="font14">{{err}}</span>
-<div class="col-sm-12 wrap" ng-repeat="flight in flights" ng-init="idx = $index">
+<div class="col-sm-12 wrap" ng-repeat="flight in flights track by $index" ng-init="idx = $index">
 	<div class="col-sm-10 mbr-col-md-10">
 		<div class="col-sm-12 flight-details">
 		<div class="col-sm-4">
-			<div class="row flight-label">{{formatTime(flight.departureDate)}} - {{formatTime(flight.landingDate)}} </div>
-			<div class="row flight-label2">{{flight.airline.name}}</div>
+			<div class="row flight-label">{{formatTime(flight.flight.departureDate)}} - {{formatTime(flight.flight.landingDate)}} </div>
+			<div class="row flight-label2">{{flight.flight.airline.name}}</div>
 		</div>
 		<div class="col-sm-4">
-			<div class="row flight-label" ng-if="flight.stopCount == 0">Nonstop</div>
-			<div ng-if="flight.stopCount > 0">
-				<div class="row flight-label">{{flight.stopCount}} Stops </div>
+			<div class="row flight-label" ng-if="flight.flight.stopCount == 0">Nonstop</div>
+			<div ng-if="flight.flight.stopCount > 0">
+				<div class="row flight-label">{{flight.flight.stopCount}} Stops </div>
 				<div class="row">
-					<label class="flight-label2" ng-repeat="dest in flight.stops">{{dest.airportCode}}&nbsp</label>
+					<label class="flight-label2" ng-repeat="dest in flight.flight.stops">{{dest.airportCode}}&nbsp</label>
 				</div>
 			</div>
 		</div>
 		<div class="col-sm-4">
-			<div class="row flight-label">{{duration(flight.departureDate, flight.landingDate)}}</div>
-			<div class="row flight-label2">{{flight.from.airportCode}} - {{flight.to.airportCode}} </div>
+			<div class="row flight-label">{{duration(flight.flight.departureDate, flight.flight.landingDate)}}</div>
+			<div class="row flight-label2">{{flight.flight.from.airportCode}} - {{flight.flight.to.airportCode}} </div>
 		</div>
 		</div>
 		<div class="col-sm-12 flight-details" ng-if="ftype == 2">
 		<div class="col-sm-4">
-			<div class="row flight-label">{{formatTime(retFlights[idx].departureDate)}} - {{formatTime(retFlights[idx].landingDate)}} </div>
-			<div class="row flight-label2">{{retFlights[idx].airline.name}}</div>
+			<div class="row flight-label">{{formatTime(retFlights[idx].flight.departureDate)}} - {{formatTime(retFlights[idx].flight.landingDate)}} </div>
+			<div class="row flight-label2">{{retFlights[idx].flight.airline.name}}</div>
 		</div>
 		<div class="col-sm-4">
-				<div class="row flight-label" ng-if="retFlights[idx].stopCount == 0">Nonstop</div>
-				<div ng-if="retFlights[idx].stopCount > 0">
-					<div class="row flight-label">{{retFlights[idx].stopCount}} Stops </div>
+				<div class="row flight-label" ng-if="retFlights[idx].flight.stopCount == 0">Nonstop</div>
+				<div ng-if="retFlights[idx].flight.stopCount > 0">
+					<div class="row flight-label">{{retFlights[idx].flight.stopCount}} Stops </div>
 					<div class="row">
-					<label class="flight-label2" ng-repeat="dest in retFlights[idx].stops">{{dest.airportCode}}&nbsp</label>
+					<label class="flight-label2" ng-repeat="dest in retFlights[idx].flight.stops">{{dest.airportCode}}&nbsp</label>
 					</div>
 				</div>
 		</div>
 		<div class="col-sm-4">
-			<div class="row flight-label">{{duration(retFlights[idx].departureDate, retFlights[idx].landingDate)}}</div>
-			<div class="row flight-label2">{{retFlights[idx].from.airportCode}} - {{retFlights[idx].to.airportCode}} </div>
+			<div class="row flight-label">{{duration(retFlights[idx].flight.departureDate, retFlights[idx].flight.landingDate)}}</div>
+			<div class="row flight-label2">{{retFlights[idx].flight.from.airportCode}} - {{retFlights[idx].flight.to.airportCode}} </div>
 		</div>
 		</div>
 	</div>
 		<div class="col-sm-2">
 			<div class="row flight-label" ng-if="ftype == 1">{{flight.oneWayPrice}}$</div>
 			<div class="row flight-label" ng-if="ftype == 2">{{flight.oneWayPrice+retFlights[idx].returnPrice}}$</div><br><br>
-			<div class="row flight-label2 make-res-btn"><button class="btn btn-warning btn-sm" ng-click="makeRes(flight.id, retFlights[idx].id)">Make reservation</button></div>
+			<div class="row flight-label2 make-res-btn"><button class="btn btn-warning btn-sm" ng-click="makeRes(flight.flight.id, retFlights[idx].flight.id)">Make reservation</button></div>
 		</div>
 </div>
 </div>

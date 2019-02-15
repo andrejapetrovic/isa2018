@@ -11,5 +11,6 @@ import isa.project.branchOffice.BranchOffice;
 public interface CarRepository extends JpaRepository<Car, Long> {
 	
 	List<Car> findBybranchOffice(BranchOffice id);
+	Car findByModelNumber(int i);
 
 }

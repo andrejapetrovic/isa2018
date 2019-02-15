@@ -154,7 +154,9 @@ app.controller('seatCtrl', function($scope, $http, $window, $location,
 						retSeats: retIds.join("-"),
 						infants: $stateParams.infants
 				}
-				console.log(queryParams);
+				if(queryParams.retSeats == ""){
+					delete queryParams['retFl'];
+				}
 				$state.go("reservation", queryParams);
 			}
 		});

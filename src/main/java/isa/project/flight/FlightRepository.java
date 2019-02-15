@@ -30,15 +30,15 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
 			@Param("departure") Date departure
 			);
 	
-	@Query(value = "SELECT * FROM flight WHERE flight_id IN :ids order by one_way_price asc"   
+	@Query(value = "SELECT * FROM flight f inner join flight_price fp on f.flight_id = fp.flight_id and flight_class = :fclass where f.flight_id in :ids order by fp.one_way_price asc"   
 			,nativeQuery = true)
 	List<Flight> findByCheapestOneWay(
-			@Param("ids") List<BigInteger> ids);
+			@Param("ids") List<BigInteger> ids, @Param("fclass") String fclass);
 	
-	@Query(value = "SELECT * FROM flight WHERE flight_id IN :ids order by one_way_price desc"   
+	@Query(value = "SELECT * FROM flight f inner join flight_price fp on f.flight_id = fp.flight_id and flight_class = :fclass where f.flight_id in :ids order by fp.one_way_price desc"   
 			,nativeQuery = true)
 	List<Flight> findByHighestPriceOneWay(
-			@Param("ids") List<BigInteger> ids);
+			@Param("ids") List<BigInteger> ids, @Param("fclass") String fclass);
 
 	@Query(value = "SELECT * FROM flight WHERE flight_id IN :ids order by return_price asc"   
 			,nativeQuery = true)
@@ -119,27 +119,32 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
 			@Param("flightClass") String className, 
 			@Param("passNum") int passNum);
 	
-	@Query(value = "SELECT flight_id FROM flight WHERE flight_id IN :ids and one_way_price BETWEEN :lowest AND :highest"   
+	@Query(value = "SELECT f.flight_id FROM flight f inner join flight_price fp on f.flight_id = fp.flight_id and flight_class = :fclass WHERE f.flight_id IN :ids and fp.one_way_price BETWEEN :lowest AND :highest"   
 			,nativeQuery = true)
 	List<BigInteger> findByOneWayPriceRange(
 			@Param("ids") List<BigInteger> ids,
 			@Param("lowest") String lowest,
-			@Param("highest") String highest
+			@Param("highest") String highest,
+			@Param("fclass") String fclass
 			);
 	
-	@Query(value = "SELECT f1.flight_id from flight f1 cross join flight f2 where f1.flight_id IN :ids and f1.from_id=f2.to_id and f2.from_id=f1.to_id and f1.airline_id = f2.airline_id and (f1.one_way_price + f2.return_price) BETWEEN :lowest AND :highest"   
+	@Query(value = "SELECT f1.flight_id from flight f1 cross join flight f2 inner join flight_price fp1, flight_price fp2 where f1.flight_id IN :ids and f1.from_id=f2.to_id and f2.from_id=f1.to_id and f1.airline_id = f2.airline_id and "
+			+ "fp1.flight_id=f1.flight_id and fp2.flight_id=f2.flight_id and fp1.flight_class=:fclass and fp2.flight_class=:fclass and (fp1.one_way_price + fp2.return_price) BETWEEN :lowest AND :highest"   
 			,nativeQuery = true)
 	List<BigInteger> findByRoundTripPriceFlight(
 			@Param("ids") List<BigInteger> ids,
 			@Param("lowest") String lowest,
-			@Param("highest") String highest
+			@Param("highest") String highest,
+			@Param("fclass") String fclass
 			);
-	@Query(value = "SELECT f1.flight_id from flight f1 cross join flight f2 where f1.flight_id IN :ids and f1.from_id=f2.to_id and f2.from_id=f1.to_id and f1.airline_id = f2.airline_id and (f1.return_price + f2.one_way_price) BETWEEN :lowest AND :highest"   
+	@Query(value = "SELECT f1.flight_id from flight f1 cross join flight f2 inner join flight_price fp1, flight_price fp2 where f1.flight_id IN :ids and f1.from_id=f2.to_id and f2.from_id=f1.to_id and f1.airline_id = f2.airline_id and "
+			+ "fp1.flight_id=f1.flight_id and fp2.flight_id=f2.flight_id and fp1.flight_class=:fclass and fp2.flight_class=:fclass and (fp1.return_price + fp2.one_way_price) BETWEEN :lowest AND :highest"     
 			,nativeQuery = true)
 	List<BigInteger> findByRoundTripPriceReturnFlight(
 			@Param("ids") List<BigInteger> ids,
 			@Param("lowest") String lowest,
-			@Param("highest") String highest
+			@Param("highest") String highest,
+			@Param("fclass") String fclass
 			);
 	
 	@Query(value = "SELECT flight_id FROM flight WHERE flight_id IN :ids and HOUR(TIMEDIFF(landing_date, departure_date)) >= :lowest "

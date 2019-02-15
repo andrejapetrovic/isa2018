@@ -7,6 +7,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import isa.project.cabin.FlightClass;
@@ -27,6 +28,7 @@ public class FlightPrice {
 	private double returnPrice;
 
 	@ManyToOne
+	@JoinColumn(name="flight_id", nullable=false)
 	private Flight flight;
 	
 	public Long getId() {

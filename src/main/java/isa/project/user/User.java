@@ -22,6 +22,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
+import isa.project.reservationRentACar.ReservationRentACar;
+
 @Entity
 public class User implements Serializable {
 
@@ -58,6 +60,11 @@ public class User implements Serializable {
 	@JoinTable(name = "friend_relation", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "friend_id"))
 	@JsonIgnore
 	private Set<User> friends;
+	
+	@ManyToMany(cascade=CascadeType.ALL)
+	@JoinTable(name = "car_res", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "res_id"))
+	@JsonIgnore
+	private Set<ReservationRentACar> cars = new HashSet<>();
 	
 	@ElementCollection(targetClass = Role.class)
 	@Enumerated(EnumType.STRING)
@@ -137,5 +144,14 @@ public class User implements Serializable {
 		this.friends = friends;
 	}
 
+	public Set<ReservationRentACar> getCars() {
+		return cars;
+	}
+
+	public void setCars(Set<ReservationRentACar> cars) {
+		this.cars = cars;
+	}
+
+	
 
 }

@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -35,6 +36,7 @@ import isa.project.flight.dto.FlightFilterDto;
 import isa.project.flight.dto.FlightReturnDto;
 import isa.project.flight.dto.FlightSearchDto;
 import isa.project.flight.dto.PriceDto;
+import isa.project.flight.dto.Sort;
 import isa.project.flight.price.FlightPrice;
 import isa.project.flight.price.FlightPriceRepository;
 import isa.project.flight.seat.FlightSeat;
@@ -92,7 +94,7 @@ public class FlightController {
 		Aircraft plane = airplaneRepo.findOne(flightDto.getAircraftId());
 		Flight flight = new Flight();
 		
-		SimpleDateFormat ft = new SimpleDateFormat ("dd-MMM-yyyy HH:mm");
+		SimpleDateFormat ft = new SimpleDateFormat ("dd-MMM-yyyy HH:mm", Locale.US);
 		try {
 			flight.setDepartureDate(ft.parse(flightDto.getDepartureDate()));
 			flight.setLandingDate(ft.parse(flightDto.getLandingDate()));
@@ -128,8 +130,6 @@ public class FlightController {
 			flight.setStops(destRepo.findAllByCodes(flightDto.getStopDestCodes()));
 		flight.setAirplane(plane);
 		flight.setAirline(airline);
-		flight.setOneWayPrice(flightDto.getOneWayPrice());
-		flight.setReturnPrice(flightDto.getReturnPrice());
 		flight.setTerminal1(flightDto.getTerminal1());
 		flight.setTerminal2(flightDto.getTerminal2());
 		airline.getFlights().add(flight);
@@ -169,21 +169,27 @@ public class FlightController {
 			return new ResponseEntity<FlightReturnDto>(HttpStatus.NOT_FOUND);
 		}
 		List<Long> ids = new ArrayList<>(); 
+		List<List<FlightPrice>> flightPrices = new ArrayList<>();
 		for (List<Flight> list : foundFlights) {
-			ids.addAll(list.stream()
+			List<Long> i = list.stream()
 					.map(Flight::getId)
-					.collect(Collectors.toList()));
+					.collect(Collectors.toList());
+			
+			String order = i.stream().map(Object::toString).collect(Collectors.joining(","));
+			StringBuilder sb = new StringBuilder(order); 
+			List<FlightPrice> fp = priceRepo.findByids(filterDto.getFclass().toString(), i, sb.toString());
+			flightPrices.add(fp);
+			ids.addAll(i);
 		}
 		List<Destination> stops = destRepo.findStops(ids);
 		List<Airline> airlines = airlineRepo.findByFlights(ids);
 		FlightReturnDto retVal = new FlightReturnDto();
 		retVal.setAirlines(airlines);
-		retVal.setFlights(foundFlights);
+		retVal.setFlights(flightPrices);
 		retVal.setStops(stops);
 		return new ResponseEntity<FlightReturnDto>(retVal, HttpStatus.OK);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_AirlineAdmin')")
 	@RequestMapping(
 			value = "add-price/",
 			method = RequestMethod.POST,
@@ -191,13 +197,16 @@ public class FlightController {
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> update(@RequestBody PriceDto dto) throws Exception {
 		Flight flight = flightRepo.getOne(dto.getFlightId());
-		FlightPrice fp = new FlightPrice();
+		
+		FlightPrice fp = priceRepo.findOneByFlightClassAndFlightId((dto.getfClass()), dto.getFlightId());
+		if(fp == null )
+			fp = new FlightPrice();
+		
 		fp.setFlightClass(FlightClass.valueOf(dto.getfClass()));
 		fp.setOneWayPrice(dto.getOneWayPrice());
 		fp.setReturnPrice(dto.getReturnPrice());
 		fp.setFlight(flight);
 		priceRepo.save(fp);
-		flight.getPrice().add(fp);
 		return new ResponseEntity<>(flightRepo.save(flight), HttpStatus.OK);
 	}
 	
@@ -206,8 +215,9 @@ public class FlightController {
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> getPrices(@PathVariable("flightId") Long id, @PathVariable("fclass") FlightClass fclass) {
-		return new ResponseEntity<>(priceRepo.findOneByFlightClassAndFlightId(fclass, id), HttpStatus.OK);
+		return new ResponseEntity<>(priceRepo.findOneByFlightClassAndFlightId(fclass.toString(), id), HttpStatus.OK);
 	}
+	
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 }

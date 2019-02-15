@@ -5,10 +5,11 @@ import java.util.List;
 import isa.project.airline.Airline;
 import isa.project.destination.Destination;
 import isa.project.flight.Flight;
+import isa.project.flight.price.FlightPrice;
 
 public class FlightReturnDto {
 
-	private List<List<Flight>> flights;
+	private List<List<FlightPrice>> flights;
 	
 	private List<Airline> airlines;
 	
@@ -30,11 +31,11 @@ public class FlightReturnDto {
 		this.stops = stops;
 	}
 
-	public List<List<Flight>> getFlights() {
+	public List<List<FlightPrice>> getFlights() {
 		return flights;
 	}
 
-	public void setFlights(List<List<Flight>> flights) {
+	public void setFlights(List<List<FlightPrice>> flights) {
 		this.flights = flights;
 	}
 

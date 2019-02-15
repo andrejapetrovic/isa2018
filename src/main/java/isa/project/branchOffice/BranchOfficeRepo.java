@@ -10,4 +10,6 @@ public interface BranchOfficeRepo extends JpaRepository<BranchOffice, Long> {
 		
 	List<BranchOffice> findByservis(RentACar id);
 	
+	BranchOffice findByAddress(String adr);
+	
 }

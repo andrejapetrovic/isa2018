@@ -1,5 +1,6 @@
 package isa.project.flight.reservation;
 
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -57,17 +58,24 @@ public class EmailService {
 		StringBuilder sb = new StringBuilder("<p>You have succesfully made a flight reservation.<br>");
 		
 		Iterator<FlightSeat> fsIterator = res.getFlightSeat().iterator();
+		int i = 1;
 		while(fsIterator.hasNext()) {
 		    FlightSeat fs = fsIterator.next();
 		    Flight f = fs.getFlight();
 		    sb.append("From: ").append(parseDestination(f.getFrom(), f.getTerminal1())).append("<br>")
 		    .append("To:").append(parseDestination(f.getTo(), f.getTerminal2())).append("<br>")
-		    .append("Departure date and time: ").append(f.getDepartureDate()).append("<br>")
-		    .append("Landing date and time").append(f.getLandingDate()).append("<br>")
-		    .append("Seat row and column").append(fs.getSeat().getRow()).append(" ").append(fs.getSeat().getCol())
-		    .append(" Cabin").append(fs.getFlightClass()).append("<br>")
-		    .append("Price: ").append(f.getOneWayPrice())
-		    .append("<p>");
+		    .append("Departure date and time: ").append(f.getDepartureDate().toString()).append("<br>")
+		    .append("Landing date and time: ").append(f.getLandingDate().toString()).append("<br>")
+		    .append("Seat row and column: ").append(fs.getSeat().getRow()).append(" ").append(fs.getSeat().getCol())
+		    .append(" Cabin: ").append(fs.getFlightClass()).append("<br>");
+		    if(i==1) {
+		    	sb.append("Price: ").append(res.getOneWayPrice())
+		    	.append("<p>");
+		    } else if (i == 2) {
+		    	sb.append("Price: ").append(res.getReturnPrice())
+		    	.append("<p>");
+		    }
+		    i++;
 		}
 		
 		return sb.toString();

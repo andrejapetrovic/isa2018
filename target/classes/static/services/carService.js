@@ -21,6 +21,12 @@ app.factory('carListService', function($http) {
 	    	});
 	 }
 	 
+	 var getCarFromS = function(id) {
+	    	return $http.get('/car/getCarsFromService/'+id).then(function(response){
+	    		return response.data;
+	    	});
+	 }
+	 
 	 var getOneCar = function(id) {
 	    	return $http.get('/car/getOne/'+id).then(function(response){
 	    		return response.data;
@@ -45,7 +51,8 @@ app.factory('carListService', function($http) {
     	 getOneCar: getOneCar,
     	 updateCar: updateCar,
     	 deleteCar: deleteCar,
-    	 addCar : addCar
+    	 addCar : addCar,
+    	 getCarFromS : getCarFromS
        };
     
 });

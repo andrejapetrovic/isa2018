@@ -33,7 +33,7 @@ app.factory('flightService', function($http) {
      }
     
     var prices = function(flightId, fclass) {
-		return $http.get('/flight/price/' + flightId + "/" + fclass).then(function(response){
+		return $http.get('/flight/prices/' + flightId + "/" + fclass).then(function(response){
 			return response.data;
 		});
     }
@@ -43,6 +43,7 @@ app.factory('flightService', function($http) {
     	 addFlight: addFlight,
     	 deleteFlight: deleteFlight,
     	 search: search,
+    	 addPrice: addPrice,
     	 prices: prices
      };
     

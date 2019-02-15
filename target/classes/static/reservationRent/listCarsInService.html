@@ -1,0 +1,164 @@
+
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 10px;
+  font-size: 15px;
+}
+
+tr:nth-child(even) {
+  background-color: #fdfddd;
+}
+</style>
+
+
+<div class="form-header">
+	<h1>Find rent-a-car service</h1>
+</div>
+<form>
+	
+	<div class="row">
+		<div class="col-md-6">
+				<label>Pickup location</label>
+	 			<div class="right-inner-addon">
+	 		   		<i class="glyphicon glyphicon-calendar"></i>
+	 		   		<input type="text" class="form-control" ng-model="serchParams.pickUpLocation" placeholder="Pick-up location" autocomplete="off" required >
+	  			</div>
+		</div>
+		<div class="col-md-6">
+				<label>DropOf location</label>
+    		<div class="right-inner-addon">
+    			<i class="glyphicon glyphicon-calendar"></i>
+    			<input type="text" class="form-control" ng-model="serchParams.dropOffLocation" placeholder="Drop-off location" autocomplete="off" required >
+    		</div>
+					
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+				<label>Pickup date</label>
+	 			<div class="right-inner-addon">
+	 		   		<i class="glyphicon glyphicon-calendar"></i>
+	 		   		<input type="text" class="form-control startDate" id="pickUp" ng-model="serchParams.pickUpDate" autocomplete="off" required>
+	  			</div>
+		</div>
+		<div class="col-md-6">
+				<label>Pickup time</label>
+    		<div class="right-inner-addon">
+    			<i class="glyphicon glyphicon-calendar"></i>
+    			<input type="text" class="form-control" ng-model="serchParams.pickUpTime" placeholder="Pick-up time in format HH:mm" autocomplete="off" required >
+    		</div>
+					
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-md-6">
+				<label>DropOf date</label>
+	 			<div class="right-inner-addon">
+	 		   		<i class="glyphicon glyphicon-calendar"></i>
+	 		   		<input type="text" class="form-control endDate" id="dropOf" ng-model="serchParams.dropOffDate" autocomplete="off" required>
+	  			</div>
+		</div>
+		<div class="col-md-6">
+				<label>DropOf time</label>
+    		<div class="right-inner-addon">
+    			<i class="glyphicon glyphicon-calendar"></i>
+    			<input type="text" class="form-control" ng-model="serchParams.dropOffTime" placeholder="Drop-off time in format HH:mm" autocomplete="off" required >
+    		</div>
+					
+		</div>
+	</div>
+	
+	
+	<div class="row">
+		<div class="col-md-6">
+				<label>Passengers</label>
+	 			<div class="right-inner-addon">
+	 		   		<i class="glyphicon glyphicon-calendar"></i>
+	 		   		<input type="text" class="form-control" ng-model="serchParams.passengers" placeholder="Enter number off passengers" autocomplete="off" required >
+	  			</div>
+		</div>
+		<div class="col-md-6">
+				<label>carType:</label>
+			        
+			        <div class="input-group">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-sort"></i></span>
+									<select class="form-control" ng-options="option.name for option in data.availableOptions track by option.id" ng-model="data.selectedOption">
+				      				
+				      				</select>
+						</div>
+					
+		</div>
+	</div>	
+	
+	
+	<button type="button" ng-click="findCar()" class="btn  btn-lg">Search cars</button>
+</form>
+
+
+
+
+
+		
+<div class="col-sm-12">
+	<table>
+		  <tr>
+		    <th>modelNumber</th>
+		    <th>modelName</th>
+		    <th>numberOfSeats</th>
+		    <th>numberOfCases</th>
+		    <th>numberOfDoors</th>
+		    <th>pricePerDay in euro</th>
+		    <th>description</th>
+		    <th>carType</th>
+		  </tr>
+		  
+		  <tr ng-repeat="car in foundCars">
+				<th ng-model = "serchParams.modelNumber">
+					{{car.modelNumber}}
+				</th>
+				<th>
+					{{car.modelName}}
+				</th>
+				<th>
+					{{car.numberOfSeats}}
+				</th>
+				<th>
+					{{car.numberOfCases}}
+				</th>
+				<th>
+					{{car.numberOfDoors}}
+				</th>
+				<th>
+					{{car.pricePerDay}}
+				</th>
+				<th>
+					{{car.description}}
+				</th>
+				<th>
+					{{car.carType}}
+				</th>
+
+				<th style="background-color:white;">
+					<a type="button" class="btn btn-primary" ng-click="BookIt(car.modelNumber)">Book it</a>
+				</th>
+			
+							
+			</tr>
+	 </table>
+	
+</div>	
+
+
+
+
+
+

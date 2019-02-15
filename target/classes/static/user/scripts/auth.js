@@ -27,6 +27,7 @@ app.controller('rootCtrl', function($scope, $http, $window, userService) {
     	$scope.profileLink = user.name;
     	$("#logout").removeClass("hidden");
     	$("#user-link").removeClass("hidden");
+    	$("#rentACar-faindCar-link").removeClass("hidden");
     	if (user.roles.includes('AirlineAdmin')) 
     		$("#airline-admin-link").removeClass("hidden");
     	else if( user.roles.includes('RentACarAdmin'))

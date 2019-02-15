@@ -66,8 +66,7 @@ public class Flight {
 	@JsonIgnore
 	private Set<Cabin> cabin;
 	
-	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name = "price_id")
+	@OneToMany(mappedBy = "flight", cascade=CascadeType.ALL)
 	@JsonIgnore
 	private Set<FlightPrice> price = new HashSet<>();
 	
@@ -80,10 +79,6 @@ public class Flight {
 	@JoinColumn(name = "airline_id")
 	@NotNull
 	private Airline airline;
-	
-	private double oneWayPrice;
-	
-	private double returnPrice;
 	
 	@NotNull
 	private String terminal1;
@@ -152,22 +147,6 @@ public class Flight {
 
 	public void setClasses(Set<Cabin> classes) {
 		this.cabin = classes;
-	}
-
-	public double getOneWayPrice() {
-		return oneWayPrice;
-	}
-
-	public void setOneWayPrice(double oneWayPrice) {
-		this.oneWayPrice = oneWayPrice;
-	}
-
-	public double getReturnPrice() {
-		return returnPrice;
-	}
-
-	public void setReturnPrice(double returnPrice) {
-		this.returnPrice = returnPrice;
 	}
 
 	public java.util.Date getDepartureDate() {

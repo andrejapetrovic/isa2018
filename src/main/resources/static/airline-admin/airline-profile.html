@@ -184,14 +184,6 @@
     	<div>
     	
     	<div class="col-sm-12">
-           	<div class= "col-sm-2"><br>
- 				<label>One way price</label><br>
- 				<input type="text" class="form-control" ng-model="newFlight.oneWayPrice">
-           	</div>	 	 
-           	<div class= "col-sm-2"><br>
- 				<label>Return price</label><br>
- 				<input type="text" class="form-control" ng-model="newFlight.returnPrice">
-           	</div>	 
     		<div class= "col-sm-2"><br>
  				<label>Aircraft</label><br>
 				<select name="aircraft" class="btn btn-outline" ng-model="flightAircraft" 
@@ -247,8 +239,6 @@
 							<th>Terminal 1</th>
 							<th>Terminal 2</th>
 							<th>Stops</th>
-							<th>One way price</th>
-							<th>Return price</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -264,8 +254,6 @@
 								<span ng-if="flight.stopCount>0" ng-repeat="dest in flight.stops">{{dest.airportCode}} </span>
 								<span ng-if="flight.stopCount==0">Nonstop</span>
 							</td>
-							<td>{{flight.oneWayPrice}}$</td>
-							<td>{{flight.returnPrice}}$</td>
 							<td>
 								<a class="btn btn-sm btn-primary x-btn" ng-click="cabinConfig(flight.id)">Configure cabins</a>
 							</td>

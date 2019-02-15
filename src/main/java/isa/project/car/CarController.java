@@ -1,5 +1,6 @@
 package isa.project.car;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import isa.project.branchOffice.BranchOffice;
 import isa.project.branchOffice.BranchOfficeRepo;
 import isa.project.rentACar.RentACar;
+import isa.project.rentACar.RentACarRepository;
+import isa.project.reservationRentACar.ReservationRentACar;
+import isa.project.reservationRentACar.ReservationRentRepo;
 
 
 
@@ -28,6 +32,12 @@ public class CarController {
 	
 	@Autowired
 	BranchOfficeRepo branchOfficeRepo;
+	
+	@Autowired
+	RentACarRepository rentACarRepo;
+	
+	@Autowired
+	ReservationRentRepo resRentRepo;
 	
 	
 	@RequestMapping(
@@ -89,7 +99,42 @@ public class CarController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		
 		return new ResponseEntity<Car>(car, HttpStatus.OK);
-	} 
+	}
+	
+	@RequestMapping(
+			value = "getCarsFromService/{id}",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Car>> getCarFromS(@PathVariable("id") Long id) {
+		
+		RentACar rent = rentACarRepo.findOne(id);
+		List<BranchOffice> branches = branchOfficeRepo.findByservis(rent);
+		
+		List<Car> cars = new ArrayList();
+		
+		List<ReservationRentACar> res = resRentRepo.findAll();
+		
+		for(BranchOffice b : branches) {
+			for(Car car : carRepo.findBybranchOffice(b))
+			{
+				for(ReservationRentACar r : res)
+				{
+					if(r.getCar().getId() != car.getId()) 
+					{
+						System.out.println(car.getModelName());;
+						cars.add(car);
+					}
+				}
+			}
+		}
+		
+		if(cars == null)
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			
+		return new ResponseEntity<List<Car>>(cars, HttpStatus.OK);
+
+	}
+	
 	
 	@RequestMapping(
 			value = "update",

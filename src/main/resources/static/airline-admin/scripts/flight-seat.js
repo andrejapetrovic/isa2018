@@ -1,6 +1,6 @@
 var app = angular.module('app');
 app.controller('flightSeatCtrl', function($scope, $http, $window, $location,
-		 $state, $window, $stateParams, seatService) {
+		 $state, $window, $stateParams, seatService, flightService) {
 	
 	$(".nav-tabs").on("click", "a", function (e) {
 		e.preventDefault();
@@ -11,13 +11,13 @@ app.controller('flightSeatCtrl', function($scope, $http, $window, $location,
 	});
 	
 	seatService.getByFlight($stateParams.id).then(function(data){
+		$scope.flight = data[0].flight;
+		console.log($scope.flight);
 		var seats = _.groupBy(data, "flightClass");
 		console.log(data);
 		getFclasses(Object.keys(seats), "flight");
 		drawSeats(seats, "flight");
 		
-		$scope.flight = data[0].flight;
-		console.log($scope.flight);
 		
 		
 		
@@ -49,6 +49,33 @@ app.controller('flightSeatCtrl', function($scope, $http, $window, $location,
 			.append("<label>Status:</label><span id='status'> Seat not selected</span>");
 			$(id).find("#status").css("color", "red");
 			$(id).append("<br>").append(canvas);
+			$(id).append("<br>");
+			
+			flightService.prices($scope.flight.id, key).then(function(d){
+				drawPrices(d);
+			}, function(err){
+				drawPrices({oneWayPrice:0, returnPrice:0});
+			});
+			
+			function drawPrices(prices) {
+				console.log(prices);
+				$(id).append("<form>");
+				$(id).append("<label>One way price &nbsp</label><input type='text' id='op-"+key+"' value='"+prices.oneWayPrice+"'>");
+				$(id).append("&nbsp;<label>Return price &nbsp;</label><input type='text' id='rp-"+key+"' value='"+prices.returnPrice+"'>");
+				
+				var sbmBtn = $('<button/>')
+			    .text('Submit')
+			    .click(function () {
+			    	var op = ($('#op-'+key).val());
+			    	var rp = ($('#rp-'+key).val());
+			    	flightService.addPrice({flightId:$scope.flight.id, fClass:key, oneWayPrice: op, returnPrice: rp}).then(function(p){
+			    		$scope.pricesChanged = "Prices changed successfully"
+			    	});
+			    });
+				
+				$(id).append("&nbsp;").append(sbmBtn).append("</form>");
+			}
+			
 			var ctx = canvas.getContext('2d');
 			var first = seats[key][0].seat;
 			var last = seats[key][seats[key].length-1].seat;

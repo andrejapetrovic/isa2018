@@ -26,39 +26,67 @@ tr:nth-child(even) {
 	<div class="form-group">
 				<div class="input-group">
 							<span class="input-group-addon"><i class="glyphicon glyphicon-edit"></i></span>
-							<input id = "nameRent"  class="form-control" type="text" required="required"  placeholder="Enter name of rent-a-car">
-							<span id="errorName"></span>
+							<input class="form-control" type="text" ng-model="searchRent.nameOrLoc" required="required"  placeholder="Enter name of rent-a-car or address">
+							
 				</div>
 	</div>
 	<div class="row">
 		<div class="col-md-6">
-					<div class="form-group">
-						<div class="input-group">
-							<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-							<input class="form-control" id="pocetak" type="date" data-toggle="tooltip" data-placement="top" title="Date when you want to pick up vehicle" data-placeholder="Choose pick-up date" required>
-							<span id="errorPocetak"></span>
-						</div>
-					</div>
+				<label>Pickup date</label>
+	 			<div class="right-inner-addon">
+	 		   		<i class="glyphicon glyphicon-calendar"></i>
+	 		   		<input type="text" class="form-control startDate" id="pickUp" ng-model="pickUpDate" autocomplete="off" required>
+	  			</div>
 		</div>
 		<div class="col-md-6">
-					<div class="form-group">
-						<div class="input-group">
-							<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-							<input class="form-control" type="date" id="kraj" data-placeholder="Choose drop-off date" data-toggle="tooltip" data-placement="top" title="Date when you want to return vehicle" required>
-							<span id="errorKraj"></span>
-						</div>
-					</div>
+				<label>DropOf date</label>
+    		<div class="right-inner-addon">
+    			<i class="glyphicon glyphicon-calendar"></i>
+    			<input type="text" class="form-control endDate" id="dropOf"  ng-model="dropOfDate" autocomplete="off" required>
+    		</div>
+					
 		</div>
 	</div>
-	<button type="button" id="searchRent" onclick="findRent()" class="btn  btn-lg">Search cars</button>
+	<button type="button" ng-click="findRent()" class="btn  btn-lg">Search cars</button>
 </form>
 
 
 
 
-<h3 style="margin-left:15px">Services</h3>
+<div class="col-sm-6" >
+<h3 style="margin-left:15px">Found Ren-a-Car</h3>
+	<table>
+		  <tr>
+		    <th>Name</th>
+		    <th>Address</th>
+		    <th>Description</th>
+		    <th>Rating</th>
+		    
+		  </tr>
+		  
+		  <tr >
+				<th>
+					<a class="btn btn-md btn-link" href="#!/listInService/{{foundRent.id}}" >{{foundRent.nameOfRentACar}}</a>
+				</th>                                                                        
+				<th>
+					{{foundRent.address}}
+				</th>
+				<th>
+					{{foundRent.description}}
+				</th>
+				<th>
+					{{foundRent.rating}}	
+				</th>	
+			</tr>
+	 </table>
+</div>	
+
+
+
+
 		
 <div class="col-sm-6">
+<h3 style="margin-left:15px">Services</h3>
 	<table>
 		  <tr>
 		    <th>Name</th>
@@ -70,7 +98,9 @@ tr:nth-child(even) {
 		  
 		  <tr ng-repeat="service in services">
 				<th>
-					<a class="btn btn-md btn-link" href="" >{{service.nameOfRentACar}}</a>
+				
+					<a class="btn btn-md btn-link" href="#!/listInService/{{service.id}}" >{{service.nameOfRentACar}}</a>
+					
 				</th>                                                                        
 				<th>
 					{{service.address}}

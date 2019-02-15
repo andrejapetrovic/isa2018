@@ -84,6 +84,7 @@ public class ReservationController {
 			newRes.setEmail(resDto.getEmail());
 			newRes.setPhone(resDto.getPhone());
 			newRes.setPassportId(resDto.getPassportId());
+			newRes.setOneWayPrice(resDto.getOneWayPrice());
 			FlightSeat flightSeat = flightSeatRepository.findOne(resDto.getFlightSeatId());
 			newRes.getFlightSeat().add(flightSeat);
 			flightSeat.setReserved(true);
@@ -91,6 +92,7 @@ public class ReservationController {
 				FlightSeat fs = flightSeatRepository.findOne(resDto.getRetFlightSeatId());
 				fs.setReserved(true);
 				flightSeatRepository.save(fs);
+				newRes.setReturnPrice(resDto.getReturnPrice());
 				newRes.getFlightSeat().add(fs);
 			}
 			resList.add(newRes);

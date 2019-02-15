@@ -1,5 +1,7 @@
 package isa.project.reservationRentACar;
 
+import isa.project.car.CarType;
+
 public class ReservationRentACarDto {
 	
 	private String pickUpLoc;
@@ -12,7 +14,11 @@ public class ReservationRentACarDto {
 	
 	private int passengers;
 	
-	private String carType;
+	private CarType carType;
+	
+	private int modelNumber;
+	
+	private long userId;
 
 	public ReservationRentACarDto() {
 		super();
@@ -20,7 +26,7 @@ public class ReservationRentACarDto {
 	}
 
 	public ReservationRentACarDto(String pickUpLoc, String dropOfLoc, String pickUpDate, String dropOfDate,
-			int passengers, String carType) {
+			int passengers, CarType carType, int modelNumber) {
 		super();
 		this.pickUpLoc = pickUpLoc;
 		this.dropOfLoc = dropOfLoc;
@@ -28,6 +34,7 @@ public class ReservationRentACarDto {
 		this.dropOfDate = dropOfDate;
 		this.passengers = passengers;
 		this.carType = carType;
+		this.modelNumber = modelNumber;
 	}
 
 	public String getPickUpLoc() {
@@ -70,12 +77,31 @@ public class ReservationRentACarDto {
 		this.passengers = passengers;
 	}
 
-	public String getCarType() {
+	public CarType getCarType() {
 		return carType;
 	}
 
-	public void setCarType(String carType) {
+	public void setCarType(CarType carType) {
 		this.carType = carType;
 	}
+
+	public int getModelNumber() {
+		return modelNumber;
+	}
+
+	public void setModelNumber(int modelNumber) {
+		this.modelNumber = modelNumber;
+	}
+
+	public long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+
+	
+	
 
 }

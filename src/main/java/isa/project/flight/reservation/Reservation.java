@@ -54,6 +54,26 @@ public class Reservation {
 	
 	private FlightType flightType;
 	
+	private double oneWayPrice;
+	
+	private double returnPrice;
+	
+	public double getOneWayPrice() {
+		return oneWayPrice;
+	}
+
+	public void setOneWayPrice(double oneWayPrice) {
+		this.oneWayPrice = oneWayPrice;
+	}
+
+	public double getReturnPrice() {
+		return returnPrice;
+	}
+
+	public void setReturnPrice(double returnPrice) {
+		this.returnPrice = returnPrice;
+	}
+
 	public int getPassportId() {
 		return passportId;
 	}
